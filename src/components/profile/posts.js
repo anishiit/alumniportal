@@ -177,7 +177,7 @@ export default function PostsAndMemoriesTabs() {
               <div className="w-full max-h-full flex flex-wrap gap-3">
                 {memories.map((memory) => (
                   <Link href={`/memories/${memory._id}`}>
-                  <div key={memory.id} className="w-[300px] rounded-md border">
+                  <div key={memory._id} className="w-[300px] rounded-md border">
                     {
                       memory.image ? (
                         <img
