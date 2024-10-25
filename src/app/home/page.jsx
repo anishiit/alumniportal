@@ -11,7 +11,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/s
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import Navbar2 from "@/components/header/Navbar2"
-import { useToast } from "@/hooks/use-toast"
+
 
 
 
@@ -23,15 +23,7 @@ export default function AlumniHome() {
   const toggleMenu = () => setIsOpen(!isOpen)
 
 
-  const { toast } = useToast()
-
-  const handleWelcomeClick = () => {
-    toast({
-      variant:"green",
-      title: "Welcome to the Alumni Portal!",
-      description: "We're glad you're here. Explore and connect with your fellow alumni.",
-    })
-  }
+  
 //geting user info 
 const [userData, setUserData] = useState({ collegeName: '', name: '' });
 useEffect(()=>{
@@ -203,7 +195,7 @@ useEffect(()=>{
         <AvatarImage src={image} alt={`${name}'s profile`} />
         <AvatarFallback>{userData.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
       </Avatar>
-      <h3 className="text-xl font-semibold mb-1">{userData.name}</h3>
+      <h3 className="text-xl font-semibold mb-1">{name}</h3>
       <p className="text-sm text-gray-500 mb-1">Class of {classYear}</p>
       <p className="text-sm text-gray-600 mb-4">{position}</p>
       <Button onClick={() => { router.push(`/profile/${userData._id}`) }}  variant="outline">View Profile</Button>
@@ -213,7 +205,7 @@ useEffect(()=>{
 
 function InvolvementCard({ icon, title, description }) {
   
-  const { toast } = useToast()
+ 
 
   const handleWelcomeClick = () => {
     console.log("welcome click")
