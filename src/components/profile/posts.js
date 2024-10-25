@@ -6,10 +6,15 @@ import Link from 'next/link'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
 import { getAllPostsUrl } from "@/urls/urls"
-
+import { getUserMemoriesUrl, getUserPostsUrl } from "@/urls/urls.js"
 import axios from 'axios';
+import { useToast } from "@/hooks/use-toast"
+// import { get } from "react-hook-form"
 
 export default function PostsAndMemoriesTabs() {
+
+  const { toast } = useToast()
+
   const location = usePathname()
   const userId = location.substring(9)
 
@@ -24,15 +29,82 @@ export default function PostsAndMemoriesTabs() {
   //   }
   // }
 
-  async function getUserMemories() {
-    // This is a placeholder function. In a real application, you would fetch memories from an API or local storage
-    setMemories([])
+  async function getUserMemories(userId) {
+    if(!userId){
+      toast({
+        title: "Error",
+        description: "User not found",
+        variant: "red",
+      })
+      return
+    }
+    try {
+      await axios.post(getUserMemoriesUrl, {
+        userId: userId
+      })
+      .then((res) => {
+        let memories = []
+        memories = res.data.memories
+        memories = memories.reverse()
+        setMemories(memories)
+      })
+      .catch((err) => {
+        console.log(err)
+        toast({
+          title: `Error : Something went wrong while gettiing memories`,
+          variant: "red",   
+        })
+      })
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "red",
+      })
+      console.log(error)
+    }
+  }
+
+  async function getUserPosts(userId) {
+    if(!userId){
+      toast({
+        title: "Error",
+        description: "User not found",
+        variant: "red",
+      })
+      return
+    }
+    try {
+      await axios.post(getUserPostsUrl, {
+        userId: userId
+      })
+      .then((res) => {
+        let posts = []
+        posts = res.data.posts
+        posts = posts.reverse()
+        setPosts(posts)
+      })
+      .catch((err) => {
+        console.log(err)
+        toast({
+          title: `Error : Something went wrong while gettiing posts`,
+          variant: "red",   
+        })
+      })
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "red",
+      })
+      console.log(error)
+    }
   }
 
   useEffect(() => {
     if (userId) {
-     
-      getUserMemories()
+      getUserPosts(userId)
+      getUserMemories(userId)
     }
   }, [userId])
 
@@ -58,10 +130,6 @@ export default function PostsAndMemoriesTabs() {
     }
   }
 
-  useEffect(() => {
-    getPostData();
-  }, [])
-
   return (
     <Tabs defaultValue="posts" className="w-full max-w-4xl mx-auto">
       <TabsList className="grid w-full grid-cols-2">
@@ -71,15 +139,21 @@ export default function PostsAndMemoriesTabs() {
       <TabsContent value="posts">
         <Card>
           <CardContent className="p-6">
-            {posts.length > 0 ? (
+            {posts?.length > 0 ? (
               <div className="w-full max-h-full flex flex-wrap gap-3">
                 {posts.map((post) => (
                   <div key={post.id} className="w-[300px] rounded-md border">
-                    <img
-                      src={post.thumbnail}
-                      alt="post thumbnail"
-                      className="h-[200px] w-full rounded-md object-cover"
-                    />
+                    {
+                      post.thumbnail ? (
+                        <img
+                          src={post.thumbnail}
+                          alt="post thumbnail"
+                          className="h-[200px] w-full rounded-md object-cover"
+                        />
+                      ) : (
+                        <></>
+                      )
+                    }
                     <div className="p-4">
                       <h1 className="text-lg font-semibold">{post.title}</h1>
                       <Link href={post.url}>
@@ -102,18 +176,30 @@ export default function PostsAndMemoriesTabs() {
             {memories.length > 0 ? (
               <div className="w-full max-h-full flex flex-wrap gap-3">
                 {memories.map((memory) => (
+                  <Link href={`/memories/${memory._id}`}>
                   <div key={memory.id} className="w-[300px] rounded-md border">
-                    <img
-                      src={memory.image}
-                      alt="memory image"
-                      className="h-[200px] w-full rounded-md object-cover"
-                    />
+                    {
+                      memory.image ? (
+                        <img
+                          src={memory.image}
+                          alt="memory image"
+                          className="h-[200px] w-full rounded-md object-cover"
+                        />
+                      ) : (
+                        <></>
+                      )
+                    }
                     <div className="p-4">
-                      <h1 className="text-lg font-semibold">{memory.title}</h1>
-                      <p className="mt-3 text-sm text-gray-600">{memory.date}</p>
-                      <p className="mt-3 text-sm text-gray-600">{memory.description}</p>
+                      <h3 className="text-lg font-semibold">{memory.content}</h3>
+                      <div className="flex justify-between">
+                        <p className="mt-3 text-sm text-gray-600 font-semibold">{`${memory.likes.length} likes`|| <></>}</p>
+                        <p className="mt-3 text-sm text-gray-600 font-semibold">{`${memory.comments.length} comments`|| <></>}</p>
+                      </div>
+                     
+                      <p className="mt-3 text-sm text-gray-600">Posted on {Date(memory.createdAt).substring(0,24)}</p>
                     </div>
                   </div>
+                  </Link>
                 ))}
               </div>
             ) : (
