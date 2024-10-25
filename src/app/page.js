@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
-
+import ContactForm from '@/components/Contact-form'
 import { useToast } from "@/hooks/use-toast"
 
 
@@ -249,9 +249,7 @@ export default function Component() {
               <p className="text-center mb-4">
                 Have questions or want to get in touch? We&apos;d love to hear from you!
               </p>
-              <Button size="lg" className="w-full">
-                Get in Touch
-              </Button>
+              <ContactForm />
             </div>
           </div>
         </section>
