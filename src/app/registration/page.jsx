@@ -98,10 +98,10 @@ function Page() {
             </svg>
           </div> */}
           <h2 className="text-center text-2xl font-bold leading-tight text-black">
-            Sign in to your account
+            Sign up to Alumni Portal
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600 ">
-            have an account?{' '}
+            Already have an account?{' '}
             <Link
               href="../login"
               title=""
@@ -121,7 +121,7 @@ function Page() {
                   <input
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="text"
-                    placeholder="name"
+                    placeholder="Name"
                     onChange={(e) => setInputs({ ...inputs, name: e.target.value })}
 										value={inputs.name}
                   ></input>
@@ -197,7 +197,7 @@ function Page() {
                     isLoading === true ? (
                       <>Signing up..</>
                     ) :( 
-                      <>Get started <ArrowRight className="ml-2" size={16} /> </>
+                      <>Signup<ArrowRight className="ml-2" size={16} /> </>
                     )}
                 </button>
               </div>
