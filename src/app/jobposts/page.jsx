@@ -28,9 +28,9 @@ export default function SearchJob() {
         .then((res) => {
           console.log(res.data.jobs)
           setJobs(res.data.jobs);
-          if (typeof window !== "undefined") {
-            window.localStorage.setItem("posts", JSON.stringify(res.data.jobs))
-          }
+          // if (typeof window !== "undefined") {
+          //   window.localStorage.setItem("posts", JSON.stringify(res.data.jobs))
+          // }
         })
         setLoading(false);
     } catch (error) {

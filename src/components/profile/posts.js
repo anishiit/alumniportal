@@ -5,9 +5,9 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
+import { getAllPostsUrl } from "@/urls/urls"
 
-
-
+import axios from 'axios';
 
 export default function PostsAndMemoriesTabs() {
   const location = usePathname()
@@ -16,13 +16,13 @@ export default function PostsAndMemoriesTabs() {
   const [posts, setPosts] = useState([])
   const [memories, setMemories] = useState([])
 
-  async function getUserPosts() {
-    if (typeof window !== "undefined") {
-      const allPosts = JSON.parse(localStorage.getItem("posts") || "[]")
-      const userPosts = allPosts.filter((post) => post.postedBy.includes(userId))
-      setPosts(userPosts)
-    }
-  }
+  // async function getUserPosts() {
+  //   if (typeof window !== "undefined") {
+  //     const allPosts = JSON.parse(localStorage.getItem("posts") || "[]")
+  //     const userPosts = allPosts.filter((post) => post.postedBy.includes(userId))
+  //     setPosts(userPosts)
+  //   }
+  // }
 
   async function getUserMemories() {
     // This is a placeholder function. In a real application, you would fetch memories from an API or local storage
@@ -31,10 +31,36 @@ export default function PostsAndMemoriesTabs() {
 
   useEffect(() => {
     if (userId) {
-      getUserPosts()
+     
       getUserMemories()
     }
   }, [userId])
+
+  const getJobPostUrl = getAllPostsUrl
+  async function getPostData() {
+    try {
+     
+     await axios.get(getJobPostUrl)
+        .then((res) => {
+          console.log(res.data)
+          const userPosts = res.data?.jobs?.filter((post) => post.postedBy.includes(userId))
+          setPosts(userPosts)
+
+
+          // setJobs(res.data.jobs);
+          // if (typeof window !== "undefined") {
+          //   window.localStorage.setItem("posts", JSON.stringify(res.data.jobs))
+          // }
+        })
+       
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getPostData();
+  }, [])
 
   return (
     <Tabs defaultValue="posts" className="w-full max-w-4xl mx-auto">

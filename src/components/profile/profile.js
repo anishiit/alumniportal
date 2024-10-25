@@ -109,7 +109,7 @@ export default function ProfileDisplay({ user }) {
       let user;
       if(typeof window !== undefined)
         user = JSON.parse(localStorage.getItem("user-threads"))
-      if(userId === user._id){
+      if(userId === user?._id){
         setcurrent(true);
       }
     console.log(userId)
