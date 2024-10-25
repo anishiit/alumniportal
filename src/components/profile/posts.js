@@ -204,6 +204,7 @@ export default function PostsAndMemoriesTabs() {
               </div>
             ) : (
               <p className="text-center text-gray-500">No memories available.</p>
+
             )}
           </CardContent>
         </Card>
