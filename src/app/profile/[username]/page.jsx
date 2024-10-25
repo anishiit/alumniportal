@@ -19,9 +19,9 @@ export default async function ProfilePage({ params }) {
   const { username } = params;
   const user = await fetchUserByUsername(username);
 
-  return<>
+  return<div >
   <Profile user={user} />
-  <Posts/>
-  </>
+  <Posts />
+  </div>
    ;
 }
