@@ -12,7 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import Navbar2 from "@/components/header/Navbar2"
 
-
+import { useToast } from "@/hooks/use-toast"
 
 
 
@@ -205,7 +205,7 @@ useEffect(()=>{
 
 function InvolvementCard({ icon, title, description }) {
   
- 
+  const { toast } = useToast()
 
   const handleWelcomeClick = () => {
     console.log("welcome click")
@@ -220,7 +220,7 @@ function InvolvementCard({ icon, title, description }) {
       <div className="mb-4 p-3 bg-blue-100 rounded-full">{icon}</div>
       <h3 className="text-xl font-semibold mb-2">{title}</h3>
       <p className="text-gray-600 mb-4">{description}</p>
-      <Button >Get Started</Button>
+      <Button onClick={handleWelcomeClick}>Get Started</Button>
     </Card>
   )
 }
