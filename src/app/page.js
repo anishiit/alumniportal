@@ -11,6 +11,9 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
 
+import { useToast } from "@/hooks/use-toast"
+
+
 export default function Component() {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
@@ -179,11 +182,11 @@ export default function Component() {
                 image="/image/event1.jpeg"
               />
             </div>
-            <div className="mt-10 text-center">
+            {/* <div className="mt-10 text-center">
               <Button variant="outline" size="lg">
                 View All Events
               </Button>
-            </div>
+            </div> */}
           </div>
         </section>
         <section id="alumni" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
@@ -271,6 +274,16 @@ export default function Component() {
 }
 
 function EventCard({ title, date, description, image }) {
+  const { toast } = useToast()
+
+  const handleWelcomeClick = () => {
+    
+    toast({
+      variant: "red",
+      title: "Welcome to the Alumni Portal!",
+      description: "Log in to access this feature.",
+    })
+  }
   return (
     <Card className="flex flex-col overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
       <Image src={image} alt={title} width={400} height={200} className="object-cover h-48 w-full" />
@@ -278,13 +291,23 @@ function EventCard({ title, date, description, image }) {
         <h3 className="text-2xl font-semibold mb-2">{title}</h3>
         <p className="text-sm text-gray-500 mb-4">{date}</p>
         <p className="text-gray-600 mb-4">{description}</p>
-        <Button variant="outline">Learn More</Button>
+        <Button onClick={handleWelcomeClick} variant="outline">Learn More</Button>
       </CardContent>
     </Card>
   )
 }
 
 function AlumniCard({ name, class: classYear, position, image }) {
+  const { toast } = useToast()
+
+  const handleWelcomeClick = () => {
+    
+    toast({
+      variant: "red",
+      title: "Welcome to the Alumni Portal!",
+      description: "Log in to access this feature.",
+    })
+  }
   return (
     <Card className="flex flex-col items-center text-center p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
       <Image
@@ -297,18 +320,29 @@ function AlumniCard({ name, class: classYear, position, image }) {
       <h3 className="text-xl font-semibold mb-1">{name}</h3>
       <p className="text-sm text-gray-500 mb-1">Class of {classYear}</p>
       <p className="text-sm text-gray-600 mb-4">{position}</p>
-      <Button variant="outline">View Profile</Button>
+      <Button onClick={handleWelcomeClick} variant="outline">View Profile</Button>
     </Card>
   )
 }
 
 function InvolvementCard({ icon, title, description }) {
+  const { toast } = useToast()
+
+  const handleWelcomeClick = () => {
+    
+    toast({
+      variant: "red",
+      title: "Welcome to the Alumni Portal!",
+      description: "Log in to access this feature.",
+    })
+  }
+
   return (
     <Card className="flex flex-col items-center text-center p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
       <div className="mb-4 p-3 bg-blue-100 rounded-full">{icon}</div>
       <h3 className="text-xl font-semibold mb-2">{title}</h3>
       <p className="text-gray-600 mb-4">{description}</p>
-      <Button>Get Started</Button>
+      <Button onClick={handleWelcomeClick}>Get Started</Button>
     </Card>
   )
 }

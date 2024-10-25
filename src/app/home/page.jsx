@@ -208,7 +208,7 @@ function InvolvementCard({ icon, title, description }) {
   const { toast } = useToast()
 
   const handleWelcomeClick = () => {
-    console.log("welcome click")
+   
     toast({
       variant: "green",
       title: "Welcome to the Alumni Portal!",
