@@ -8,72 +8,75 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation'
 import Link from 'next/link';
 import { registerUserUrl } from '@/urls/urls';
-
-
+import { useToast } from '@/hooks/use-toast';
   
 function Page() {
   const router = useRouter();  
-    // const setUser = useSetRecoilState(userAtom);
-    const [error ,setError] =useState("")
-    const [inputs, setInputs] = useState({
-        name: "",
-        email: "",
-        password: "",
-        collegeName: "",
-      });
-      
-      const handleSignup = async () => {
-        console.log(inputs);
-      setError("");
-        // Check if any field is empty
-        if (!inputs.name || !inputs.email || !inputs.password || !inputs.collegeName) {
-          setError("All filds are required!");
-          return; // Exit the function if any field is empty
-        }
-      
-        try {
-          await axios.post(registerUserUrl , {
-            name: inputs.name,
-            email: inputs.email,
-            password: inputs.password,
-            collegeName: inputs.collegeName,
-          })
-          .then((res) => {
-            // console.log(res.data);
-            if(typeof window !== undefined){
-              const user = JSON.stringify(res.data.user);
-              localStorage.setItem("user-threads" , user)
-            }
-            router.push('/login')
-          })
-          .catch((err) => {
-            console.log(err);
-            setError(err.response.data.msg);
-          })
-      
-        } catch (error) {
-          console.error(error);
-          setError(error.message);
-        }
-      };
-      
-      
-    // const [colleges, setColleges] = useState([]);
+  // const setUser = useSetRecoilState(userAtom);
+  const { toast } = useToast();
 
-    // useEffect(() => {
-    //   // Fetch the colleges from the JSON file
-    //   const fetchColleges = async () => {
-    //     const res = await fetch('/src/data/college.json');
-    //     const data = await res.json();
-    //     setColleges(data);
-    //   };
-  
-    //   fetchColleges();
-    // }, []);
-  
-   
-  
+  const [error ,setError] =useState("")
+  const [inputs, setInputs] = useState({
+      name: "",
+      email: "",
+      password: "",
+      collegeName: "",
+    });
+  const [isLoading, setLoading] = useState(false);
 
+
+  const handleSignup = async () => {
+    setLoading(true);
+    console.log(inputs);
+    setError("");
+    // Check if any field is empty
+    if (!inputs.name || !inputs.email || !inputs.password || !inputs.collegeName) {
+      // setError("All filds are required!");
+      toast({
+        variant: "red",
+        title: "All fields are required!",
+        // description: "All fields are required!",
+      })
+      setLoading(false);
+      return; // Exit the function if any field is empty
+    }
+  
+    try {
+      await axios.post(registerUserUrl , {
+        name: inputs.name,
+        email: inputs.email,
+        password: inputs.password,
+        collegeName: inputs.collegeName,
+      })
+      .then((res) => {
+        // console.log(res.data);
+        if(typeof window !== undefined){
+          const user = JSON.stringify(res.data.user);
+          localStorage.setItem("user-threads" , user)
+        }
+        router.push('/login')
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.log(err);
+        // setError(err.response.data.msg);
+        toast({
+          variant: "red",
+          title: err.response.data.msg,
+        })
+        setLoading(false)
+      })
+  
+    } catch (error) {
+      console.error(error);
+      // setError(error.message);
+      toast({
+        variant: "red",
+        title: error.message,
+      })
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -95,10 +98,10 @@ function Page() {
             </svg>
           </div> */}
           <h2 className="text-center text-2xl font-bold leading-tight text-black">
-            Sign in to your account
+            Sign up to Alumni Portal
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600 ">
-            have an account?{' '}
+            Already have an account?{' '}
             <Link
               href="../login"
               title=""
@@ -118,7 +121,7 @@ function Page() {
                   <input
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="text"
-                    placeholder="name"
+                    placeholder="Name"
                     onChange={(e) => setInputs({ ...inputs, name: e.target.value })}
 										value={inputs.name}
                   ></input>
@@ -186,10 +189,16 @@ function Page() {
               <div>
               <p className='text-red-500 text-center font-semibold text-lg' >{error}</p>
                 <button
+                  disabled={isLoading}
                   type="button"
-                  className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                  className="inline-flex w-full items-center justify-center rounded-md bg-blue-700 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-blue-700/80"
                   onClick={handleSignup}>
-                  Get started <ArrowRight className="ml-2" size={16} />
+                  {
+                    isLoading === true ? (
+                      <>Signing up..</>
+                    ) :( 
+                      <>Signup<ArrowRight className="ml-2" size={16} /> </>
+                    )}
                 </button>
               </div>
             </div>
