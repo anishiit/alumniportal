@@ -8,6 +8,7 @@ import { Calendar, Users, Briefcase, Rocket, ArrowLeft } from "lucide-react"
 import Image from "next/image"
 import Navbar2 from "@/components/header/Navbar2"
 
+import { useToast } from "@/hooks/use-toast"
 const events = [
   {
     id: 1,
@@ -49,7 +50,17 @@ const events = [
 
 export default function EventPage() {
   const [selectedEvent, setSelectedEvent] = useState(null)
+  const { toast } = useToast()
 
+  const handleWelcomeClick = () => {
+   
+    toast({
+      variant: "green",
+      title: "Request Submitted!",
+      description: "We've sent your event participation request to the college team. They'll be in touch soon!",
+    });
+    
+  }
   return (
     <div>
     <Navbar2 />
@@ -94,7 +105,7 @@ export default function EventPage() {
                       className="w-full rounded-lg mb-4"
                     />
                     <p className="text-muted-foreground mb-4">{selectedEvent.details}</p>
-                    <Button>Participate Now</Button>
+                    <Button onClick={handleWelcomeClick}>Participate Now</Button>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -129,7 +140,7 @@ export default function EventPage() {
                           <Button variant="outline" onClick={() => setSelectedEvent(event)}>
                             Learn More
                           </Button>
-                          <Button>Participate</Button>
+                          <Button onClick={handleWelcomeClick}>Participate</Button>
                         </div>
                       </CardContent>
                     </Card>
