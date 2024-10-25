@@ -33,7 +33,7 @@ export default function CollegeRegistration() {
     // Simulate API call
     setTimeout(() => {
       setIsSubmitting(false)
-      router.push('/collegeDashboard')
+      router.push('/verificationPage')
     }, 2000)
   }
 
