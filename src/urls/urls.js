@@ -28,6 +28,8 @@ export const getAllPostsUrl = "https://alumni-portal-backend.vercel.app/post/get
 
 export const postUserPostUrl = "https://alumni-portal-backend.vercel.app/post/postjob"
 
+export const getUserPostsUrl = "https://alumni-portal-backend.vercel.app/post/getuserposts"
+
 // chat urls =>
 
 export const createChatOfUsers = "https://alumni-portal-chatservice-backend.onrender.com/chat/createchat"
@@ -39,6 +41,8 @@ export const getChatByIdUrl = "https://alumni-portal-chatservice-backend.onrende
 // memories urls =>
 
 export const getAllMemoriesUrl = "https://alumni-portal-backend.vercel.app/memory/" // get
+
+export const getUserMemoriesUrl = "https://alumni-portal-backend.vercel.app/memory/getusermemories"
 
 export const createMemoryUrl = "https://alumni-portal-backend.vercel.app/memory/" // post
 
