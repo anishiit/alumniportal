@@ -196,7 +196,7 @@ export default function AlumniMemories() {
         </div>
 
         <AnimatePresence>
-          {filteredMemories?.map((memory) => (
+          {filteredMemories?.slice().reverse().map((memory) => (
             <motion.div
               key={memory._id}
               initial={{ opacity: 0, y: 20 }}
