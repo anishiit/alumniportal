@@ -8,9 +8,10 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link';
 import axios from 'axios';
 import { loginUserUrl } from '@/urls/urls';
-
+import { useToast } from '@/hooks/use-toast';
 
 function Page() {
+  const { toast } = useToast();
   const router = useRouter();  
     // const setUser = useSetRecoilState(userAtom);
     const [error ,setError] =useState("")
@@ -29,7 +30,11 @@ function Page() {
       setError("");
         // Check if any field is empty
         if ( !inputs.email || !inputs.password ) {
-          setError("All fields are required!");
+          toast({
+            variant: "red",
+            title: "All fields are required!",
+            // description: "All fields are required!",
+          })
           setLoading(false)
           return; // Exit the function if any field is empty
         }
@@ -49,7 +54,10 @@ function Page() {
           })
           .catch((err) => {
             console.log(err);
-            setError(err.response.data.msg);
+            toast({
+              variant: "red",
+              title: err.response.data.msg,
+            })
             setLoading(false)
           })
       

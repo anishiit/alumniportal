@@ -8,9 +8,10 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link';
 import axios from 'axios';
 import { loginCollegeUrl } from '@/urls/urls';
-
+import { useToast } from '@/hooks/use-toast';
 
 function Page() {
+    const { toast } = useToast();
   const router = useRouter();  
     // const setUser = useSetRecoilState(userAtom);
     const [error ,setError] =useState("")
@@ -28,7 +29,11 @@ function Page() {
         
         // Check if any field is empty
         if ( !inputs.email || !inputs.password ) {
-          setError("All fields are required!");
+            toast({
+                variant: "red",
+                title: "All fields are required!",
+                // description: "All fields are required!",
+              })
           setLoading(false)
           return; // Exit the function if any field is empty
         }
@@ -49,11 +54,19 @@ function Page() {
           })
           .catch((err) => {
             console.log(err);
-            setError(err.response.data.msg);
+            toast({
+                variant: "red",
+                title: err.response.data.msg,
+              })
+            
             setLoading(false)
           })
       
         } catch (error) {
+            toast({
+                variant: "red",
+                title: err.response.data.msg,
+              })
           console.error(error);
           setLoading(false)
         }
@@ -102,7 +115,7 @@ function Page() {
           <p className="mt-2 text-center text-sm text-gray-600 ">
             Do not have an account?{' '}
             <Link
-              href="../registration"
+              href="../collegeRegistration"
               title=""
               className="font-semibold text-black transition-all duration-200 hover:underline"
             >

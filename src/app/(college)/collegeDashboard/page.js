@@ -481,7 +481,7 @@ export default function CollegeDashboard() {
                                 <td className="p-2">{alumni?.graduationYear}</td>
                                 <td className="p-2">{alumni?.email}</td>
                                 <td className="p-2">
-                                  <Button variant="ghost" size="sm" onClick={() => removeItem(alumni?._id, 'alumni')}>
+                                  <Button variant="ghost" size="sm" onClick={() => removeItem(alumni.id, 'alumni')}>
                                     <Trash2 className="h-4 w-4" />
                                   </Button>
                                 </td>
