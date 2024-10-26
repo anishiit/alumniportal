@@ -1,6 +1,6 @@
 export const user_backend_url = "https://alumni-portal-backend.vercel.app"
 export const chat_backend_url = "https://alumni-portal-chatservice-backend.onrender.com"
-
+export const college_backend_url ="https://alumniportalcollegebackend.vercel.app/"
 // user urls => 
 
 export const registerUserUrl = "https://alumni-portal-backend.vercel.app/user/register"
@@ -51,3 +51,13 @@ export const getMemoryByIdUrl = "https://alumni-portal-backend.vercel.app/memory
 export const  addLikeOnMemoryUrl = "https://alumni-portal-backend.vercel.app/memory/like"
 
 export const  addCommentOnMemoryUrl = "https://alumni-portal-backend.vercel.app/memory/comment"
+
+
+//college url 
+
+export const getAllCollegesUrl = "https://alumniportalcollegebackend.vercel.app/college/"
+
+export const getCollegeByIdUrl = "https://alumniportalcollegebackend.vercel.app/college/"
+
+export const registerCollegeUrl = "https://alumniportalcollegebackend.vercel.app/college/register"
+export const loginCollegeUrl = "https://alumniportalcollegebackend.vercel.app/college/login"
