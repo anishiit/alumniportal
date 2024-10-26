@@ -102,7 +102,7 @@ function Page() {
           <p className="mt-2 text-center text-sm text-gray-600 ">
             Do not have an account?{' '}
             <Link
-              href="../registration"
+              href="../collegeRegistration"
               title=""
               className="font-semibold text-black transition-all duration-200 hover:underline"
             >
