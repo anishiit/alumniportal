@@ -43,7 +43,7 @@ export default function UserConnectionPage() {
       }
 
       const res = await axios.post(
-        'getAllCollegeUsersUrl',
+        getAllCollegeUsersUrl,
         { collegeName }, // Request body data
         { params: { page, limit: 10 } } // Query parameters
       );
