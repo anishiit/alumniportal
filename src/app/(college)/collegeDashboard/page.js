@@ -34,6 +34,8 @@ import {getCollegeUsersUrl, createCollegeEventUrl, getCollegeEventsUrl, updateCo
 import { collegeName } from "@/data/college"
 import { set } from "react-hook-form"
 import { Textarea } from "@/components/ui/textarea"
+import { batch } from "@/data/batch"
+import Link from "next/link"
 
 export default function CollegeDashboard() {
 
@@ -59,21 +61,9 @@ export default function CollegeDashboard() {
   },[])
 
   // Dummy data (unchanged)
-  const [alumniData, setAlumniData] = useState([
-    { _id: 1, name: "John Doe", graduationYear: 2020, email: "john@example.com" },
-    { _id: 2, name: "Jane Smith", graduationYear: 2019, email: "jane@example.com" },
-    { _id: 3, name: "Bob Johnson", graduationYear: 2021, email: "bob@example.com" },
-    { _id: 4, name: "Alice Williams", graduationYear: 2018, email: "alice@example.com" },
-    { _id: 5, name: "Charlie Brown", graduationYear: 2022, email: "charlie@example.com" },
-  ])
+  const [alumniData, setAlumniData] = useState([])
 
-  const [studentData, setStudentData] = useState([
-    { _id: 1, name: "Emma Davis", year: 3, email: "emma@example.com" },
-    { _id: 2, name: "Liam Wilson", year: 2, email: "liam@example.com" },
-    { _id: 3, name: "Olivia Moore", year: 4, email: "olivia@example.com" },
-    { _id: 4, name: "Noah Taylor", year: 1, email: "noah@example.com" },
-    { _id: 5, name: "Ava Anderson", year: 3, email: "ava@example.com" },
-  ])
+  const [studentData, setStudentData] = useState([])
 
   const [featuredAlumni, setFeaturedAlumni] = useState([
     { _id: 1, name: "Dr. Emily Clark", achievement: "Nobel Prize in Physics", image: "/placeholder.svg" },
@@ -81,12 +71,7 @@ export default function CollegeDashboard() {
     { _id: 3, name: "Sarah Johnson", achievement: "Pulitzer Prize-winning Journalist", image: "/placeholder.svg" },
   ])
 
-  const [upcomingEvents, setUpcomingEvents] = useState([
-    { _id: 1, description:"description1" , name: "Annual Alumni Gala", image: "/placeholder.svg" },
-    { _id: 2, description:"description2" , name: "Career Fair",  image: "/placeholder.svg" },
-    { _id: 3, description:"description3" , name: "Homecoming Weekend", image: "/placeholder.svg" },
-    { _id: 4, description:"description4" , name: "Research Symposium",image: "/placeholder.svg" },
-  ])
+  const [upcomingEvents, setUpcomingEvents] = useState([])
 
   const [fundingData, setFundingData] = useState({
     totalRaised: 1500000,
@@ -111,6 +96,7 @@ export default function CollegeDashboard() {
     await axios.post(getCollegeUsersUrl,{collegeName: collegeName})
     .then((res) => {
       setAlumniData(res.data.users)
+      setFilteredAlumniData(res.data.users)
     })
     .catch((err) => {
       console.log(err)
@@ -125,6 +111,7 @@ export default function CollegeDashboard() {
       await axios.post(getCollegeEventsUrl,{collegeId: collegeId})
       .then((res) => {
         setUpcomingEvents(res.data.events)
+        setFilteredEventsData(res.data.events)
       })
       .catch((err) => {
         console.log(err)
@@ -222,15 +209,14 @@ export default function CollegeDashboard() {
     }
   }
 
-  const addEvent = (event) => {
-    setUpcomingEvents([...upcomingEvents, { ...event, id: upcomingEvents.length + 1 }])
-    setShowAddEventDialog(false)
-  }
-
   const addFeaturedAlumni = (alumni) => {
     setFeaturedAlumni([...featuredAlumni, { ...alumni, id: featuredAlumni.length + 1 }])
     setShowAddFeaturedAlumniDialog(false)
   }
+
+  const [filteredAlumniData, setFilteredAlumniData] = useState(alumniData)
+  const [filteredStudentData, setFilteredStudentData] = useState(studentData)
+  const [filteredEventsData, setFilteredEventsData] = useState(upcomingEvents)
 
   const handleSearch = () => {
     setIsSearching(true)
@@ -243,8 +229,8 @@ export default function CollegeDashboard() {
         student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         student.email.toLowerCase().includes(searchTerm.toLowerCase())
       )
-      setAlumniData(filteredAlumni)
-      setStudentData(filteredStudents)
+      setFilteredAlumniData(filteredAlumni)
+      setFilteredStudentData(filteredStudents)
       setIsSearching(false)
     }, 500)
   }
@@ -254,9 +240,9 @@ export default function CollegeDashboard() {
     setTimeout(() => {
       const filteredEvents = upcomingEvents.filter(event => 
         event.name.toLowerCase().includes(eventSearchTerm.toLowerCase()) ||
-        event.date.includes(eventSearchTerm)
+        event?.date?.includes(eventSearchTerm)
       )
-      setUpcomingEvents(filteredEvents)
+      setFilteredEventsData(filteredEvents)
       setIsSearching(false)
     }, 500)
   }
@@ -286,20 +272,8 @@ export default function CollegeDashboard() {
       handleSearch()
     } else {
       // Reset to original data if search term is cleared
-      setAlumniData([
-        { id: 1, name: "John Doe", graduationYear: 2020, email: "john@example.com" },
-        { id: 2, name: "Jane Smith", graduationYear: 2019, email: "jane@example.com" },
-        { id: 3, name: "Bob Johnson", graduationYear: 2021, email: "bob@example.com" },
-        { id: 4, name: "Alice Williams", graduationYear: 2018, email: "alice@example.com" },
-        { id: 5, name: "Charlie Brown", graduationYear: 2022, email: "charlie@example.com" },
-      ])
-      setStudentData([
-        { id: 1, name: "Emma Davis", year: 3, email: "emma@example.com" },
-        { id: 2, name: "Liam Wilson", year: 2, email: "liam@example.com" },
-        { id: 3, name: "Olivia Moore", year: 4, email: "olivia@example.com" },
-        { id: 4, name: "Noah Taylor", year: 1, email: "noah@example.com" },
-        { id: 5, name: "Ava Anderson", year: 3, email: "ava@example.com" },
-      ])
+      setAlumniData(alumniData)
+      setStudentData(studentData)
     }
   }, [searchTerm])
 
@@ -308,12 +282,7 @@ export default function CollegeDashboard() {
       handleEventSearch()
     } else {
       // Reset to original event data if search term is cleared
-      setUpcomingEvents([
-        { id: 1, name: "Annual Alumni Gala", date: "2024-06-15", image: "/placeholder.svg" },
-        { id: 2, name: "Career Fair", date: "2024-09-20", image: "/placeholder.svg" },
-        { id: 3, name: "Homecoming Weekend", date: "2024-10-05", image: "/placeholder.svg" },
-        { id: 4, name: "Research Symposium", date: "2024-11-12", image: "/placeholder.svg" },
-      ])
+      setUpcomingEvents(upcomingEvents)
     }
   }, [eventSearchTerm])
 
@@ -440,7 +409,7 @@ export default function CollegeDashboard() {
                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
                   </div>
-                  <Button>Add New Alumni</Button>
+                  {/* <Button>Add New Alumni</Button> */}
                 </div>
                 <ScrollArea className="h-[400px]">
                   <AnimatePresence>
@@ -469,22 +438,25 @@ export default function CollegeDashboard() {
                             </tr>
                           </thead>
                           <tbody>
-                            {alumniData?.map((alumni) => (
+                            {filteredAlumniData?.map((alumni) => (
+                             
                               <motion.tr
-                                key={alumni._id}
+                                key={alumni?._id}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -20 }}
                                 transition={{ duration: 0.2 }}
                               >
-                                <td className="p-2">{alumni?.name}</td>
-                                <td className="p-2">{alumni?.graduationYear}</td>
+                                 <Link  href={`/profile/${alumni._id}`}>
+                                <td className="p-2 text-blue-600 hover:underline">{alumni?.name}</td> </Link>
+                                <td className="p-2">{alumni?.batch}</td>
                                 <td className="p-2">{alumni?.email}</td>
                                 <td className="p-2">
-                                  <Button variant="ghost" size="sm" onClick={() => removeItem(alumni.id, 'alumni')}>
+                                  <Button variant="ghost" size="sm" onClick={() => removeItem(alumni._id, 'alumni')}>
                                     <Trash2 className="h-4 w-4" />
                                   </Button>
                                 </td>
+                              
                               </motion.tr>
                             ))}
                           </tbody>
@@ -543,7 +515,7 @@ export default function CollegeDashboard() {
                             </tr>
                           </thead>
                           <tbody>
-                            {studentData?.map((student) => (
+                            {filteredStudentData?.map((student) => (
                               <motion.tr
                                 key={student._id}
                                 initial={{ opacity: 0, y: 20 }}
@@ -608,7 +580,7 @@ export default function CollegeDashboard() {
                         exit={{ opacity: 0 }}
                         className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
                       >
-                        {upcomingEvents?.map((event) => (
+                        {filteredEventsData?.map((event) => (
                           <motion.div
                             key={event?._id}
                             initial={{ opacity: 0, y: 20 }}
