@@ -35,6 +35,7 @@ export default function UserConnectionPage() {
   const router = useRouter() 
   const observer = useRef()
   async function getAllCollegeUsers({ collegeName }) {
+    if (loading || !hasMore) return;
     setLoading(true)
     try {
       let currUser = {}
@@ -47,7 +48,13 @@ export default function UserConnectionPage() {
         { collegeName }, // Request body data
         { params: { page, limit: 10 } } // Query parameters
       );
-      const allUsers = res.data.users
+      // setHasMore(res.data.hasMore)
+      // setLoading(false)
+    
+      const allUsers = res.data.users || [];
+      setHasMore(allUsers.length > 0);
+      // setHasMore(allUsers.length>0);
+
       const formattedUsers = allUsers.map((user) => {
         if(user._id === currUser._id){
           return ({
@@ -68,11 +75,12 @@ export default function UserConnectionPage() {
         }
       })
       setUsers((prev)=>[...prev ,...formattedUsers])
-      setHasMore(res.data.hasMore)
-      setLoading(false)
+     
       setNoAlumni(false)
     } catch (error) {
       console.error(error)
+    } finally{
+      setLoading(false)
     }
   }
 
@@ -107,21 +115,28 @@ export default function UserConnectionPage() {
     return acc
   }, {})
 
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const currUser = JSON.parse(localStorage.getItem("user-threads"))
+  //     setCurrentUser(currUser)
+  //     if (currUser) {
+  //       getAllCollegeUsers({ collegeName: currUser.collegeName })
+  //     }
+  //   }
+  // }, [page])
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const currUser = JSON.parse(localStorage.getItem("user-threads"))
-      setCurrentUser(currUser)
-      if (currUser) {
-        getAllCollegeUsers({ collegeName: currUser.collegeName })
-      }
+    if (page > 1 || !users.length) {
+      const currUser = JSON.parse(localStorage.getItem("user-threads"));
+      getAllCollegeUsers({ collegeName: currUser.collegeName });
     }
-  }, [page])
+  }, [page]);
+
   const lastJobRef = useCallback(
     (node) => {
-      if (loading) return
+      if (loading || !hasMore) return
       if (observer.current) observer.current.disconnect()
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
+        if (entries[0].isIntersecting && hasMore && !loading) {
           setPage((prevPage) => prevPage + 1)
         }
       })
@@ -130,6 +145,11 @@ export default function UserConnectionPage() {
     [loading, hasMore]
   )
 
+  useEffect(() => {
+    setPage(1);
+    setUsers([]);
+  }, [searchQuery, selectedBatch, selectedBranch]);
+  
   if (!users) {
     return <></>
   }
@@ -211,7 +231,7 @@ export default function UserConnectionPage() {
                     {groupUsers.map((user ,index) => (
                       <motion.div
                         key={user._id}
-                        ref={index === groupUsers.length - 1 ? lastJobRef : null}
+                        ref={index === filteredUsers.length - 1 ? lastJobRef : null}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
