@@ -32,10 +32,7 @@ export default function CollegeRegistration() {
     setIsSubmitting(true)
     const response = await axios.post(registerCollegeUrl , values)
     console.log(response.data)
-    if(typeof window !== undefined){
-      const college = JSON.stringify(response.data.user);
-      localStorage.setItem("college" , college)
-    }
+   
     // console.log(values)
     // Simulate API call
     setTimeout(() => {
@@ -187,7 +184,7 @@ export default function CollegeRegistration() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="basic">Free</SelectItem>
+                            <SelectItem value="free">Free</SelectItem>
                             <SelectItem value="standard">Standard</SelectItem>
                             <SelectItem value="premium">Premium</SelectItem>
                           </SelectContent>
