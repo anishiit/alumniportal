@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState,useCallback , useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -29,10 +29,11 @@ export default function UserConnectionPage() {
   const [selectedBranch, setSelectedBranch] = useState("All")
   const [loading , setLoading] =useState(false);
   const [noAlumni , setNoAlumni] = useState(true);
-  const batches = ["All", "2015", "2016", "2017", "2018",]
-  const branches = ["All", "Computer Science", "Electrical Engineering", "Mechanical Engineering", "Civil Engineering"]
+  
+  const [page, setPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
   const router = useRouter() 
-
+  const observer = useRef()
   async function getAllCollegeUsers({ collegeName }) {
     setLoading(true)
     try {
@@ -41,8 +42,11 @@ export default function UserConnectionPage() {
         currUser = JSON.parse(localStorage.getItem("user-threads"))
       }
 
-      const res = await axios.post(getAllCollegeUsersUrl, { collegeName: collegeName })
-      console.log(res.data)
+      const res = await axios.post(
+        'getAllCollegeUsersUrl',
+        { collegeName }, // Request body data
+        { params: { page, limit: 10 } } // Query parameters
+      );
       const allUsers = res.data.users
       const formattedUsers = allUsers.map((user) => {
         if(user._id === currUser._id){
@@ -63,7 +67,8 @@ export default function UserConnectionPage() {
           })
         }
       })
-      setUsers(formattedUsers)
+      setUsers((prev)=>[...prev ,...formattedUsers])
+      setHasMore(res.data.hasMore)
       setLoading(false)
       setNoAlumni(false)
     } catch (error) {
@@ -110,7 +115,20 @@ export default function UserConnectionPage() {
         getAllCollegeUsers({ collegeName: currUser.collegeName })
       }
     }
-  }, [])
+  }, [page])
+  const lastJobRef = useCallback(
+    (node) => {
+      if (loading) return
+      if (observer.current) observer.current.disconnect()
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((prevPage) => prevPage + 1)
+        }
+      })
+      if (node) observer.current.observe(node)
+    },
+    [loading, hasMore]
+  )
 
   if (!users) {
     return <></>
@@ -120,8 +138,9 @@ export default function UserConnectionPage() {
     <div>
 
     <Navbar2 />
-
-    {loading === true ? (<AlumniLoading />):(<div className="container mx-auto py-4 px-4 sm:px-6 lg:px-8">
+    
+    {loading && <AlumniLoading />}
+      <div className="container mx-auto py-4 px-4 sm:px-6 lg:px-8">
       <Card className="w-full max-w-6xl mx-auto bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 shadow-xl">
         <CardHeader className="pb-4">
           <CardTitle className="text-3xl sm:text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
@@ -176,7 +195,7 @@ export default function UserConnectionPage() {
             </Tabs>
 
             <AnimatePresence>
-              {Object.entries(groupedUsers).slice().reverse().map(([group, groupUsers]) => (
+              {Object.entries(groupedUsers).map(([group, groupUsers]) => (
                 <motion.div
                   key={group}
                   initial={{ opacity: 0 }}
@@ -189,9 +208,10 @@ export default function UserConnectionPage() {
                   <motion.div 
                     className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-8"
                   >
-                    {groupUsers.slice().reverse().map((user) => (
+                    {groupUsers.map((user ,index) => (
                       <motion.div
                         key={user._id}
+                        ref={index === groupUsers.length - 1 ? lastJobRef : null}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
@@ -253,6 +273,8 @@ export default function UserConnectionPage() {
                 </motion.div>
               ))}
             </AnimatePresence>
+            {loading && <AlumniLoading />}
+            {!hasMore && <p className="text-center text-gray-500 mt-4">No more Alumni to show</p>}
             {loading === true ? (  <p className="text-center text-muted-foreground">Just a moment, preparing alumni information...</p>):(<></>)}
             { loading === false && noAlumni===false && filteredUsers.length === 0 && (
               <p className="text-center text-muted-foreground">No alumni found matching your criteria.</p>
@@ -260,7 +282,7 @@ export default function UserConnectionPage() {
           </div>
         </CardContent>
       </Card>
-    </div>)}
+    </div>
     
     </div>
   )
