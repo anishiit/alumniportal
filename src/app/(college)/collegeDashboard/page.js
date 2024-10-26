@@ -15,9 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuLabel, 
-  DropdownMenuSeparator, 
+  DropdownMenuItem,  
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu"
 import {
@@ -31,8 +29,17 @@ import {
 } from "@/components/ui/dialog"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import axios from "axios"
+import {getCollegeUsersUrl, createCollegeEventUrl, getCollegeEventsUrl, updateCollegeEventUrl, deleteCollegeEventUrl} from '@/urls/urls.js'
+import { collegeName } from "@/data/college"
+import { set } from "react-hook-form"
+import { Textarea } from "@/components/ui/textarea"
 
 export default function CollegeDashboard() {
+
+
+  
+  const [collegeId, setCollegeId] = useState("")
   const [activeTab, setActiveTab] = useState("overview")
   const [showAddEventDialog, setShowAddEventDialog] = useState(false)
   const [showAddFeaturedAlumniDialog, setShowAddFeaturedAlumniDialog] = useState(false)
@@ -40,61 +47,175 @@ export default function CollegeDashboard() {
   const [eventSearchTerm, setEventSearchTerm] = useState("")
   const [isSearching, setIsSearching] = useState(false)
 
+  useEffect(() => {
+    if(typeof window !== undefined ){
+      const collegeInfo = JSON.parse(localStorage.getItem('college')) 
+      if(collegeInfo){
+        setCollegeId(collegeInfo._id)
+        getCollegeUsers(collegeInfo.name)
+        getCollegeEvents(collegeInfo._id)
+      }
+    }
+  },[])
+
   // Dummy data (unchanged)
   const [alumniData, setAlumniData] = useState([
-    { id: 1, name: "John Doe", graduationYear: 2020, email: "john@example.com" },
-    { id: 2, name: "Jane Smith", graduationYear: 2019, email: "jane@example.com" },
-    { id: 3, name: "Bob Johnson", graduationYear: 2021, email: "bob@example.com" },
-    { id: 4, name: "Alice Williams", graduationYear: 2018, email: "alice@example.com" },
-    { id: 5, name: "Charlie Brown", graduationYear: 2022, email: "charlie@example.com" },
+    { _id: 1, name: "John Doe", graduationYear: 2020, email: "john@example.com" },
+    { _id: 2, name: "Jane Smith", graduationYear: 2019, email: "jane@example.com" },
+    { _id: 3, name: "Bob Johnson", graduationYear: 2021, email: "bob@example.com" },
+    { _id: 4, name: "Alice Williams", graduationYear: 2018, email: "alice@example.com" },
+    { _id: 5, name: "Charlie Brown", graduationYear: 2022, email: "charlie@example.com" },
   ])
 
   const [studentData, setStudentData] = useState([
-    { id: 1, name: "Emma Davis", year: 3, email: "emma@example.com" },
-    { id: 2, name: "Liam Wilson", year: 2, email: "liam@example.com" },
-    { id: 3, name: "Olivia Moore", year: 4, email: "olivia@example.com" },
-    { id: 4, name: "Noah Taylor", year: 1, email: "noah@example.com" },
-    { id: 5, name: "Ava Anderson", year: 3, email: "ava@example.com" },
+    { _id: 1, name: "Emma Davis", year: 3, email: "emma@example.com" },
+    { _id: 2, name: "Liam Wilson", year: 2, email: "liam@example.com" },
+    { _id: 3, name: "Olivia Moore", year: 4, email: "olivia@example.com" },
+    { _id: 4, name: "Noah Taylor", year: 1, email: "noah@example.com" },
+    { _id: 5, name: "Ava Anderson", year: 3, email: "ava@example.com" },
   ])
 
   const [featuredAlumni, setFeaturedAlumni] = useState([
-    { id: 1, name: "Dr. Emily Clark", achievement: "Nobel Prize in Physics", image: "/placeholder.svg" },
-    { id: 2, name: "Michael Chen", achievement: "CEO of Tech Innovators Inc.", image: "/placeholder.svg" },
-    { id: 3, name: "Sarah Johnson", achievement: "Pulitzer Prize-winning Journalist", image: "/placeholder.svg" },
+    { _id: 1, name: "Dr. Emily Clark", achievement: "Nobel Prize in Physics", image: "/placeholder.svg" },
+    { _id: 2, name: "Michael Chen", achievement: "CEO of Tech Innovators Inc.", image: "/placeholder.svg" },
+    { _id: 3, name: "Sarah Johnson", achievement: "Pulitzer Prize-winning Journalist", image: "/placeholder.svg" },
   ])
 
   const [upcomingEvents, setUpcomingEvents] = useState([
-    { id: 1, name: "Annual Alumni Gala", date: "2024-06-15", image: "/placeholder.svg" },
-    { id: 2, name: "Career Fair", date: "2024-09-20", image: "/placeholder.svg" },
-    { id: 3, name: "Homecoming Weekend", date: "2024-10-05", image: "/placeholder.svg" },
-    { id: 4, name: "Research Symposium", date: "2024-11-12", image: "/placeholder.svg" },
+    { _id: 1, description:"description1" , name: "Annual Alumni Gala", image: "/placeholder.svg" },
+    { _id: 2, description:"description2" , name: "Career Fair",  image: "/placeholder.svg" },
+    { _id: 3, description:"description3" , name: "Homecoming Weekend", image: "/placeholder.svg" },
+    { _id: 4, description:"description4" , name: "Research Symposium",image: "/placeholder.svg" },
   ])
 
   const [fundingData, setFundingData] = useState({
     totalRaised: 1500000,
     goal: 2000000,
     recentDonations: [
-      { id: 1, name: "Sarah Johnson", amount: 10000, date: "2024-03-01" },
-      { id: 2, name: "David Lee", amount: 5000, date: "2024-02-28" },
-      { id: 3, name: "Emily Brown", amount: 7500, date: "2024-02-25" },
-      { id: 4, name: "Michael Wilson", amount: 3000, date: "2024-02-22" },
-      { id: 5, name: "Jessica Taylor", amount: 15000, date: "2024-02-20" },
+      { _id: 1, name: "Sarah Johnson", amount: 10000, date: "2024-03-01" },
+      { _id: 2, name: "David Lee", amount: 5000, date: "2024-02-28" },
+      { _id: 3, name: "Emily Brown", amount: 7500, date: "2024-02-25" },
+      { _id: 4, name: "Michael Wilson", amount: 3000, date: "2024-02-22" },
+      { _id: 5, name: "Jessica Taylor", amount: 15000, date: "2024-02-20" },
     ]
   })
+
+  const [event, setEvent] = useState({
+    name: "",
+    description: "",
+  })
+  const [image, setImage] = useState(null)
+
+  const getCollegeUsers = async (collegeName) => {
+   try {
+    await axios.post(getCollegeUsersUrl,{collegeName: collegeName})
+    .then((res) => {
+      setAlumniData(res.data.users)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+   } catch (error) {
+    console.error('Error:', error);
+   }
+  }
+
+  const getCollegeEvents = async (collegeId) => {
+    try {
+      await axios.post(getCollegeEventsUrl,{collegeId: collegeId})
+      .then((res) => {
+        setUpcomingEvents(res.data.events)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  const createCollegeEvent = async () => {
+    const form = new FormData()
+    form.append("collegeId", collegeId)
+    form.append("name", event.name)
+    form.append("description", event.description)
+    form.append("image" , image)
+
+    try {
+      await axios.post(createCollegeEventUrl, form)
+      .then((res) => {
+        console.log(res.data)
+        setUpcomingEvents([...upcomingEvents, res.data.event])
+        setEvent({name: "", description: ""})
+        setImage(null)
+        // setUpcomingEvents([...upcomingEvents, { ...event, _id: upcomingEvents.length + 1, image: res.data.image }])
+      })
+      .catch((err) => {
+        console.log(err)
+        setEvent({name: "", description: ""})
+        setImage(null)
+      })
+    } catch (error) {
+      console.error('Error:', error);
+      setEvent({name: "", description: ""})
+      setImage(null)
+    }
+  }
+
+  const updateCollegeEvent = async (eventId) => {
+    try {
+      const form = new FormData()
+      form.append("image" , image)
+      form.append("name", event?.name)
+      form.append("description", event?.description)
+      await axios.post(updateCollegeEventUrl, {eventId: eventId, form})
+      .then((res) => {
+        console.log(res.data)
+        setEvent({name: "", description: ""})
+        setImage(null)
+        // setUpcomingEvents([...upcomingEvents, { ...event, _id: upcomingEvents.length + 1, image: res.data.image }])
+      })
+      .catch((err) => {
+        console.log(err)
+        setEvent({name: "", description: ""})
+        setImage(null)
+      })
+    } catch (error) {
+      console.error('Error:', error);
+      setEvent({name: "", description: ""})
+      setImage(null)
+    }
+  }
+
+  const removeCollegeEvent = async (eventId) => {
+    try {
+      await axios.post(deleteCollegeEventUrl, {eventId: eventId})
+      .then((res) => {
+        console.log(res.data)
+        setUpcomingEvents(upcomingEvents.filter(event => event._id !== eventId))
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
 
   const removeItem = (id, type) => {
     switch (type) {
       case 'alumni':
-        setAlumniData(alumniData.filter(alumni => alumni.id !== id))
+        setAlumniData(alumniData.filter(alumni => alumni?._id !== id))
         break
       case 'student':
-        setStudentData(studentData.filter(student => student.id !== id))
+        setStudentData(studentData.filter(student => student?._id !== id))
         break
       case 'event':
-        setUpcomingEvents(upcomingEvents.filter(event => event.id !== id))
+        setUpcomingEvents(upcomingEvents.filter(event => event?._id !== id))
         break
       case 'featuredAlumni':
-        setFeaturedAlumni(featuredAlumni.filter(alumni => alumni.id !== id))
+        setFeaturedAlumni(featuredAlumni.filter(alumni => alumni?._id !== id))
         break
       default:
         console.log(`Unknown type: ${type}`)
@@ -148,11 +269,11 @@ export default function CollegeDashboard() {
         const imageDataUrl = e.target.result
         if (type === 'event') {
           setUpcomingEvents(upcomingEvents.map(event => 
-            event.id === id ? { ...event, image: imageDataUrl } : event
+            event?._id === id ? { ...event, image: imageDataUrl } : event
           ))
         } else if (type === 'featuredAlumni') {
           setFeaturedAlumni(featuredAlumni.map(alumni => 
-            alumni.id === id ? { ...alumni, image: imageDataUrl } : alumni
+            alumni?._id === id ? { ...alumni, image: imageDataUrl } : alumni
           ))
         }
       }
@@ -250,7 +371,7 @@ export default function CollegeDashboard() {
                     <Users className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{alumniData.length}</div>
+                    <div className="text-2xl font-bold">{alumniData?.length}</div>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -265,7 +386,7 @@ export default function CollegeDashboard() {
                     <GraduationCap className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{studentData.length}</div>
+                    <div className="text-2xl font-bold">{studentData?.length}</div>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -280,7 +401,7 @@ export default function CollegeDashboard() {
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{upcomingEvents.length}</div>
+                    <div className="text-2xl font-bold">{upcomingEvents?.length}</div>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -295,7 +416,7 @@ export default function CollegeDashboard() {
                     <DollarSign className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">${fundingData.totalRaised.toLocaleString()}</div>
+                    <div className="text-2xl font-bold">$100</div>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -348,19 +469,19 @@ export default function CollegeDashboard() {
                             </tr>
                           </thead>
                           <tbody>
-                            {alumniData.map((alumni) => (
+                            {alumniData?.map((alumni) => (
                               <motion.tr
-                                key={alumni.id}
+                                key={alumni._id}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -20 }}
                                 transition={{ duration: 0.2 }}
                               >
-                                <td className="p-2">{alumni.name}</td>
-                                <td className="p-2">{alumni.graduationYear}</td>
-                                <td className="p-2">{alumni.email}</td>
+                                <td className="p-2">{alumni?.name}</td>
+                                <td className="p-2">{alumni?.graduationYear}</td>
+                                <td className="p-2">{alumni?.email}</td>
                                 <td className="p-2">
-                                  <Button variant="ghost" size="sm" onClick={() => removeItem(alumni.id, 'alumni')}>
+                                  <Button variant="ghost" size="sm" onClick={() => removeItem(alumni?._id, 'alumni')}>
                                     <Trash2 className="h-4 w-4" />
                                   </Button>
                                 </td>
@@ -422,19 +543,19 @@ export default function CollegeDashboard() {
                             </tr>
                           </thead>
                           <tbody>
-                            {studentData.map((student) => (
+                            {studentData?.map((student) => (
                               <motion.tr
-                                key={student.id}
+                                key={student._id}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -20 }}
                                 transition={{ duration: 0.2 }}
                               >
-                                <td className="p-2">{student.name}</td>
-                                <td className="p-2">{student.year}</td>
-                                <td className="p-2">{student.email}</td>
+                                <td className="p-2">{student?.name}</td>
+                                <td className="p-2">{student?.year}</td>
+                                <td className="p-2">{student?.email}</td>
                                 <td className="p-2">
-                                  <Button variant="ghost" size="sm" onClick={() => removeItem(student.id, 'student')}>
+                                  <Button variant="ghost" size="sm" onClick={() => removeItem(student?._id, 'student')}>
                                     <Trash2 className="h-4 w-4" />
                                   </Button>
                                 </td>
@@ -487,9 +608,9 @@ export default function CollegeDashboard() {
                         exit={{ opacity: 0 }}
                         className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
                       >
-                        {upcomingEvents.map((event) => (
+                        {upcomingEvents?.map((event) => (
                           <motion.div
-                            key={event.id}
+                            key={event?._id}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
@@ -497,14 +618,14 @@ export default function CollegeDashboard() {
                           >
                             <Card>
                               <CardHeader>
-                                <CardTitle>{event.name}</CardTitle>
-                                <CardDescription>{event.date}</CardDescription>
+                                <CardTitle>{event?.name}</CardTitle>
+                                <CardDescription>{event?.description}</CardDescription>
                               </CardHeader>
                               <CardContent>
                                 <div className="aspect-video relative overflow-hidden rounded-md">
                                   <img 
-                                    src={event.image} 
-                                    alt={event.name} 
+                                    src={event?.image} 
+                                    alt={event?.name} 
                                     className="object-cover w-full h-full"
                                   />
                                   <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
@@ -513,14 +634,14 @@ export default function CollegeDashboard() {
                                       type="file"
                                       className="hidden"
                                       accept="image/*"
-                                      onChange={(e) => handleImageUpload(event.id, 'event', e)}
+                                      onChange={(e) => {handleImageUpload(event._id, 'event', e); setImage(e.target.files[0]) } }
                                     />
                                   </label>
                                 </div>
                               </CardContent>
                               <CardFooter className="flex justify-between">
-                                <Button variant="outline" size="sm">Edit</Button>
-                                <Button variant="destructive" size="sm" onClick={() => removeItem(event.id, 'event')}>
+                                <Button variant="outline" size="sm" onClick={() => {updateCollegeEvent(event._id)}} >Edit</Button>
+                                <Button variant="destructive" size="sm" onClick={() => removeCollegeEvent(event?._id)}>
                                   Remove
                                 </Button>
                               </CardFooter>
@@ -571,7 +692,7 @@ export default function CollegeDashboard() {
                       <tbody>
                         {fundingData.recentDonations.map((donation) => (
                           <motion.tr
-                            key={donation.id}
+                            key={donation?._id}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.2 }}
@@ -604,7 +725,7 @@ export default function CollegeDashboard() {
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {featuredAlumni.map((alumni) => (
                     <motion.div
-                      key={alumni.id}
+                      key={alumni?._id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3 }}
@@ -627,7 +748,7 @@ export default function CollegeDashboard() {
                                 type="file"
                                 className="hidden"
                                 accept="image/*"
-                                onChange={(e) => handleImageUpload(alumni.id, 'featuredAlumni', e)}
+                                onChange={(e) => handleImageUpload(alumni?._id, 'featuredAlumni', e)}
                               />
                             </label>
                           </div>
@@ -637,7 +758,7 @@ export default function CollegeDashboard() {
                             variant="destructive" 
                             size="sm" 
                             className="w-full"
-                            onClick={() => removeItem(alumni.id, 'featuredAlumni')}
+                            onClick={() => removeItem(alumni?._id, 'featuredAlumni')}
                           >
                             Remove
                           </Button>
@@ -663,7 +784,13 @@ export default function CollegeDashboard() {
               <Label htmlFor="event-name" className="text-right">
                 Event Name
               </Label>
-              <Input id="event-name" className="col-span-3" />
+              <Input value={event.name} onChange={(e) => setEvent({ ...event, name: e.target.value })} id="event-name" className="col-span-3" />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="event-name" className="text-right">
+                Description
+              </Label>
+              <Textarea value={event.description} onChange={(e) => setEvent({ ...event, description: e.target.value })} id="event-description" className="col-span-3" />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="event-date" className="text-right">
@@ -675,11 +802,17 @@ export default function CollegeDashboard() {
               <Label htmlFor="event-image" className="text-right">
                 Image
               </Label>
-              <Input id="event-image" type="file" accept="image/*" className="col-span-3" />
+              <input
+                className="col-span-3 flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-900"
+                type="file"
+                placeholder=""
+                onChange={(e) => {setImage(e.target.files[0]); console.log(e.target.files[0])}}
+              />
+              {/* <Input onChange={(e) => setImage(e.target.value)} id="event-image" type="file" accept="image/*" className="col-span-3" /> */}
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={() => addEvent({ name: "New Event", date: "2024-01-01", image: "/placeholder.svg" })}>
+            <Button type="submit" onClick={() => createCollegeEvent()}>
               Add Event
             </Button>
           </DialogFooter>

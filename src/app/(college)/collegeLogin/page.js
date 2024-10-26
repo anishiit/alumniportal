@@ -41,7 +41,7 @@ function Page() {
           .then((res) => {
             // console.log(res.data);
             if(typeof window !== undefined){
-              const college = JSON.stringify(res.data.user);
+              const college = JSON.stringify(res.data.college);
               localStorage.setItem("college" , college)
             }
 

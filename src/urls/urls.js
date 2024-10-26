@@ -1,63 +1,73 @@
 export const user_backend_url = "https://alumni-portal-backend.vercel.app"
 export const chat_backend_url = "https://alumni-portal-chatservice-backend.onrender.com"
-export const college_backend_url ="https://alumniportalcollegebackend.vercel.app/"
+export const college_backend_url ="https://alumniportalcollegebackend.vercel.app"
 // user urls => 
 
-export const registerUserUrl = "https://alumni-portal-backend.vercel.app/user/register"
-export const loginUserUrl = "https://alumni-portal-backend.vercel.app/user/login"
-export const getUserInfoUrl = "https://alumni-portal-backend.vercel.app/user/getuser"
-export const updateUserProfileUrl = "https://alumni-portal-backend.vercel.app/user/updateprofile"
+export const registerUserUrl = `${user_backend_url}/user/register`
+export const loginUserUrl = `${user_backend_url}/user/login`
+export const getUserInfoUrl = `${user_backend_url}/user/getuser`
+export const updateUserProfileUrl = `${user_backend_url}/user/updateprofile`
 
-export const getUserInvitationsUrl = "https://alumni-portal-backend.vercel.app/user/getinvitations"
+export const getUserInvitationsUrl = `${user_backend_url}/user/getinvitations`
 
-export const createUserInvitationUrl = "https://alumni-portal-backend.vercel.app/user/createinvitation"
-export const acceptUserInvitationUrl = "https://alumni-portal-backend.vercel.app/user/acceptinvitation"
-export const cancleUserInvitationUrl = "https://alumni-portal-backend.vercel.app/user/cancleinvitation"
+export const createUserInvitationUrl = `${user_backend_url}/user/createinvitation`
+export const acceptUserInvitationUrl = `${user_backend_url}/user/acceptinvitation`
+export const cancleUserInvitationUrl = `${user_backend_url}/user/cancleinvitation`
+export const getUserConnectionsUrl = `${user_backend_url}/user/getconnectedusers`
 
-export const getUserConnectionsUrl = "https://alumni-portal-backend.vercel.app/user/getconnectedusers"
+export const deleteUserConnectionUrl = `${user_backend_url}/user/deleteconnection`
 
-export const deleteUserConnectionUrl = "https://alumni-portal-backend.vercel.app/user/deleteconnection"
+export const getAllCollegeUsersUrl = `${user_backend_url}/user/getcollegeusers`
 
-export const getAllCollegeUsersUrl = `https://alumni-portal-backend.vercel.app/user/getcollegeusers`
-
-export const connectUsersUrl = "https://alumni-portal-backend.vercel.app/user/connectusers"
+export const connectUsersUrl = `${user_backend_url}/user/connectusers`
 
 // post urls => 
 
-export const getAllPostsUrl = "https://alumni-portal-backend.vercel.app/post/getjobs"
+export const getAllPostsUrl = `${user_backend_url}/post/getjobs`
 
-export const postUserPostUrl = "https://alumni-portal-backend.vercel.app/post/postjob"
+export const postUserPostUrl = `${user_backend_url}/post/postjob`
 
-export const getUserPostsUrl = "https://alumni-portal-backend.vercel.app/post/getuserposts"
+export const getUserPostsUrl = `${user_backend_url}/post/getuserposts`
 
 // chat urls =>
 
-export const createChatOfUsers = "https://alumni-portal-chatservice-backend.onrender.com/chat/createchat"
+export const createChatOfUsers = `${chat_backend_url}/chat/createchat`
 
-export const getUserChatsUrl = "https://alumni-portal-chatservice-backend.onrender.com/chat/getuserchats"
+export const getUserChatsUrl = `${chat_backend_url}/chat/getuserchats`
 
-export const getChatByIdUrl = "https://alumni-portal-chatservice-backend.onrender.com/chat/getchatbyid"
+export const getChatByIdUrl = `${chat_backend_url}/chat/getchatbyid`
 
 // memories urls =>
 
-export const getAllMemoriesUrl = "https://alumni-portal-backend.vercel.app/memory/" // get
+export const getAllMemoriesUrl = `${user_backend_url}/memory/`// get
 
-export const getUserMemoriesUrl = "https://alumni-portal-backend.vercel.app/memory/getusermemories"
+export const getUserMemoriesUrl = `${user_backend_url}/memory/getusermemories`
 
-export const createMemoryUrl = "https://alumni-portal-backend.vercel.app/memory/" // post
+export const createMemoryUrl = `${user_backend_url}/memory/` // post
 
-export const getMemoryByIdUrl = "https://alumni-portal-backend.vercel.app/memory/getmemorybyid"  // id 
+export const getMemoryByIdUrl = `${user_backend_url}/memory/getmemorybyid`  // id 
 
-export const  addLikeOnMemoryUrl = "https://alumni-portal-backend.vercel.app/memory/like"
+export const  addLikeOnMemoryUrl = `${user_backend_url}/memory/like`
 
-export const  addCommentOnMemoryUrl = "https://alumni-portal-backend.vercel.app/memory/comment"
+export const  addCommentOnMemoryUrl = `${user_backend_url}/memory/comment`
 
 
 //college url 
 
-export const getAllCollegesUrl = "https://alumniportalcollegebackend.vercel.app/college/"
+export const getAllCollegesUrl = `${college_backend_url}/college/`
 
-export const getCollegeByIdUrl = "https://alumniportalcollegebackend.vercel.app/college/"
+export const getCollegeByIdUrl = `${college_backend_url}/college/`
 
-export const registerCollegeUrl = "https://alumniportalcollegebackend.vercel.app/college/register"
-export const loginCollegeUrl = "https://alumniportalcollegebackend.vercel.app/college/login"
+export const registerCollegeUrl = `${college_backend_url}/college/register`
+
+export const loginCollegeUrl = `${college_backend_url}/college/login`
+
+export const getCollegeUsersUrl = `${college_backend_url}/college/getcollegeusers`
+
+export const createCollegeEventUrl = `${college_backend_url}/event/createevent`
+
+export const getCollegeEventsUrl = `${college_backend_url}/event/getcollegeevents`   
+
+export const updateCollegeEventUrl = `${college_backend_url}/event/updateevent`
+
+export const deleteCollegeEventUrl = `${college_backend_url}/event/deleteevent`
