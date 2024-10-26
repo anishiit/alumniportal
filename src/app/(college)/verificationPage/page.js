@@ -87,7 +87,7 @@ export default function VerificationPage() {
             </div>
             <div className="bg-blue-50 p-4 rounded-lg">
               <p className="text-sm text-blue-800">
-                The verification process typically takes up to 36 hours. Once complete, we&apos;ll send you an email with instructions to access your dashboard.
+                The verification process typically takes up to 36 hours. Once completed, we&apos;ll send you an email with instructions to access your dashboard.
               </p>
             </div>
             <div className="flex justify-center">
