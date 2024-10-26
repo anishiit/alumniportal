@@ -4,12 +4,13 @@ import { useRouter } from 'next/navigation'
 import { useForm } from "react-hook-form"
 import { Check, GraduationCap, Users, Globe, Mail, Building, Phone, Linkedin, Lock } from "lucide-react"
 import { motion } from "framer-motion"
-
+import { registerCollegeUrl } from '@/urls/urls';
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import axios from "axios"
 
 export default function CollegeRegistration() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -27,9 +28,15 @@ export default function CollegeRegistration() {
     },
   })
 
-  function onSubmit(values) {
+ async function onSubmit(values) {
     setIsSubmitting(true)
-    console.log(values)
+    const response = await axios.post(registerCollegeUrl , values)
+    console.log(response.data)
+    if(typeof window !== undefined){
+      const college = JSON.stringify(response.data.user);
+      localStorage.setItem("college" , college)
+    }
+    // console.log(values)
     // Simulate API call
     setTimeout(() => {
       setIsSubmitting(false)
