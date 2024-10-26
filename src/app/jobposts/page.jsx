@@ -272,7 +272,7 @@ export default function SearchJob() {
   async function getPostData() {
     try {
       setLoading(true)
-      const res = await axios.get('http://localhost:3001/post/getjobs', {
+      const res = await axios.get(getJobPostUrl, {
         params: { page, limit: 15 },
       })
       setJobs((prevJobs) => [...prevJobs, ...res.data.jobs])
