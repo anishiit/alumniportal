@@ -1,4 +1,4 @@
-export const user_backend_url = "http://localhost:3001"
+export const user_backend_url = "https://alumni-portal-backend.vercel.app"
 export const chat_backend_url = "https://alumni-portal-chatservice-backend.onrender.com"
 export const college_backend_url ="https://alumniportalcollegebackend.vercel.app"
 // user urls => 
