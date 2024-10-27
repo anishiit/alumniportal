@@ -86,12 +86,17 @@ export default function UserConnectionPage() {
 
 
   const handleConnect = async (id) => {
+    const currUser = JSON.parse(localStorage.getItem("user-threads"))
     setUsers(users.map(user => 
       user._id === id ? { ...user, isConnected: !user.isConnected } : user
     ))
     try {
-      await axios.post(connectUsersUrl, { userId1: currentUser?._id, userId2: id })
-      await axios.post(createChatOfUsers, { userId1: currentUser?._id, userId2: id })
+      if(!currUser._id || !id){
+        console.log("Please provide two user id to connect")
+        return
+      }
+      await axios.post(connectUsersUrl, { userId1: currUser?._id, userId2: id })
+      await axios.post(createChatOfUsers, { userId1: currUser?._id, userId2: id })
     } catch (error) {
       console.log(error)
     }
