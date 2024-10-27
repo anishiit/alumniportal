@@ -70,7 +70,7 @@ export default function SearchJob() {
     (job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     job.company?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     job.location?.toLowerCase().includes(searchTerm.toLowerCase())) &&
-    (jobType === "all" || job.type === jobType)
+    (jobType === "all" || job.category === jobType)
   )
 
   const titleVariants = {
@@ -112,7 +112,7 @@ export default function SearchJob() {
             variants={typeVariants}
             className="text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600"
           >
-            {jobType === "internship" ? "Internship" : "Job"}
+            {jobType === "internship" ? "internship" : "job"}
           </motion.div>
         </motion.div>
         <div className="max-w-2xl mx-auto space-y-4 mb-8">
