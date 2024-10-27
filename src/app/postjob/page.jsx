@@ -5,9 +5,9 @@ import axios from 'axios'
 import Navbar2 from '@/components/header/Navbar2';
 import {postUserPostUrl} from "@/urls/urls.js"
 import { Button } from '@/components/ui/button';
-
+import { useToast } from '@/hooks/use-toast';
 export default function ContactPageOne() { 
-  
+  const { toast } = useToast();
     const [input , setInput] = useState({
         title:"",
         description:"",
@@ -26,6 +26,7 @@ export default function ContactPageOne() {
         setLoading(true)
         e.preventDefault();
         seterr("")
+        
         setmsg("Posting..")
         console.log("posting job")
         let user;
@@ -57,8 +58,13 @@ export default function ContactPageOne() {
                   category:"",
                   url:"",
                 })
-                setThumbnail({});
-                setmsg(String(res.data.msg).toUpperCase());
+                setThumbnail({});  
+                toast({
+                  variant: "green",
+                  // title: "All fields are required!",
+                  description:String(res.data.msg).toUpperCase() ,
+                })
+                // setmsg(String(res.data.msg).toUpperCase());
                 setInput({ title:"", description:"", category:"", url:"" })
                 setThumbnail({})
                 setLoading(false)
@@ -66,7 +72,12 @@ export default function ContactPageOne() {
             .catch((err) => {
                 console.log(err);
                 setmsg("")
-                seterr(err.response.data.message);
+                toast({
+                  variant: "red",
+                  // title: "All fields are required!",
+                  description: err.response.data.message,
+                })
+                // seterr(err.response.data.message);
                 setLoading(false);
             })
         } catch (error) {
