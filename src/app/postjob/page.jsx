@@ -32,8 +32,17 @@ export default function ContactPageOne() {
   const [isLoading , setLoading ] = useState(false);
 
   async function handleSubmit(e){
-      setLoading(true)
       e.preventDefault();
+      if(!input.title || !input.description || !input.category || !input.url){
+          // seterr("Please fill all the fields")
+          toast({
+              variant: "red",
+              title: "Please fill all the fields",
+              duration:1500
+          })
+          return;
+      }
+      setLoading(true)
       seterr("")
       setmsg("Posting..")
       console.log("posting job")
@@ -42,7 +51,9 @@ export default function ContactPageOne() {
           user = JSON.parse(localStorage.getItem("user-threads"))
       }
       if(!user) {
-       alert("Please login to post a job")
+        toast({
+            variant: "red",
+        })
        return;
       }
       console.log(user);
@@ -53,7 +64,11 @@ export default function ContactPageOne() {
       })
       .catch((err) => {
           console.log(err);
-          seterr(err.message);
+          toast({
+              variant: "red",
+              title: err.response.data.msg,
+              duration:1500
+          })
           setLoading(false);
           return ;
       });
@@ -76,23 +91,35 @@ export default function ContactPageOne() {
                 category:"",
                 url:"",
               })
-              setThumbnail({});
-              setmsg(String(res.data.msg).toUpperCase());
-              setInput({ title:"", description:"", category:"", url:"" })
-              setThumbnail({})
+              setThumbnail({}); 
+              setmsg("")
+              toast({
+                  variant: "green",
+                  title: "Posted Successfully",
+                  duration:1700
+              })
+
               setLoading(false)
           })
           .catch((err) => {
               console.log(err);
               setmsg("")
-              seterr(err.response.data.message);
+              toast({
+                  variant: "red",
+                  title: err.response.data.msg,
+                  duration:1700
+              })
               setLoading(false);
               return
           })
       } catch (error) {
           console.log(error)
           setmsg("")
-          seterr(error.message);
+          toast({
+              variant: "red",
+              title: error.message,
+              duration:1700
+          })
           setLoading(false);
           return
       }
