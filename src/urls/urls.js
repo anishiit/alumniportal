@@ -1,3 +1,5 @@
+"use client"
+
 export const user_backend_url = `${process.env.NEXT_PUBLIC_USER_BACKEND_URL}`
 export const chat_backend_url = `${process.env.NEXT_PUBLIC_CHAT_BACKEND_URL}`   
 export const college_backend_url = `${process.env.NEXT_PUBLIC_COLLEGE_BACKEND_URL}`

@@ -56,14 +56,16 @@ function Page() {
             console.log(err);
             toast({
               variant: "red",
-              title: err.response.data.msg,
+              title: err.response.data.msg || err.message,
             })
             setLoading(false)
+            return
           })
       
         } catch (error) {
           console.error(error);
           setLoading(false)
+          return
         }
       };
       
