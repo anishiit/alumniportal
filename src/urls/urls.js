@@ -31,6 +31,8 @@ export const postUserPostUrl = `${user_backend_url}/post/postjob`
 
 export const getUserPostsUrl = `${user_backend_url}/post/getuserposts`
 
+export const deletePostUrl = `${user_backend_url}/post/deletepost` // postId
+
 // chat urls =>
 
 export const createChatOfUsers = `${chat_backend_url}/chat/createchat`
@@ -52,6 +54,8 @@ export const getMemoryByIdUrl = `${user_backend_url}/memory/getmemorybyid`  // i
 export const  addLikeOnMemoryUrl = `${user_backend_url}/memory/like`
 
 export const  addCommentOnMemoryUrl = `${user_backend_url}/memory/comment`
+
+export const deleteMemoryUrl = `${user_backend_url}/memory/deletememory` // memoryId
 
 
 //college url 
