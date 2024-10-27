@@ -5,77 +5,96 @@ import axios from 'axios'
 import Navbar2 from '@/components/header/Navbar2';
 import {postUserPostUrl} from "@/urls/urls.js"
 import { Button } from '@/components/ui/button';
+import useCloudinaryImageUploader from '@/services/cloudinary';
 
 export default function ContactPageOne() { 
-  
-    const [input , setInput] = useState({
-        title:"",
-        description:"",
-        category:"",
-        url:"",
-    });
 
-    const [thumbnail ,setThumbnail] = useState(undefined);
-    const [msg,setmsg] = useState("");
-    const [err,seterr] = useState("");
-    const [isLoading , setLoading ] = useState(false);
+  const {
+    previewUrl,
+    uploading,
+    error,
+    handleImageChange,
+    uploadImage
+  } = useCloudinaryImageUploader();
 
+  const [input , setInput] = useState({
+      title:"",
+      description:"",
+      category:"",
+      url:"",
+  });
 
+  const [thumbnail ,setThumbnail] = useState(undefined);
+  const [msg,setmsg] = useState("");
+  const [err,seterr] = useState("");
+  const [isLoading , setLoading ] = useState(false);
 
-    async function handleSubmit(e){
-        setLoading(true)
-        e.preventDefault();
-        seterr("")
-        setmsg("Posting..")
-        console.log("posting job")
-        let user;
-        if(typeof window !== undefined){
-            user = JSON.parse(localStorage.getItem("user-threads"))
-        }
-           if(!user) {
-            alert("Please login to post a job")
-            return;
-           }
-           console.log(user);
-        const form = new FormData()
-        form.append("thumbnail" , thumbnail)
-        form.append("postedBy" , user._id)
-        form.append("postedByName" , user.name)
-        form.append("title" , input.title)
-        form.append("description" , input.description)
-        form.append("category" , input.category)
-        form.append("url" , input.url)
-        
-        console.log(form.get("thumbnail"));
-        try {
-            await axios.post(postUserPostUrl,form)
-            .then((res) => {
-                console.log(res.data);
-                setInput({
-                  title:"",
-                  description:"",
-                  category:"",
-                  url:"",
-                })
-                setThumbnail({});
-                setmsg(String(res.data.msg).toUpperCase());
-                setInput({ title:"", description:"", category:"", url:"" })
-                setThumbnail({})
-                setLoading(false)
-            })
-            .catch((err) => {
-                console.log(err);
-                setmsg("")
-                seterr(err.response.data.message);
-                setLoading(false);
-            })
-        } catch (error) {
-            console.log(error)
-            setmsg("")
-            seterr(error.message);
-            setLoading(false);
-        }
-    }
+  async function handleSubmit(e){
+      setLoading(true)
+      e.preventDefault();
+      seterr("")
+      setmsg("Posting..")
+      console.log("posting job")
+      let user;
+      if(typeof window !== undefined){
+          user = JSON.parse(localStorage.getItem("user-threads"))
+      }
+      if(!user) {
+       alert("Please login to post a job")
+       return;
+      }
+      console.log(user);
+      let imageInfo = {}
+      await uploadImage()
+      .then((res) => {
+        imageInfo = res;
+      })
+      .catch((err) => {
+          console.log(err);
+          seterr(err.message);
+          setLoading(false);
+          return ;
+      });
+    
+      try {
+          await axios.post(postUserPostUrl,{
+            thumbnail:imageInfo,
+            postedBy:user._id,
+            postedByName:user.name,
+            title:input.title,
+            description:input.description,
+            category:input.category,
+            url:input.url
+          })
+          .then((res) => {
+              console.log(res.data);
+              setInput({
+                title:"",
+                description:"",
+                category:"",
+                url:"",
+              })
+              setThumbnail({});
+              setmsg(String(res.data.msg).toUpperCase());
+              setInput({ title:"", description:"", category:"", url:"" })
+              setThumbnail({})
+              setLoading(false)
+          })
+          .catch((err) => {
+              console.log(err);
+              setmsg("")
+              seterr(err.response.data.message);
+              setLoading(false);
+              return
+          })
+      } catch (error) {
+          console.log(error)
+          setmsg("")
+          seterr(error.message);
+          setLoading(false);
+          return
+      }
+  }
 
 
 
@@ -144,16 +163,10 @@ export default function ContactPageOne() {
                     >
                       Thumbnail
                     </label>
-                    <input
-                      className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-900"
-                      type="file"
-                      id="thumbnail"
-                      placeholder=""
-                      onChange={(e) => {
-                        console.log(e.target.files[0])
-                        setThumbnail(e.target.files[0])
-                       }}
-                    />
+                    <div className='flex '>
+                      <input type="file" onChange={handleImageChange} />
+                      {previewUrl && <img src={previewUrl} alt="Preview" style={{ width: "30px" }} />}
+                    </div>
                   </div>
                   <div className="grid w-full  items-center gap-1.5 text-black">
                   <label

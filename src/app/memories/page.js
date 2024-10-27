@@ -12,8 +12,19 @@ import { motion, AnimatePresence } from "framer-motion"
 import Navbar2 from "@/components/header/Navbar2"
 import axios from "axios"
 import { getAllMemoriesUrl ,getMemoryByIdUrl , createMemoryUrl, addLikeOnMemoryUrl, addCommentOnMemoryUrl } from "@/urls/urls.js"
+import useCloudinaryImageUploader from "@/services/cloudinary"
 
 export default function AlumniMemories() {
+
+  const {
+    previewUrl,
+    uploading,
+    error,
+    handleImageChange,
+    uploadImage
+  } = useCloudinaryImageUploader();
+
+
   const [memories, setMemories] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   const [newMemory, setNewMemory] = useState("")
@@ -57,19 +68,25 @@ export default function AlumniMemories() {
 
   const postNewMemory = async()=>{
     try {
-      const formData = new FormData();
-        
-      // Append memory details to formData
-      formData.append('content', newMemory);  // Assuming newMemory is an object
-      formData.append('postedBy', currentUser._id);  // Assuming currentUser is a simple value (string)
-      
-      // Append the image file
-      formData.append('image', image);  
-      const response =await axios.post(createMemoryUrl ,formData)
+      // Image uploading on cloudinary
+      let imageInfo = {}
+      await uploadImage()
+      .then((res) => {
+        imageInfo = res
+      })
+      .catch((err) => {
+        console.log(err)
+        return 
+      })
+      // sending data to backend
+      const response = await axios.post(createMemoryUrl ,{
+        content: newMemory,
+        postedBy:currentUser._id,
+        thumbnail:imageInfo
+      })
       console.log(response.data)
     } catch (error) {
       console.log(error);
-      
     }
   }
 
@@ -161,21 +178,23 @@ export default function AlumniMemories() {
               className="mb-4"
             />
             <div className="flex justify-between items-center">
-              <input
+              {/* <input
                 type="file"
                 accept="image/*"
                 onChange={handleImageUpload}
                 className="hidden"
                 ref={fileInputRef}
-              />
+              /> */}
+              <input ref={fileInputRef} type="file" onChange={handleImageChange} className="hidden" />
+
               <Button 
                 variant="outline" 
                 size="icon" 
                 onClick={() => fileInputRef.current.click()}
               >
-                <ImageIcon className="h-4 w-4" />
+              <ImageIcon className="h-4 w-4" />
               </Button>
-              {newImage && <img src={newImage} alt="Preview" className="h-10 w-10 object-cover rounded" />}
+              {previewUrl && <img src={previewUrl} alt="Preview" style={{ width: "70px" }} />}
               <Button onClick={postNewMemory}>
                 <Send className="w-4 h-4 mr-2" />
                 Share Memory
