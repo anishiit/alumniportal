@@ -25,12 +25,6 @@ export default function ContactPageOne() {
       url:"",
   });
   const { toast } = useToast();
-    const [input , setInput] = useState({
-        title:"",
-        description:"",
-        category:"",
-        url:"",
-    });
 
   const [thumbnail ,setThumbnail] = useState(undefined);
   const [msg,setmsg] = useState("");
