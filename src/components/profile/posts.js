@@ -17,7 +17,19 @@ export default function PostsAndMemoriesTabs() {
   const userId = location.substring(9)
   const [posts, setPosts] = useState([])
   const [memories, setMemories] = useState([])
+  const [currUser ,setCurrUser] = useState('');
 
+
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const currUser = JSON.parse(localStorage.getItem("user-threads"))
+     
+      if (currUser) {
+        setCurrUser(currUser)
+      }
+    }
+  }, [])
   async function getUserMemories(userId) {
     if(!userId) {
       toast({
@@ -132,14 +144,15 @@ export default function PostsAndMemoriesTabs() {
                       </Link>
                       <p className="mt-2 text-sm text-gray-600 line-clamp-3 flex-grow">{post.description}</p>
                       <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                        <Button
+                      {currUser._id ===post.postedBy && <Button
                           variant="destructive"
                           size="sm"
                           onClick={() => deletePost(post._id)}
                         >
                           <Trash2 className="w-4 h-4 mr-2" />
                           Delete Post
-                        </Button>
+                        </Button>}
+                        
                         <span className="text-sm text-gray-600">
                           {new Date(post.createdAt).toLocaleDateString()}
                         </span>
@@ -186,14 +199,15 @@ export default function PostsAndMemoriesTabs() {
                         Posted on {new Date(memory.createdAt).toLocaleString()}
                       </p>
                       <div className="mt-4">
-                        <Button
+                       { currUser._id ===memory.author._id &&  <Button
                           variant="destructive"
                           size="sm"
                           onClick={() => deleteMemory(memory._id)}
                         >
                           <Trash2 className="w-4 h-4 mr-2" />
                           Delete Memory
-                        </Button>
+                        </Button>}
+                       
                       </div>
                     </div>
                   </div>
