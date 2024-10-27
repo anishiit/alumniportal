@@ -5,32 +5,21 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
-import { getAllPostsUrl } from "@/urls/urls"
-import { getUserMemoriesUrl, getUserPostsUrl } from "@/urls/urls.js"
-import axios from 'axios';
+import { Button } from "@/components/ui/button"
+import { getAllPostsUrl, getUserMemoriesUrl, getUserPostsUrl } from "@/urls/urls"
+import axios from 'axios'
 import { useToast } from "@/hooks/use-toast"
-// import { get } from "react-hook-form"
+import { Trash2 } from "lucide-react"
 
 export default function PostsAndMemoriesTabs() {
-
   const { toast } = useToast()
-
   const location = usePathname()
   const userId = location.substring(9)
-
   const [posts, setPosts] = useState([])
   const [memories, setMemories] = useState([])
 
-  // async function getUserPosts() {
-  //   if (typeof window !== "undefined") {
-  //     const allPosts = JSON.parse(localStorage.getItem("posts") || "[]")
-  //     const userPosts = allPosts.filter((post) => post.postedBy.includes(userId))
-  //     setPosts(userPosts)
-  //   }
-  // }
-
   async function getUserMemories(userId) {
-    if(!userId){
+    if(!userId) {
       toast({
         title: "Error",
         description: "User not found",
@@ -39,34 +28,20 @@ export default function PostsAndMemoriesTabs() {
       return
     }
     try {
-      await axios.post(getUserMemoriesUrl, {
-        userId: userId
-      })
-      .then((res) => {
-        let memories = []
-        memories = res.data.memories
-        memories = memories.reverse()
-        setMemories(memories)
-      })
-      .catch((err) => {
-        console.log(err)
-        toast({
-          title: `Error : Something went wrong while gettiing memories`,
-          variant: "red",   
-        })
-      })
+      const res = await axios.post(getUserMemoriesUrl, { userId })
+      setMemories(res.data.memories.reverse())
     } catch (error) {
+      console.log(error)
       toast({
-        title: "Error",
+        title: "Error getting memories",
         description: error.message,
         variant: "red",
       })
-      console.log(error)
     }
   }
 
   async function getUserPosts(userId) {
-    if(!userId){
+    if(!userId) {
       toast({
         title: "Error",
         description: "User not found",
@@ -75,29 +50,15 @@ export default function PostsAndMemoriesTabs() {
       return
     }
     try {
-      await axios.post(getUserPostsUrl, {
-        userId: userId
-      })
-      .then((res) => {
-        let posts = []
-        posts = res.data.posts
-        posts = posts.reverse()
-        setPosts(posts)
-      })
-      .catch((err) => {
-        console.log(err)
-        toast({
-          title: `Error : Something went wrong while gettiing posts`,
-          variant: "red",   
-        })
-      })
+      const res = await axios.post(getUserPostsUrl, { userId })
+      setPosts(res.data.posts.reverse())
     } catch (error) {
+      console.log(error)
       toast({
-        title: "Error",
+        title: "Error getting posts",
         description: error.message,
         variant: "red",
       })
-      console.log(error)
     }
   }
 
@@ -108,25 +69,39 @@ export default function PostsAndMemoriesTabs() {
     }
   }, [userId])
 
-  const getJobPostUrl = getAllPostsUrl
-  async function getPostData() {
+  const deletePost = async (postId) => {
     try {
-     
-     await axios.get(getJobPostUrl)
-        .then((res) => {
-          console.log(res.data)
-          const userPosts = res.data?.jobs?.filter((post) => post.postedBy.includes(userId))
-          setPosts(userPosts)
-
-
-          // setJobs(res.data.jobs);
-          // if (typeof window !== "undefined") {
-          //   window.localStorage.setItem("posts", JSON.stringify(res.data.jobs))
-          // }
-        })
-       
+      await axios.delete(`${getAllPostsUrl}/${postId}`)
+      setPosts(posts.filter(post => post.id !== postId))
+      toast({
+        title: "Post deleted successfully",
+        variant: "green",
+      })
     } catch (error) {
-      console.log(error);
+      console.log(error)
+      toast({
+        title: "Error deleting post",
+        description: error.message,
+        variant: "red",
+      })
+    }
+  }
+
+  const deleteMemory = async (memoryId) => {
+    try {
+      await axios.delete(`${getUserMemoriesUrl}/${memoryId}`)
+      setMemories(memories.filter(memory => memory._id !== memoryId))
+      toast({
+        title: "Memory deleted successfully",
+        variant: "green",
+      })
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: "Error deleting memory",
+        description: error.message,
+        variant: "red",
+      })
     }
   }
 
@@ -142,24 +117,31 @@ export default function PostsAndMemoriesTabs() {
             {posts?.length > 0 ? (
               <div className="w-full max-h-full flex flex-wrap gap-3">
                 {posts.map((post) => (
-                  <div key={post.id} className="w-[300px] rounded-md border">
-                    {
-                      post.thumbnail ? (
-                        <img
-                          src={post.thumbnail}
-                          alt="post thumbnail"
-                          className="h-[200px] w-full rounded-md object-cover"
-                        />
-                      ) : (
-                        <></>
-                      )
-                    }
-                    <div className="p-4">
-                      <h1 className="text-lg font-semibold">{post.title}</h1>
-                      <Link href={post.url}>
-                        <p className="mt-3 text-sm text-blue-600">{post.url}</p>
+                  <div key={post.id} className="w-[300px] rounded-md border flex flex-col">
+                    {post.thumbnail && (
+                      <img
+                        src={post.thumbnail}
+                        alt="post thumbnail"
+                        className="h-[200px] w-full rounded-t-md object-cover"
+                      />
+                    )}
+                    <div className="p-4 flex-grow flex flex-col">
+                      <h1 className="text-lg font-semibold line-clamp-2">{post.title}</h1>
+                      <Link href={post.url} className="mt-2 text-sm text-blue-600 break-all hover:underline">
+                        {post.url}
                       </Link>
-                      <p className="mt-3 text-sm text-gray-600">{post.description}</p>
+                      <p className="mt-2 text-sm text-gray-600 line-clamp-3">{post.description}</p>
+                      <div className="mt-auto pt-4">
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => deletePost(post.id)}
+                          className="w-full"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Delete Post
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -176,35 +158,40 @@ export default function PostsAndMemoriesTabs() {
             {memories.length > 0 ? (
               <div className="w-full max-h-full flex flex-wrap gap-3">
                 {memories.map((memory) => (
-                  <Link key={memory._id} href={`/memories/${memory._id}`}>
-                  <div  className="w-[300px] rounded-md border">
-                    {
-                      memory.image ? (
-                        <img
-                          src={memory.image}
-                          alt="memory image"
-                          className="h-[200px] w-full rounded-md object-cover"
-                        />
-                      ) : (
-                        <></>
-                      )
-                    }
-                    <div className="p-4">
-                      <h3 className="text-lg font-semibold">{memory.content}</h3>
-                      <div className="flex justify-between">
-                        <p className="mt-3 text-sm text-gray-600 font-semibold">{`${memory.likes.length} likes`|| <></>}</p>
-                        <p className="mt-3 text-sm text-gray-600 font-semibold">{`${memory.comments.length} comments`|| <></>}</p>
+                  <div key={memory._id} className="w-[300px] rounded-md border flex flex-col">
+                    {memory.image && (
+                      <img
+                        src={memory.image}
+                        alt="memory image"
+                        className="h-[200px] w-full rounded-t-md object-cover"
+                      />
+                    )}
+                    <div className="p-4 flex-grow flex flex-col">
+                      <h3 className="text-lg font-semibold line-clamp-3">{memory.content}</h3>
+                      <div className="flex justify-between mt-2">
+                        <p className="text-sm text-gray-600 font-semibold">{`${memory.likes.length} likes`}</p>
+                        <p className="text-sm text-gray-600 font-semibold">{`${memory.comments.length} comments`}</p>
                       </div>
-                     
-                      <p className="mt-3 text-sm text-gray-600">Posted on {Date(memory.createdAt).substring(0,24)}</p>
+                      <p className="mt-2 text-sm text-gray-600">
+                        Posted on {new Date(memory.createdAt).toLocaleString()}
+                      </p>
+                      <div className="mt-auto pt-4">
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => deleteMemory(memory._id)}
+                          className="w-full"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Delete Memory
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                  </Link>
                 ))}
               </div>
             ) : (
               <p className="text-center text-gray-500">No memories available.</p>
-
             )}
           </CardContent>
         </Card>
@@ -212,80 +199,3 @@ export default function PostsAndMemoriesTabs() {
     </Tabs>
   )
 }
-
-
-
-
-
-
-
-
-// import axios from 'axios';
-// import Link from 'next/link';
-// import { usePathname } from 'next/navigation';
-// import React, { useEffect, useState } from 'react'
-
-// export default function CardTwo() {
-//   const location = usePathname()
-//   const userId = location.substring(9);
-
-//   const [userPosts , setPosts] = useState([]);
-
-//    async function getUserPosts(){
-//     if(typeof window !== undefined){
-//       const allPosts = JSON.parse(localStorage.getItem("posts"));
-//       console.log(allPosts)
-//       const usrPosts = allPosts?.filter(post => post.postedBy.includes(userId));
-//       console.log(usrPosts);
-//       setPosts(usrPosts);
-//    }
-//    }
-
-//    useEffect(() => {
-//     if(userId){
-//       getUserPosts();
-//     }
-//    },[])
-
-//   return (<>
-//     <div>
-//     <h5 className='font-semibold p-3 text-center'>Posts</h5>
-//     </div>
-//     <div className='w-full max-h-full flex flex-wrap gap-3 p-3'>
-//       {
-//         userPosts?.map((post) => {
-//           return (
-//             <>
-//             <div className="w-[300px] rounded-md border">
-//               <img
-//                 src={post?.thumbnail}
-//                 alt="post thumbnail"
-//                 className="h-[200px] w-full rounded-md object-cover"
-//               />
-//               <div className="p-4">
-//                 <h1 className="text-lg font-semibold">{post?.title}</h1>
-//                 <Link href={post?.url}>
-//                 <p className="mt-3 text-sm text-blue-600">
-//                  {post?.url}
-//                 </p>
-//                 </Link>
-//                 <p className="mt-3 text-sm text-gray-600">
-//                  {post?.description}
-//                 </p>
-//                 {/* <button
-//                   type="button"
-//                   className="mt-4 rounded-sm bg-black px-2.5 py-1 text-[10px] font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-//                 >
-//                   update
-//                 </button> */}
-//               </div>
-//             </div>
-//             </>
-//           )
-//         })
-
-//       }
-//     </div>
-//     </>
-//   )
-// }
