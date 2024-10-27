@@ -186,8 +186,8 @@ export default function ContactPageOne() {
                        }}
                     >
                         <option className='text-black dark:text-gray-300' value="">Select Category</option>
-                        <option className='text-black dark:text-gray-300' value="SDE1">Internship</option>
-                        <option className='text-black dark:text-gray-300' value="SDE2">Job</option>
+                        <option className='text-black dark:text-gray-300' value="internship">Internship</option>
+                        <option className='text-black dark:text-gray-300' value="job">Job</option>
                     </select>
                   </div>
                   <div className="grid w-full  items-center gap-1.5">
