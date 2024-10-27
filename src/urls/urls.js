@@ -31,6 +31,8 @@ export const postUserPostUrl = `${user_backend_url}/post/postjob`
 
 export const getUserPostsUrl = `${user_backend_url}/post/getuserposts`
 
+export const addCommentOnPostUrl = `${user_backend_url}/post/addcomment` // content, postId, postedBy
+
 export const deletePostUrl = `${user_backend_url}/post/deletepost` // postId
 
 // chat urls =>
