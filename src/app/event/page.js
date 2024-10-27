@@ -6,9 +6,16 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button"
 import { Calendar, Users, Briefcase, Rocket, ArrowLeft } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 import Navbar2 from "@/components/header/Navbar2"
-
 import { useToast } from "@/hooks/use-toast"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 const events = [
   {
     id: 1,
@@ -53,105 +60,125 @@ export default function EventPage() {
   const { toast } = useToast()
 
   const handleWelcomeClick = () => {
-   
     toast({
       variant: "green",
       title: "Request Submitted!",
       description: "We've sent your event participation request to the college team. They'll be in touch soon!",
     });
-    
   }
+
   return (
     <div>
-    <Navbar2 />
-    <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-6xl mx-auto bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 shadow-xl">
-        <CardHeader className="pb-4">
-          <CardTitle className="text-3xl sm:text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
-            Upcoming Events
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <AnimatePresence mode="wait">
-            {selectedEvent ? (
-              <motion.div
-                key="event-details"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Button
-                  variant="ghost"
-                  onClick={() => setSelectedEvent(null)}
-                  className="mb-4"
+      <Navbar2 />
+      <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <Card className="w-full max-w-6xl mx-auto bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 shadow-xl">
+          <CardHeader className="pb-4">
+            <div className="flex justify-between items-center">
+              <CardTitle className="text-3xl sm:text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
+                Upcoming Events
+              </CardTitle>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline">Raise a Proposal</Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem asChild>
+                    <Link href="/event/proposal-form?type=Problem">Raise a Problem</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/event/proposal-form?type=Startup">Proposal for Startup</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/event/proposal-form?type=Hackathon">Proposal for Hackathon</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/event/proposal-form?type=New">Proposal for New</Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <AnimatePresence mode="wait">
+              {selectedEvent ? (
+                <motion.div
+                  key="event-details"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <ArrowLeft className="mr-2 h-4 w-4" /> Back to Events
-                </Button>
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-2xl font-semibold flex items-center">
-                      {selectedEvent.icon}
-                      <span className="ml-2">{selectedEvent.title}</span>
-                    </CardTitle>
-                    <CardDescription>{selectedEvent.date}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Image
-                      src={selectedEvent.image}
-                      alt={selectedEvent.title}
-                      width={600}
-                      height={400}
-                      className="w-full rounded-lg mb-4"
-                    />
-                    <p className="text-muted-foreground mb-4">{selectedEvent.details}</p>
-                    <Button onClick={handleWelcomeClick}>Participate Now</Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="event-list"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="grid gap-6 md:grid-cols-2">
-                  {events.map((event) => (
-                    <Card key={event.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                      <CardHeader>
-                        <CardTitle className="text-xl font-semibold flex items-center">
-                          {event.icon}
-                          <span className="ml-2">{event.title}</span>
-                        </CardTitle>
-                        <CardDescription>{event.date}</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <Image
-                          src={event.image}
-                          alt={event.title}
-                          width={600}
-                          height={400}
-                          className="w-full rounded-lg mb-4"
-                        />
-                        <p className="text-muted-foreground mb-4">{event.description}</p>
-                        <div className="flex justify-between items-center">
-                          <Button variant="outline" onClick={() => setSelectedEvent(event)}>
-                            Learn More
-                          </Button>
-                          <Button onClick={handleWelcomeClick}>Participate</Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </CardContent>
-      </Card>
-    </div>
+                  <Button
+                    variant="ghost"
+                    onClick={() => setSelectedEvent(null)}
+                    className="mb-4"
+                  >
+                    <ArrowLeft className="mr-2 h-4 w-4" /> Back to Events
+                  </Button>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-2xl font-semibold flex items-center">
+                        {selectedEvent.icon}
+                        <span className="ml-2">{selectedEvent.title}</span>
+                      </CardTitle>
+                      <CardDescription>{selectedEvent.date}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <Image
+                        src={selectedEvent.image}
+                        alt={selectedEvent.title}
+                        width={600}
+                        height={400}
+                        className="w-full rounded-lg mb-4"
+                      />
+                      <p className="text-muted-foreground mb-4">{selectedEvent.details}</p>
+                      <Button onClick={handleWelcomeClick}>Participate Now</Button>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="event-list"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="grid gap-6 md:grid-cols-2">
+                    {events.map((event) => (
+                      <Card key={event.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                        <CardHeader>
+                          <CardTitle className="text-xl font-semibold flex items-center">
+                            {event.icon}
+                            <span className="ml-2">{event.title}</span>
+                          </CardTitle>
+                          <CardDescription>{event.date}</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <Image
+                            src={event.image}
+                            alt={event.title}
+                            width={600}
+                            height={400}
+                            className="w-full rounded-lg mb-4"
+                          />
+                          <p className="text-muted-foreground mb-4">{event.description}</p>
+                          <div className="flex justify-between items-center">
+                            <Button variant="outline" onClick={() => setSelectedEvent(event)}>
+                              Learn More
+                            </Button>
+                            <Button onClick={handleWelcomeClick}>Participate</Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }
