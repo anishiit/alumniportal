@@ -13,6 +13,8 @@ import Navbar2 from "@/components/header/Navbar2"
 import axios from "axios"
 import { getAllMemoriesUrl ,getMemoryByIdUrl , createMemoryUrl, addLikeOnMemoryUrl, addCommentOnMemoryUrl } from "@/urls/urls.js"
 import useCloudinaryImageUploader from "@/services/cloudinary"
+import { useToast } from "@/hooks/use-toast"
+import { set } from "react-hook-form"
 
 export default function AlumniMemories() {
 
@@ -24,6 +26,7 @@ export default function AlumniMemories() {
     uploadImage
   } = useCloudinaryImageUploader();
 
+  const { toast } = useToast();
 
   const [memories, setMemories] = useState([])
   const [isPosting, setIsPosting] = useState(false)
@@ -68,8 +71,16 @@ export default function AlumniMemories() {
   )
 
   const postNewMemory = async()=>{
+    setIsPosting(true)
     try {
-      setIsPosting(true)
+      if(!newMemory && !image) {
+        setIsPosting(false)
+        toast({
+          title: "Error : Enter required fields",
+          variant: "red",
+        })
+        return
+      }
       // Image uploading on cloudinary
       let imageInfo = {}
       await uploadImage()
@@ -92,6 +103,10 @@ export default function AlumniMemories() {
         console.log(res.data)
         setMemories([...memories, res.data])
         filteredMemories.push(res.data)
+        toast({
+          title: "Memory created successfully",
+          variant: "green",
+        })
         setIsPosting(false)
         setNewMemory("")
         setImage(null)
@@ -100,6 +115,10 @@ export default function AlumniMemories() {
       .catch((err) => {
         console.log(err)
         setIsPosting(false)
+        toast({
+          title: `Error : ${err.response.data.message}`,
+          variant: "red",
+        })
         setNewMemory("")
         setImage(null)
         return
@@ -108,6 +127,10 @@ export default function AlumniMemories() {
     } catch (error) {
       console.log(error);
       setIsPosting(false)
+      toast({
+        title: `Error : ${error.response.data.message}`,
+        variant: "red",
+      })
       setNewMemory("")
       setImage(null)
       return
