@@ -16,8 +16,12 @@ import { Search, MapPin, Calendar, Bookmark, MessageCircle, Share2 } from "lucid
 import { motion, AnimatePresence } from "framer-motion"
 import JobSearchLoading from '@/components/JobSearchLoading'
 import Navbar2 from "@/components/header/Navbar2"
+import { useToast } from "@/hooks/use-toast"
 
 export default function SearchJob() {
+
+  const { toast } = useToast()
+
   const [jobs, setJobs] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   const [jobType, setJobType] = useState("all")
@@ -79,10 +83,14 @@ export default function SearchJob() {
     visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
   }
 
-  const handleShare = () => {
-    const url = "https://aluminiportal.vercel.app/jobposts"
+  const handleShare = (url) => {
     navigator.clipboard.writeText(url).then(() => {
-      alert("URL copied to clipboard!")
+      // alert("URL copied to clipboard!")
+      toast({
+        description: "URL copied to clipboard!",
+        variant: "green",
+        duration: 1700
+      })
     }).catch(err => {
       console.error('Failed to copy: ', err)
     })
@@ -194,7 +202,7 @@ export default function SearchJob() {
                             <MessageCircle className="w-5 h-5 mr-1" />
                             {job.comments}
                           </Button>
-                          <Button variant="ghost" size="sm" className="text-gray-500" onClick={handleShare}>
+                          <Button variant="ghost" size="sm" className="text-gray-500" onClick={() => handleShare(job.url)}>
                             <Share2 className="w-5 h-5 mr-1" />
                             Share
                           </Button>
