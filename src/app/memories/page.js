@@ -26,6 +26,7 @@ export default function AlumniMemories() {
 
 
   const [memories, setMemories] = useState([])
+  const [isPosting, setIsPosting] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [newMemory, setNewMemory] = useState("")
   const [newImage, setNewImage] = useState(null)
@@ -68,6 +69,7 @@ export default function AlumniMemories() {
 
   const postNewMemory = async()=>{
     try {
+      setIsPosting(true)
       // Image uploading on cloudinary
       let imageInfo = {}
       await uploadImage()
@@ -76,17 +78,39 @@ export default function AlumniMemories() {
       })
       .catch((err) => {
         console.log(err)
+        setIsPosting(false)
+        setNewMemory("")
+        setImage(null)
         return 
       })
       // sending data to backend
-      const response = await axios.post(createMemoryUrl ,{
+      await axios.post(createMemoryUrl ,{
         content: newMemory,
         postedBy:currentUser._id,
         thumbnail:imageInfo
+      }).then((res) => {
+        console.log(res.data)
+        setMemories([...memories, res.data])
+        filteredMemories.push(res.data)
+        setIsPosting(false)
+        setNewMemory("")
+        setImage(null)
+        return
       })
-      console.log(response.data)
+      .catch((err) => {
+        console.log(err)
+        setIsPosting(false)
+        setNewMemory("")
+        setImage(null)
+        return
+      })
+      setIsPosting(false)
     } catch (error) {
       console.log(error);
+      setIsPosting(false)
+      setNewMemory("")
+      setImage(null)
+      return
     }
   }
 
@@ -138,18 +162,6 @@ export default function AlumniMemories() {
     }))
   }
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0]
-    setImage(file)
-    if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setNewImage(reader.result)
-      }
-      reader.readAsDataURL(file)
-    }
-  }
-
   const formatContent = (content) => {
     const words = content.split(' ')
     return words.map((word, index) => {
@@ -195,12 +207,21 @@ export default function AlumniMemories() {
               <ImageIcon className="h-4 w-4" />
               </Button>
               {previewUrl && <img src={previewUrl} alt="Preview" style={{ width: "70px" }} />}
-              <Button onClick={postNewMemory}>
-                <Send className="w-4 h-4 mr-2" />
-                Share Memory
+              <Button onClick={postNewMemory} disabled={isPosting}>
+                {
+                  isPosting === false ? (
+                    <>
+                    <Send className="w-4 h-4 mr-2" />
+                    Share Memory
+                    </>
+                  ) : (
+                    <>Posting...</>
+                  )
+                }
               </Button>
             </div>
           </CardContent>
+
         </Card>
 
         <div className="relative mb-8">
