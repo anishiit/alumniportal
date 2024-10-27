@@ -1,6 +1,6 @@
-export const user_backend_url = "https://alumni-portal-backend.vercel.app"
-export const chat_backend_url = "https://alumni-portal-chatservice-backend.onrender.com"
-export const college_backend_url ="https://alumniportalcollegebackend.vercel.app"
+export const user_backend_url = `${process.env.NEXT_PUBLIC_USER_BACKEND_URL}`
+export const chat_backend_url = `${process.env.NEXT_PUBLIC_CHAT_BACKEND_URL}`   
+export const college_backend_url = `${process.env.NEXT_PUBLIC_COLLEGE_BACKEND_URL}`
 // user urls => 
 
 export const registerUserUrl = `${user_backend_url}/user/register`
