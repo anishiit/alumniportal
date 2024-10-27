@@ -166,7 +166,7 @@ export default function SearchJob() {
                         <div className="flex items-center space-x-3 ">
                           <Link href={`/profile/${job.postedBy}`}>
                             <Avatar className="w-10 h-10">
-                              <AvatarImage src={job.postedByAvatar} alt={job.postedBy} />
+                              <AvatarImage src={job.postedByAvatar} alt={job.postedByName} />
                               <AvatarFallback>{job?.postedByName[0]}</AvatarFallback>
                             </Avatar>
                             <div className="text-blue-700">
@@ -185,7 +185,7 @@ export default function SearchJob() {
                         {job.location}
                         <span className="mx-2">•</span>
                         <Calendar className="w-4 h-4 mr-1" />
-                        {new Date(job.postedDate).toLocaleDateString()}
+                        {new Date(job.createdAt).toLocaleDateString()}
                       </div>
                       <p className="text-gray-700 mb-4 line-clamp-2">{job.description}</p>
                       <div className="flex items-center justify-between">
