@@ -7,6 +7,7 @@ import {postUserPostUrl} from "@/urls/urls.js"
 import { Button } from '@/components/ui/button';
 import useCloudinaryImageUploader from '@/services/cloudinary';
 
+import { useToast } from '@/hooks/use-toast';
 export default function ContactPageOne() { 
 
   const {
@@ -23,6 +24,13 @@ export default function ContactPageOne() {
       category:"",
       url:"",
   });
+  const { toast } = useToast();
+    const [input , setInput] = useState({
+        title:"",
+        description:"",
+        category:"",
+        url:"",
+    });
 
   const [thumbnail ,setThumbnail] = useState(undefined);
   const [msg,setmsg] = useState("");
@@ -95,6 +103,7 @@ export default function ContactPageOne() {
           return
       }
   }
+  
 
 
 
