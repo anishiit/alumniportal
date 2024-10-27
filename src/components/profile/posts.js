@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { getAllPostsUrl, getUserMemoriesUrl, getUserPostsUrl } from "@/urls/urls"
+import { deleteMemoryUrl, deletePostUrl, getAllPostsUrl, getUserMemoriesUrl, getUserPostsUrl } from "@/urls/urls"
 import axios from 'axios'
 import { useToast } from "@/hooks/use-toast"
 import { Trash2, ThumbsUp, MessageCircle } from "lucide-react"
@@ -71,36 +71,34 @@ export default function PostsAndMemoriesTabs() {
 
   const deletePost = async (postId) => {
     try {
-      await axios.delete(`${getAllPostsUrl}/${postId}`)
-      setPosts(posts.filter(post => post.id !== postId))
+      await axios.post(deletePostUrl, { postId: postId })
+      setPosts(posts.filter(post => post._id !== postId))
       toast({
         title: "Post deleted successfully",
-        variant: "default",
+        variant: "green",
       })
     } catch (error) {
       console.log(error)
       toast({
         title: "Error deleting post",
-        description: error.message,
-        variant: "destructive",
+        variant: "red",
       })
     }
   }
 
   const deleteMemory = async (memoryId) => {
     try {
-      await axios.delete(`${getUserMemoriesUrl}/${memoryId}`)
+      await axios.post(deleteMemoryUrl,{memoryId:memoryId})
       setMemories(memories.filter(memory => memory._id !== memoryId))
       toast({
         title: "Memory deleted successfully",
-        variant: "default",
+        variant: "green",
       })
     } catch (error) {
       console.log(error)
       toast({
         title: "Error deleting memory",
-        description: error.message,
-        variant: "destructive",
+        variant: "red",
       })
     }
   }
@@ -116,8 +114,8 @@ export default function PostsAndMemoriesTabs() {
           <CardContent className="p-6">
             {posts?.length > 0 ? (
               <div className="w-full max-h-full space-y-6">
-                {posts.map((post) => (
-                  <div key={post.id} className="rounded-lg border overflow-hidden shadow-md">
+                {posts.map((post,index) => (
+                  <div key={index} className="rounded-lg border overflow-hidden shadow-md">
                     {post.thumbnail && (
                       <div className="w-full h-48 sm:h-64">
                         <img
@@ -137,7 +135,7 @@ export default function PostsAndMemoriesTabs() {
                         <Button
                           variant="destructive"
                           size="sm"
-                          onClick={() => deletePost(post.id)}
+                          onClick={() => deletePost(post._id)}
                         >
                           <Trash2 className="w-4 h-4 mr-2" />
                           Delete Post
