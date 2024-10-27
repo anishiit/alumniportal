@@ -141,7 +141,7 @@ export default function SearchJob() {
         <AnimatePresence>
           {filteredJobs.map((job, index) => (
             <motion.div
-              key={job.id}
+              key={index}
               ref={index === filteredJobs.length - 1 ? lastJobRef : null}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
