@@ -14,6 +14,8 @@ import axios from "axios"
 import { getAllMemoriesUrl ,getMemoryByIdUrl , createMemoryUrl, addLikeOnMemoryUrl, addCommentOnMemoryUrl } from "@/urls/urls.js"
 import useCloudinaryImageUploader from "@/services/cloudinary"
 import { useToast } from "@/hooks/use-toast"
+import Link from "next/link"
+import { formatDistanceToNow } from 'date-fns'
 
 export default function AlumniMemories() {
 
@@ -72,11 +74,21 @@ export default function AlumniMemories() {
   const postNewMemory = async()=>{
     setIsPosting(true)
     try {
-      if(!newMemory && !image) {
+      if(!newMemory) {
         setIsPosting(false)
         toast({
-          title: "Error : Enter required fields",
+          description: "Error : Enter Text to proceed.",
           variant: "red",
+          duration: 2500
+        })
+        return
+      }
+      if(!image) {
+        setIsPosting(false)
+        toast({
+          description: "Error : Enter a valid image to proceed.",
+          variant: "red",
+          duration: 2500
         })
         return
       }
@@ -219,7 +231,7 @@ export default function AlumniMemories() {
                 className="hidden"
                 ref={fileInputRef}
               /> */}
-              <input ref={fileInputRef} type="file" onChange={handleImageChange} className="hidden" />
+              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
 
               <Button 
                 variant="outline" 
@@ -268,6 +280,7 @@ export default function AlumniMemories() {
             >
               <Card className="mb-6 overflow-hidden transition-shadow duration-300 hover:shadow-lg">
                 <CardContent className="p-4">
+                  <Link href={`/profile/${memory?.author._id}`}>
                   <div className="flex items-center mb-4">
                     <Avatar className="w-10 h-10 mr-3">
                       <AvatarImage src={memory?.authorAvatar} alt={memory?.author.name} />
@@ -275,9 +288,12 @@ export default function AlumniMemories() {
                     </Avatar>
                     <div>
                       <p className="font-semibold">{memory?.author.name}</p>
-                      <p className="text-sm text-gray-500">{memory?.date}</p>
+                      <p className="text-sm text-gray-500">
+                      Posted by {memory?.author.name} • {formatDistanceToNow(new Date(memory?.createdAt), { addSuffix: true })}
+                      </p>
                     </div>
                   </div>
+                  </Link>
                   {memory.image && (
                     <img 
                       src={memory?.image} 

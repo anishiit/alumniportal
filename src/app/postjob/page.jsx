@@ -34,10 +34,11 @@ export default function ContactPageOne() {
   const [err,seterr] = useState("");
   const [isLoading , setLoading ] = useState(false);
 
-  async function handleSubmit(e){
+  const handleSubmit = async (e) => {
       // e.preventDefault();
       if(!input.title || !input.description || !input.category || !input.url){
           // seterr("Please fill all the fields")
+          e.preventDefault();
           toast({
               variant: "red",
               title: "Please fill all the fields",
@@ -55,6 +56,7 @@ export default function ContactPageOne() {
       }
       if(!user) {
         toast({
+            description: "Please login first",
             variant: "red",
         })
        return;
@@ -141,7 +143,7 @@ export default function ContactPageOne() {
             {/* contact from */}
             <div className="flex w-full flex-col items-center justify-center">
               <div className="px-2 md:px-12">
-                <p className="text-2xl w-full font-bold text-gray-900 md:text-4xl">Post Job/Internship</p>
+                <p className="text-lg w-full md:font-semibold text-blue-600 md:text-[26px] text-center">Post a Job/Internship</p>
                 {/* <p className="mt-4 text-lg text-gray-600">
                   Our friendly team would love to hear from you.
                 </p> */}
@@ -151,6 +153,7 @@ export default function ContactPageOne() {
                   <div className="grid w-full items-center gap-1.5">
 
                     <p className='text-blue-700 text-center text-lg font-semibold '>{msg}</p>
+                    <p className='text-xs font-light text-red-600 text-center'>All (*) fields are required</p>
 
                     <div className="grid w-full  items-center gap-1.5">
                       <label
@@ -183,7 +186,7 @@ export default function ContactPageOne() {
                       type="text"
                       id="description"
                       value={input.description}
-                      placeholder="Description"
+                      placeholder="Job Description, Skills, Qualification, Salery , etc.."
                       onChange={(e) => {
                         setInput({...input,description:e.target.value})
                       }}
@@ -225,7 +228,7 @@ export default function ContactPageOne() {
                         className="text-sm font-medium leading-none text-gray-700 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                         htmlFor="url"
                       >
-                        Url
+                        URL*
                       </label>
                       <input
                         className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-900"
@@ -243,7 +246,7 @@ export default function ContactPageOne() {
                     disabled={isLoading}
                     type="submit"
                     onClick={handleSubmit}
-                    className="w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                    className="w-full rounded-md bg-blue-700 hover:bg-blue-700/80 px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                   >
                     {isLoading === false ? (<>Post</>) : (<>Posting...</>)}
                   </Button>
