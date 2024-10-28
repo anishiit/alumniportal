@@ -318,7 +318,7 @@ console.log(jobs)
       const res = await axios.get(getJobPostUrl, {
         params: { page, limit: 15 },
       })
-      const newJobs = res.data.jobs.map(job => ({...job, comments: []}))
+      const newJobs = res.data.jobs.map(job => ({...job}))
       setJobs((prevJobs) => [...prevJobs, ...newJobs])
       setHasMore(res.data.hasMore)
       setLoading(false)
