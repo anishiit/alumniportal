@@ -261,6 +261,7 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import {formatDistanceToNow} from 'date-fns'
 
 export default function SearchJob() {
   const { toast } = useToast()
@@ -483,11 +484,15 @@ export default function SearchJob() {
                       </div>
                       <h2 className="text-2xl font-bold mb-2">{job.title}</h2>
                       <div className="flex items-center text-gray-500 text-sm mb-4">
-                        <MapPin className="w-4 h-4 mr-1" />
+                        {/* <MapPin className="w-4 h-4 mr-1" /> */}
                         {job.location}
                         <span className="mx-2">•</span>
+                        {`${job.category}`.toLocaleUpperCase()}
+                        <span className="mx-2">•</span>
                         <Calendar className="w-4 h-4 mr-1" />
-                        {new Date(job.createdAt).toLocaleDateString()}
+                        <p className="text-sm text-gray-500">
+                          Posted {formatDistanceToNow(new Date(job?.createdAt), { addSuffix: true })}
+                        </p>
                       </div>
                       <p className="text-gray-700 line-clamp-3">{job.description}</p>
                       <Link href={`/jobposts/${job._id}`} className="text-blue-700 text-sm underline font-semibold mb-4" >see more</Link>

@@ -10,6 +10,7 @@ import { deleteMemoryUrl, deletePostUrl, getAllPostsUrl, getUserMemoriesUrl, get
 import axios from 'axios'
 import { useToast } from "@/hooks/use-toast"
 import { Trash2, ThumbsUp, MessageCircle } from "lucide-react"
+import {formatDistanceToNow} from 'date-fns'
 
 export default function PostsAndMemoriesTabs() {
   const { toast } = useToast()
@@ -33,9 +34,9 @@ export default function PostsAndMemoriesTabs() {
   async function getUserMemories(userId) {
     if(!userId) {
       toast({
-        title: "Error",
-        description: "User not found",
-        variant: "destructive",
+        description: "User not Logged In",
+        variant: "red",
+        duration: 2000,
       })
       return
     }
@@ -45,9 +46,9 @@ export default function PostsAndMemoriesTabs() {
     } catch (error) {
       console.log(error)
       toast({
-        title: "Error getting memories",
-        description: error.message,
-        variant: "destructive",
+        title: "Could not get memories",
+        variant: "red",
+        duration: 2000,
       })
     }
   }
@@ -56,8 +57,9 @@ export default function PostsAndMemoriesTabs() {
     if(!userId) {
       toast({
         title: "Error",
-        description: "User not found",
-        variant: "destructive",
+        description: "User not Logged In",
+        variant: "red",
+        duration: 2000
       })
       return
     }
@@ -67,9 +69,8 @@ export default function PostsAndMemoriesTabs() {
     } catch (error) {
       console.log(error)
       toast({
-        title: "Error getting posts",
-        description: error.message,
-        variant: "destructive",
+        description:"Could not get posts",
+        variant: "red",
       })
     }
   }
@@ -138,13 +139,27 @@ export default function PostsAndMemoriesTabs() {
                       </div>
                     )}
                     <div className="p-4 flex flex-col">
-                      <h2 className="text-xl font-semibold line-clamp-2">{post.title}</h2>
+                      <div className="flex justify-between">
+                        <h2 className="text-xl font-semibold line-clamp-2">{post.title}</h2>
+                        <p className="text-sm text-gray-500">
+                            Posted {formatDistanceToNow(new Date(post?.createdAt), { addSuffix: true })}
+                        </p>
+                      </div>
                       <Link href={post.url} className="mt-2 text-sm text-blue-600 hover:underline break-all">
                         {post.url}
                       </Link>
                       <p className="mt-2 text-sm text-gray-600 line-clamp-3 flex-grow">{post.description}</p>
-                      <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                      {currUser._id ===post.postedBy && <Button
+                      <div className="mt-4 flex flex-row justify-between items-start sm:items-center gap-2">
+                        <Link href={`/jobposts/${post._id}`}>
+                          <Button
+                            className="bg-blue-600 hover:bg-blue-600/80 mr-1"
+                            size="sm"
+                          >
+                            {/* <Trash2 className="w-4 h-4 mr-2" /> */}
+                            View full Post
+                          </Button>
+                        </Link>
+                        {currUser._id ===post.postedBy && <Button
                           variant="destructive"
                           size="sm"
                           onClick={() => deletePost(post._id)}
@@ -152,10 +167,6 @@ export default function PostsAndMemoriesTabs() {
                           <Trash2 className="w-4 h-4 mr-2" />
                           Delete Post
                         </Button>}
-                        
-                        <span className="text-sm text-gray-600">
-                          {new Date(post.createdAt).toLocaleDateString()}
-                        </span>
                       </div>
                     </div>
                   </div>
@@ -196,9 +207,18 @@ export default function PostsAndMemoriesTabs() {
                         </span>
                       </div>
                       <p className="mt-2 text-sm text-gray-600 flex-grow">
-                        Posted on {new Date(memory.createdAt).toLocaleString()}
+                        Posted {formatDistanceToNow(new Date(memory?.createdAt), { addSuffix: true })}
                       </p>
-                      <div className="mt-4">
+                      <div className="mt-4 flex flex-row md:justify-start justify-between items-start sm:items-center gap-2">
+                        <Link href={`/memories/${memory._id}`}>
+                        <Button
+                          className="bg-blue-600 hover:bg-blue-600/80 mr-1"
+                          size="sm"
+                        >
+                          {/* <Trash2 className="w-4 h-4 mr-2" /> */}
+                          View Memory
+                        </Button>
+                        </Link>
                        { currUser._id ===memory.author._id &&  <Button
                           variant="destructive"
                           size="sm"
@@ -207,7 +227,6 @@ export default function PostsAndMemoriesTabs() {
                           <Trash2 className="w-4 h-4 mr-2" />
                           Delete Memory
                         </Button>}
-                       
                       </div>
                     </div>
                   </div>
