@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -11,64 +11,82 @@ import { MapPin, Calendar, MessageCircle, Share2, ArrowLeft } from "lucide-react
 import { useToast } from "@/hooks/use-toast"
 import Navbar2 from "@/components/header/Navbar2"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import {getPostByIdUrl, addCommentOnPostUrl} from "@/urls/urls.js"
+import axios from "axios"
+import Link from "next/link"
 
 // Dummy data for demonstration
-const dummyJob = {
-  _id: "123456",
-  title: "Senior Full Stack Developer",
-  company: "TechInnovate Solutions",
-  postedByName: "Sarah Johnson",
-  postedByAvatar: "https://i.pravatar.cc/150?img=1",
-  location: "San Francisco, CA (Remote Option)",
-  createdAt: "2023-06-15T10:30:00Z",
-  category: "Full-time",
-  thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80",
-  description: "TechInnovate Solutions is seeking a Senior Full Stack Developer to join our dynamic team. You will be responsible for developing and maintaining cutting-edge web applications, collaborating with cross-functional teams, and mentoring junior developers.\n\nWe are looking for someone who is passionate about creating efficient, scalable, and maintainable code, and who stays up-to-date with the latest technologies and best practices in web development.",
-  requirements: "• 5+ years of experience in full stack development\n• Proficiency in JavaScript, TypeScript, React, Node.js, and Express\n• Experience with cloud platforms (AWS, Azure, or GCP)\n• Strong understanding of database design and ORM technologies\n• Excellent problem-solving and communication skills\n• Bachelor's degree in Computer Science or related field",
-  benefits: "• Competitive salary and equity package\n• Health, dental, and vision insurance\n• 401(k) plan with company match\n• Flexible work hours and remote work options\n• Professional development budget\n• Regular team building events and hackathons",
-  salary: "$120,000 - $160,000 per year, depending on experience",
-  comments: [
-    {
-      _id: "c1",
-      author: "user1",
-      authorname: "John Doe",
-      content: "This sounds like an amazing opportunity! Is there a specific tech stack you're using?",
-      avatar: "https://i.pravatar.cc/150?img=2"
-    },
-    {
-      _id: "c2",
-      author: "user2",
-      authorname: "Jane Smith",
-      content: "I've heard great things about TechInnovate Solutions. Looking forward to applying!",
-      avatar: "https://i.pravatar.cc/150?img=3"
-    }
-  ]
-}
+// const dummyJob = {
+//   _id: "123456",
+//   title: "Senior Full Stack Developer",
+//   company: "TechInnovate Solutions",
+//   postedByName: "Sarah Johnson",
+//   postedByAvatar: "https://i.pravatar.cc/150?img=1",
+//   location: "San Francisco, CA (Remote Option)",
+//   createdAt: "2023-06-15T10:30:00Z",
+//   category: "Full-time",
+//   thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80",
+//   description: "TechInnovate Solutions is seeking a Senior Full Stack Developer to join our dynamic team. You will be responsible for developing and maintaining cutting-edge web applications, collaborating with cross-functional teams, and mentoring junior developers.\n\nWe are looking for someone who is passionate about creating efficient, scalable, and maintainable code, and who stays up-to-date with the latest technologies and best practices in web development.",
+//   requirements: "• 5+ years of experience in full stack development\n• Proficiency in JavaScript, TypeScript, React, Node.js, and Express\n• Experience with cloud platforms (AWS, Azure, or GCP)\n• Strong understanding of database design and ORM technologies\n• Excellent problem-solving and communication skills\n• Bachelor's degree in Computer Science or related field",
+//   benefits: "• Competitive salary and equity package\n• Health, dental, and vision insurance\n• 401(k) plan with company match\n• Flexible work hours and remote work options\n• Professional development budget\n• Regular team building events and hackathons",
+//   salary: "$120,000 - $160,000 per year, depending on experience",
+//   comments: [
+//     {
+//       _id: "c1",
+//       author: "user1",
+//       authorname: "John Doe",
+//       content: "This sounds like an amazing opportunity! Is there a specific tech stack you're using?",
+//       avatar: "https://i.pravatar.cc/150?img=2"
+//     },
+//     {
+//       _id: "c2",
+//       author: "user2",
+//       authorname: "Jane Smith",
+//       content: "I've heard great things about TechInnovate Solutions. Looking forward to applying!",
+//       avatar: "https://i.pravatar.cc/150?img=3"
+//     }
+//   ]
+// }
 
 export default function JobPostDetail() {
+
+    const pathname = usePathname();
+    const jobId = pathname.replace('/jobposts/', '');
+
   const router = useRouter()
   const { toast } = useToast()
-  const [job, setJob] = useState(dummyJob)
+  const [job, setJob] = useState({})
   const [currUser, setCurrUser] = useState(null)
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const user = JSON.parse(localStorage.getItem("user-threads"))
       if (user) setCurrUser(user)
+        getJobById(jobId)
     }
   }, [])
 
+
   const handleShare = () => {
+    // Get the current page URL
     const url = window.location.href
+
+    // Try to copy the URL to the clipboard
     navigator.clipboard.writeText(url).then(() => {
+      // Show a toast notification with a success message
       toast({
         description: "URL copied to clipboard!",
-        variant: "default",
-        duration: 1700,
+        variant: "blue", // Blue color for a success message
+        duration: 1500, // Show the toast for 1.5 seconds
+        variant: "blue",
+        duration: 1500,
       })
     }).catch(err => {
+      // Log the error to the console
       console.error('Failed to copy: ', err)
+      // Show a toast notification with an error message
       toast({
+        title: "Error", // Red color for an error message
         title: "Error",
         description: "Failed to copy URL. Please try again.",
         variant: "destructive",
@@ -77,34 +95,86 @@ export default function JobPostDetail() {
   }
 
   const handleComment = async (content) => {
+    if(!content) {
+      toast({
+        description: "ERROR : Please enter a comment.",
+        variant: "red",
+      })
+      return
+    }
     if (!currUser) {
       toast({
         title: "Error",
         description: "You must be logged in to comment.",
-        variant: "destructive",
+        variant: "red",
       })
       return
     }
 
     // Simulating comment addition for dummy data
-    const newComment = {
-      _id: `c${job.comments.length + 1}`,
-      author: currUser._id,
-      authorname: currUser.name,
-      content: content,
-      avatar: currUser.avatar || "https://i.pravatar.cc/150?img=4",
-    }
-    setJob(prevJob => ({
-      ...prevJob,
-      comments: [...prevJob.comments, newComment],
-    }))
-    toast({
-      description: "Comment added successfully!",
-      variant: "default",
-      duration: 1700,
-    })
+    try {
+        axios.post(addCommentOnPostUrl, {
+          postId:jobId, postedBy:currUser._id, content:content
+        })
+        .then((res) => {
+          console.log(res.data.message)
+          toast({
+            description: "Your comment added successfully.",
+            variant: "green",
+            duration: 1700
+          })
+          setJob(job => {
+            if (job._id === jobId) {
+              job.comments.push({
+                _id: job.comments.length + 1,
+                author: currUser._id,
+                authorname:currUser.name,
+                content: content,
+                avatar: currUser.avatar
+              })
+            }
+            return job
+          })
+        })
+        .catch((err) => {
+            console.log(err)
+            toast({
+              title: "ERROR : Failed to add comment. Please try again.",
+              variant: "red",
+              duration: 1700
+            })
+        })
+      } catch (error) {
+        console.log(error)
+        toast({
+            title: "ERROR : Failed to add comment. Please try again.",
+            variant: "red",
+            duration: 1700
+        })
+      }
   }
 
+  const getJobById  = async (jobId) => {
+    try {
+      const res = await axios.post(getPostByIdUrl, {postId:jobId})
+      setJob(res.data.post)
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: "ERROR : Failed to fetch job details. Please try again.",
+        variant: "red",
+        duration: 1700
+      })
+    }
+  }
+
+  if(!job) {
+    return (
+        <div>
+            Loading...
+        </div>
+    )
+  }
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar2 />
@@ -126,21 +196,23 @@ export default function JobPostDetail() {
                 Back to Jobs
               </Button>
               <CardTitle className="text-3xl font-bold">{job.title}</CardTitle>
-              <div className="flex items-center mt-4">
-                <Avatar className="mr-4">
-                  <AvatarImage src={job.postedByAvatar} alt={job.postedByName} />
-                  <AvatarFallback>{job.postedByName[0]}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="font-semibold">{job.postedByName}</p>
-                  <p className="text-sm opacity-75">{job.company}</p>
+              <Link href={`/profile/${job.postedBy}`} >
+                <div className="flex items-center mt-4">
+                  <Avatar className="mr-4">
+                    <AvatarImage src={job.postedByAvatar} alt={job.postedByName} />
+                    <AvatarFallback>{`${job.postedByName}`.at(0)}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="font-semibold">{job.postedByName}</p>
+                    <p className="text-sm opacity-75">{job.company}</p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </CardHeader>
             <CardContent className="p-6">
               <div className="flex flex-wrap items-center text-sm text-gray-600 mb-6">
                 <div className="flex items-center mr-6 mb-2">
-                  <MapPin className="w-4 h-4 mr-2" />
+                  {/* <MapPin className="w-4 h-4 mr-2" /> */}
                   {job.location}
                 </div>
                 <div className="flex items-center mr-6 mb-2">
@@ -196,20 +268,22 @@ export default function JobPostDetail() {
               </div>
 
               <div className="mt-8 flex justify-between items-center">
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                  Apply Now
-                </Button>
+                <a href={job?.url}>
+                    <Button   className="bg-blue-600 hover:bg-blue-700 text-white">
+                      Apply Now
+                    </Button>
+                </a>
                 <div className="flex items-center space-x-4">
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button variant="outline" size="sm">
                         <MessageCircle className="w-4 h-4 mr-2" />
-                        Comments ({job.comments.length})
+                        Comments ({job.comments?.length})
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
                       <div className="max-h-[50vh] overflow-y-auto space-y-4">
-                        {job.comments.map((comment) => (
+                        {job.comments?.map((comment) => (
                           <div key={comment._id} className="flex items-start space-x-2">
                             <Avatar className="w-8 h-8">
                               <AvatarImage src={comment.avatar} alt={comment.authorname} />
