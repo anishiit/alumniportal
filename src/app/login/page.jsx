@@ -119,6 +119,7 @@ function Page() {
               Create your account
             </Link>
           </p>
+         
           <form action="#" method="POST" className="mt-8">
             <div className="space-y-5">
            
@@ -144,6 +145,15 @@ function Page() {
                     Password{' '}
                   </label>
                  
+           
+            <Link
+              href="/login/reset-password"
+              title=""
+              className="text-sm text-gray-600  transition-all duration-200 hover:underline"
+            >
+               Forgot Password?{' '}
+            </Link>
+          
                 </div>
                 <div className="mt-2">
                   <input
