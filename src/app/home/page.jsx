@@ -211,8 +211,8 @@ function InvolvementCard({ icon, title, description }) {
    
     toast({
       variant: "green",
-      title: "Welcome to the Alumni Portal!",
-      description: "Your request has been sent to your college",
+     title: "Request Submitted!",
+      description: "We've sent your event participation request to the college team. They'll be in touch soon!",
     })
   }
   return (
