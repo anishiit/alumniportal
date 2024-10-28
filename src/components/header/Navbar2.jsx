@@ -1,9 +1,10 @@
+
 "use client"
 
 import React, { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Bell, Calendar, LayoutDashboard,SmilePlus, LogOut, Mail, Menu, User, Users, X, GraduationCap, Briefcase, Search, ChevronDown } from "lucide-react"
+import { Bell, Calendar, LayoutDashboard, SmilePlus, LogOut, Mail, Menu, User, Users, X, GraduationCap, Briefcase, Search, ChevronDown } from "lucide-react"
 import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
@@ -44,11 +45,13 @@ function Navbar2() {
 
   const toggleMenu = () => setIsOpen(!isOpen)
 
-  const navItems = [ { name: "Reconnect", href: "/search", external: true, icon: <Users className="h-4 w-4 mr-2" /> }, { name: "Search Job", href: "/jobposts", external: true, icon: <Search className="h-4 w-4 mr-2" /> }, { name: "Post Job", href: "/postjob", external: true, icon: <Briefcase className="h-4 w-4 mr-2" /> },
-    { name: "Messages", href: "/chat" , external: true, icon: <Mail className="h-4 w-4 mr-2" /> },
-    
-    { name: "Memories", href: "/memories", external: true, icon: <SmilePlus className="h-4 w-4 mr-2" /> },{ name: "Events", href: "/event", external: true, icon: <Calendar className="h-4 w-4 mr-2" /> },
-      { name: "Profile", href: `/profile/${user._id}`, external: true, icon: <User className="h-4 w-4 mr-2" /> },
+  const navItems = [
+    { name: "Reconnect", href: "/search", external: true, icon: <Users className="h-4 w-4 mr-2" /> },
+    { name: "Search Job", href: "/jobposts", external: true, icon: <Search className="h-4 w-4 mr-2" /> },
+    { name: "Messages", href: "/chat", external: true, icon: <Mail className="h-4 w-4 mr-2" /> },
+    { name: "Memories", href: "/memories", external: true, icon: <SmilePlus className="h-4 w-4 mr-2" /> },
+    { name: "Events", href: "/event", external: true, icon: <Calendar className="h-4 w-4 mr-2" /> },
+    { name: "Profile", href: `/profile/${user._id}`, external: true, className:" md:hidden", icon: <User className="h-4 w-4 mr-2" /> },
   ]
 
   const scrollToSection = (href) => {
@@ -106,9 +109,10 @@ function Navbar2() {
         <nav className="hidden md:flex gap-6">
           {navItems.map((item) => (
             item.external ? (
-              <Link key={item.name} href={item.href} className="text-lg font-medium text-gray-600 hover:text-blue-600 transition-colors flex items-center">
+              <Link key={item.name} href={item.href} className={`${item.className} text-lg font-medium text-gray-600 hover:text-blue-600 transition-colors flex items-center`}>
                 {item.icon}
                 {item.name}
+
               </Link>
             ) : (
               <a
@@ -125,20 +129,31 @@ function Navbar2() {
               </a>
             )
           ))}
-        
         </nav>
 
-        <div className="flex items-center gap-4">
-        <Button
-  variant="ghost"
-  size="icon"
-  onClick={handleLogout}
-  className="text-gray-600 hover:text-blue-600 hidden sm:inline-flex"
->
-  <LogOut className="h-5 w-5" />
-  <span className="sr-only">Log out</span>
-</Button>
-
+        <div className="hidden  md:flex items-center gap-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="relative h-8 w-8 m-4  rounded-full">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarFallback>{user.name?.charAt(0)}</AvatarFallback>
+                </Avatar>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="end" forceMount>
+              <DropdownMenuItem asChild>
+                <Link href={`/profile/${user._id}`}>
+                  <User className="mr-2 h-4 w-4" />
+                  <span>Profile</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
@@ -153,7 +168,7 @@ function Navbar2() {
                 <span className="font-bold text-2xl text-black">Menu</span>
                 <SheetClose asChild>
                   <Button variant="ghost" size="icon">
-                 
+                   
                   </Button>
                 </SheetClose>
               </div>
@@ -161,7 +176,7 @@ function Navbar2() {
                 {navItems.map((item) => (
                   item.external ? (
                     <SheetClose asChild key={item.name}>
-                      <Link href={item.href} className="text-2xl font-semibold hover:text-blue-600 transition-colors flex items-center">
+                      <Link href={item.href} className="text-lg md:text-2xl font-semibold hover:text-blue-600 transition-colors flex items-center">
                         {item.icon}
                         {item.name}
                       </Link>
@@ -170,7 +185,7 @@ function Navbar2() {
                     <SheetClose asChild key={item.name}>
                       <a
                         href={item.href}
-                        className="text-2xl font-semibold hover:text-blue-600 transition-colors flex items-center"
+                        className="text-lg md:text-2xl font-semibold hover:text-blue-600 transition-colors flex items-center"
                         onClick={(e) => {
                           e.preventDefault()
                           scrollToSection(item.href)
@@ -182,12 +197,11 @@ function Navbar2() {
                     </SheetClose>
                   )
                 ))}
-               
-                
               </nav>
-              <div className="mt-auto">
+              <div className="mt-auto space-y-4">
+             
                 <SheetClose asChild>
-                  <Button size="lg" onClick={handleLogout} className="w-full" variant="outline">
+                  <Button onClick={handleLogout} className="w-full text-lg" variant="outline">
                     <LogOut className="h-4 w-4 mr-2" />
                     Log Out
                   </Button>
