@@ -72,11 +72,21 @@ export default function AlumniMemories() {
   const postNewMemory = async()=>{
     setIsPosting(true)
     try {
-      if(!newMemory && !image) {
+      if(!newMemory) {
         setIsPosting(false)
         toast({
-          title: "Error : Enter required fields",
+          description: "Error : Enter Text to proceed.",
           variant: "red",
+          duration: 2500
+        })
+        return
+      }
+      if(!image) {
+        setIsPosting(false)
+        toast({
+          description: "Error : Enter a valid image to proceed.",
+          variant: "red",
+          duration: 2500
         })
         return
       }
@@ -219,7 +229,7 @@ export default function AlumniMemories() {
                 className="hidden"
                 ref={fileInputRef}
               /> */}
-              <input ref={fileInputRef} type="file" onChange={handleImageChange} className="hidden" />
+              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
 
               <Button 
                 variant="outline" 
