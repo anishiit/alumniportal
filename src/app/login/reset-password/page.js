@@ -34,11 +34,11 @@ export default function ForgotPassword() {
         variant: "default",
       })
     } catch (err) {
-      setError("Failed to send reset link. Please try again.")
+      setError("Please contact Anish and Abhay for changing Password")
       toast({
-        title: "Error",
-        description: "Failed to send reset link. Please try again.",
-        variant: "destructive",
+        title: "VIP Feature",
+        description: "Please contact Anish and Abhay for changing Password 😁",
+        variant: "blue",
       })
     } finally {
       setIsLoading(false)
@@ -75,7 +75,7 @@ export default function ForgotPassword() {
               {error && (
                 <Alert variant="destructive" className="mt-4">
                   <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Error</AlertTitle>
+                  <AlertTitle>VIP Feature</AlertTitle>
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
