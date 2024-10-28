@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, Github, GraduationCap, Linkedin, Mail, MapPin, Phone, User, Briefcase, Building, MessageCircle } from "lucide-react"
+import { Calendar, Github, GraduationCap, Linkedin, Mail, MapPin, Phone, User, Briefcase, Building, MessageCircle,Plus, SmilePlus } from "lucide-react"
 import { usePathname } from 'next/navigation';
 import axios from 'axios';
 import { createUserInvitationUrl, getUserInfoUrl } from '@/urls/urls';
@@ -16,6 +16,12 @@ import { getAllCollegeUsersUrl, connectUsersUrl, createChatOfUsers } from "@/url
 import { useRouter } from 'next/navigation'
 import Navbar2 from "../header/Navbar2"
 import ProfileLoading from '@/components/ProfileLoading'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 export default function ProfileDisplay({ user }) {
   const [activeTab, setActiveTab] = useState("about")
   
@@ -141,9 +147,9 @@ export default function ProfileDisplay({ user }) {
     ],
     education: [
       {
-        degree: "B.Tech in Computer Science and Engineering",
+        degree: "B.Tech Engineering",
         institution: "IIT Dhanbad",
-        year: "2015",
+        year: "2026",
       },
     ],
     experience: [
@@ -181,6 +187,30 @@ export default function ProfileDisplay({ user }) {
         </div>
         <CardContent className="pt-16 pb-6 px-4 sm:px-6 lg:px-8">
           <div className="flex justify-end mb-6">
+          {iscurrent === true ?  ( <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+            <Button size="sm" variant="outline"  className=" mr-2 text-xs sm:text-sm bg-blue-500 text-white">
+                  <Plus className="h-4 w-4 mx-1" />
+                  Post
+            </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="end" forceMount>
+              <DropdownMenuItem asChild>
+                <Link href="/postjob">
+                  <Briefcase className="mr-2 h-4 w-4" />
+                  <span>Share Job</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem >
+              <Link href="/memories" className='flex'>
+                  <SmilePlus className="mr-2 h-4 w-4" />
+                  <span>Share Memories</span>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>):(<></>)
+          }
+        
           {iscurrent === true ? ( <Button onClick={() => router.push('/update-profile')} variant="outline" size="sm" className="mr-2 text-xs sm:text-sm">
               Edit Profile
             </Button>):(<></>)}
