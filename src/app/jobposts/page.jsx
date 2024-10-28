@@ -485,9 +485,9 @@ console.log(jobs)
                             </div>
                           </Link>
                         </div>
-                        <Button variant="ghost" size="icon">
+                        {/* <Button variant="ghost" size="icon">
                           <Bookmark className="w-5 h-5" />
-                        </Button>
+                        </Button> */}
                       </div>
                       <h2 className="text-2xl font-bold mb-2">{job.title}</h2>
                       <div className="flex items-center text-gray-500 text-sm mb-4">
