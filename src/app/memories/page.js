@@ -14,7 +14,6 @@ import axios from "axios"
 import { getAllMemoriesUrl ,getMemoryByIdUrl , createMemoryUrl, addLikeOnMemoryUrl, addCommentOnMemoryUrl } from "@/urls/urls.js"
 import useCloudinaryImageUploader from "@/services/cloudinary"
 import { useToast } from "@/hooks/use-toast"
-import { set } from "react-hook-form"
 
 export default function AlumniMemories() {
 
@@ -202,7 +201,7 @@ export default function AlumniMemories() {
     <Navbar2 />
     <div className="flex flex-col min-h-screen bg-gray-50">
       <div className="container mx-auto p-4 max-w-3xl">
-        <h1 className="text-4xl font-bold mb-6 text-center">Alumni Memories</h1>
+        <h1 className="text-4xl font-bold mb-6 text-center text-blue-700">Alumni Memories</h1>
         
         <Card className="mb-8">
           <CardContent className="p-4">
@@ -210,7 +209,7 @@ export default function AlumniMemories() {
               placeholder="Share your memory..."
               value={newMemory}
               onChange={(e) => setNewMemory(e.target.value)}
-              className="mb-4"
+              className="mb-4 outline-"
             />
             <div className="flex justify-between items-center">
               {/* <input
@@ -227,10 +226,10 @@ export default function AlumniMemories() {
                 size="icon" 
                 onClick={() => fileInputRef.current.click()}
               >
-              <ImageIcon className="h-4 w-4" />
+              <ImageIcon className="h-4 w-4 text-blue-700" />
               </Button>
               {previewUrl && <img src={previewUrl} alt="Preview" style={{ width: "70px" }} />}
-              <Button onClick={postNewMemory} disabled={isPosting}>
+              <Button className="bg-blue-600 hover:bg-blue-600/80" onClick={postNewMemory} disabled={isPosting}>
                 {
                   isPosting === false ? (
                     <>
