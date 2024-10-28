@@ -98,22 +98,18 @@ const handleLogout =  (e) => {
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8">Featured Alumni</h2>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               <AlumniCard
-                name="Dr. Priya Verma"
-                class="2005"
-                position="AI Research Scientist, Google"
+                name="Anish Kumar Singh"
+                class="2026"
+                position="Founder & CEO, Alumni Portal"
                 image="/image/profileLogo.png"
+                _id="6707c88b84ba8d7558f522aa"
               />
               <AlumniCard
-                name="Amit Patel"
-                class="2010"
-                position="Founder & CEO, TechInnovate"
+                name="Abhay Kant Mishra"
+                class="2026"
+                position="Founder & CEO, Alumni Portal"
                 image="/image/profileLogo.png"
-              />
-              <AlumniCard
-                name="Neha Gupta"
-                class="2008"
-                position="Senior Manager, ISRO"
-                image="/image/profileLogo.png"
+                _id="670ea6e0602f7597190c86c6"
               />
             </div>
           </div>
@@ -152,7 +148,7 @@ const handleLogout =  (e) => {
             <Link href="#" className="text-sm text-gray-500 hover:underline">
               Terms of Service
             </Link>
-            <Link href="#" className="text-sm text-gray-500 hover:underline">
+            <Link href="/contact" className="text-sm text-gray-500 hover:underline">
               Contact Us
             </Link>
           </nav>
@@ -176,7 +172,7 @@ function EventCard({ title, date, description, image }) {
   )
 }
 
-function AlumniCard({ name, class: classYear, position, image }) {
+function AlumniCard({ name, class: classYear, position, image, _id }) {
   const router = useRouter()
   const [userData, setUserData] = useState({ collegeName: '', name: '' });
 useEffect(()=>{
@@ -190,15 +186,15 @@ useEffect(()=>{
 },[])
 
   return (
-    <Card className="flex flex-col items-center text-center p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+    <Card className="flex flex-col justify-center items-center text-center p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
       <Avatar className="h-24 w-24 mb-4">
         <AvatarImage src={image} alt={`${name}'s profile`} />
         <AvatarFallback>{userData.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
       </Avatar>
       <h3 className="text-xl font-semibold mb-1">{name}</h3>
-      <p className="text-sm text-gray-500 mb-1">Class of {classYear}</p>
+      <p className="text-sm text-gray-500 mb-1">Batch of {classYear}</p>
       <p className="text-sm text-gray-600 mb-4">{position}</p>
-      <Button onClick={() => { router.push(`/profile/${userData._id}`) }}  variant="outline">View Profile</Button>
+      <Button onClick={() => { router.push(`/profile/${_id}`) }}  variant="outline">View Profile</Button>
     </Card>
   )
 }
