@@ -489,7 +489,8 @@ console.log(jobs)
                         <Calendar className="w-4 h-4 mr-1" />
                         {new Date(job.createdAt).toLocaleDateString()}
                       </div>
-                      <p className="text-gray-700 mb-4 line-clamp-2">{job.description}</p>
+                      <p className="text-gray-700 line-clamp-3">{job.description}</p>
+                      <Link href={`/jobposts/${job._id}`} className="text-blue-700 text-sm underline font-semibold mb-4" >see more</Link>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
                           <Dialog>
