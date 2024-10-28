@@ -8,7 +8,10 @@ import { Button } from '@/components/ui/button';
 import useCloudinaryImageUploader from '@/services/cloudinary';
 
 import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 export default function ContactPageOne() { 
+
+  const router = useRouter();
 
   const {
     previewUrl,
@@ -32,7 +35,7 @@ export default function ContactPageOne() {
   const [isLoading , setLoading ] = useState(false);
 
   async function handleSubmit(e){
-      e.preventDefault();
+      // e.preventDefault();
       if(!input.title || !input.description || !input.category || !input.url){
           // seterr("Please fill all the fields")
           toast({
@@ -98,8 +101,8 @@ export default function ContactPageOne() {
                   title: "Posted Successfully",
                   duration:1700
               })
-
               setLoading(false)
+              router.replace("/jobposts")
           })
           .catch((err) => {
               console.log(err);
