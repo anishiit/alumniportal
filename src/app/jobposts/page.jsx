@@ -274,7 +274,7 @@ export default function SearchJob() {
 
   const [currUser ,setCurrUser] = useState('');
 
-console.log(jobs)
+
 
   useEffect(() => {
     if (typeof window !== "undefined") {
