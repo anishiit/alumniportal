@@ -189,8 +189,8 @@ export default function ProfileDisplay({ user }) {
           <div className="flex justify-end mb-6">
           {iscurrent === true ?  ( <DropdownMenu>
             <DropdownMenuTrigger asChild>
-            <Button size="sm" variant="outline"  className=" mr-2 text-xs sm:text-sm bg-blue-500 text-white">
-                  <Plus className="h-4 w-4 mx-1" />
+            <Button size="sm" variant="ghost"  className="mr-2 text-xs sm:text-sm rounded-sm bg-blue-600 hover:bg-blue-600/80 hover:text-white text-white">
+                  <Plus className="h-4 w-4 mr-1 -ml-1" />
                   Post
             </Button>
             </DropdownMenuTrigger>
