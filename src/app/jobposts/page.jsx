@@ -265,7 +265,7 @@
 
 import axios from "axios"
 import Link from "next/link"
-import { getAllPostsUrl } from "@/urls/urls"
+import { getAllPostsUrl ,addCommentOnPostUrl} from "@/urls/urls"
 import { useState, useEffect, useCallback, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -293,7 +293,20 @@ export default function SearchJob() {
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
-  const [comments, setComments] = useState({})
+
+  const [currUser ,setCurrUser] = useState('');
+
+console.log(jobs)
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const currUser = JSON.parse(localStorage.getItem("user-threads"))
+     
+      if (currUser) {
+        setCurrUser(currUser)
+      }
+    }
+  }, [])
   
   const observer = useRef()
 
@@ -363,18 +376,27 @@ export default function SearchJob() {
   }
 
   const handleComment = (jobId, content) => {
-    const newComment = {
-      id: Date.now(),
-      authorname: "Current User", // Replace with actual user name
-      avatar: "/placeholder.svg?height=32&width=32", // Replace with actual user avatar
-      content: content
-    }
-    setJobs(jobs.map(job => 
-      job._id === jobId 
-        ? {...job, comments: [...job.comments, newComment]} 
-        : job
-    ))
+   
+    setJobs(jobs.map( job => {
+      if (job._id === jobId) {
+        job.comments.push({
+          _id: job.comments.length + 1,
+          author: currUser._id,
+          authorname:currUser.name,
+          content: content,
+          avatar: currUser.avatar
+        })
+        try {
+          axios.post(addCommentOnPostUrl, {
+            postId:jobId, postedBy:currUser._id, content:content
+          }).then((res) => {console.log(res.data.message)})
+          .catch((err) => {console.log(err)})
+        } catch (error) {
+          console.log(error)
+        }
   }
+  return job
+}))}
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
