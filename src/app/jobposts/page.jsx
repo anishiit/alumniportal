@@ -407,20 +407,6 @@ console.log(jobs)
           </div>
         </div>
       </header>
-        {/* <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={titleVariants}
-          className="mb-8 text-center"
-        > */}
-          {/* <h1 className="text-4xl font-bold mb-6">Find Your Dream</h1> */}
-          {/* <motion.div
-            variants={typeVariants}
-            className="text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600"
-          >
-            {jobType === "internship" ? "internship" : "job"}
-          </motion.div>
-        </motion.div> */}
         <div className="max-w-2xl mx-auto space-y-4 mb-8">
           {/* <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
