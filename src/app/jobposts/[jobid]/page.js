@@ -123,18 +123,15 @@ export default function JobPostDetail() {
             variant: "green",
             duration: 1700
           })
-          setJob(job => {
-            if (job._id === jobId) {
-              job.comments.push({
-                _id: job.comments.length + 1,
-                author: currUser._id,
-                authorname:currUser.name,
-                content: content,
-                avatar: currUser.avatar
-              })
-            }
-            return job
-          })
+          const newCommnet = {
+            _id: job.comments.length + 1,
+            author: currUser._id,
+            authorname:currUser.name,
+            content: content,
+            avatar: currUser.avatar
+          }
+          const comments = [...job.comments, newCommnet]
+          setJob({...job, comments: comments})
         })
         .catch((err) => {
             console.log(err)
