@@ -60,16 +60,16 @@ export default function UserConnectionPage() {
           return ({
             ...user,
             isConnected: user.connectedUsers?.includes(String(currUser._id)) || false,
-            batch: user.batch || "2015", // Assuming batch information is available, otherwise defaulting to "2015"
-            branch: user.branch || "Computer Science", // Assuming branch information is available, otherwise defaulting
+            batch: user.batch , // Assuming batch information is available, otherwise defaulting to "2015"
+            branch: user.branch, // Assuming branch information is available, otherwise defaulting
             isCurrentUser:true
           })
         }else{
           return ({
             ...user,
             isConnected: user.connectedUsers?.includes(String(currUser._id)) || false,
-            batch: user.batch || "2016", // Assuming batch information is available, otherwise defaulting to "2015"
-            branch: user.branch || "Computer Science", // Assuming branch information is available, otherwise defaulting
+            batch: user.batch , // Assuming batch information is available, otherwise defaulting to "2015"
+            branch: user.branch , // Assuming branch information is available, otherwise defaulting
             isCurrentUser:false
           })
         }
