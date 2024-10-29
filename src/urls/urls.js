@@ -81,3 +81,9 @@ export const getCollegeEventsUrl = `${college_backend_url}/event/getcollegeevent
 export const updateCollegeEventUrl = `${college_backend_url}/event/updateevent`
 
 export const deleteCollegeEventUrl = `${college_backend_url}/event/deleteevent`
+
+// feedbackURl
+
+export const getFeedbacksUrl = `${user_backend_url}/feedback/getallfeedback`
+
+export const postFeedbackUrl = `${user_backend_url}/feedback/createfeedback`
