@@ -22,9 +22,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useToast } from "@/hooks/use-toast"
+
 export default function ProfileDisplay({ user }) {
   const [activeTab, setActiveTab] = useState("about")
   
+  const { toast } = useToast()
 
   const router = useRouter(); 
   const [isConnected, setIsConnected] = useState(user.isFollowing);
@@ -95,6 +98,33 @@ export default function ProfileDisplay({ user }) {
       console.log(error)
     }
   }
+
+  const handleShare = () => {
+    // Get the current page URL
+    const url = window.location.href
+
+    // Try to copy the URL to the clipboard
+    navigator.clipboard.writeText(url).then(() => {
+      // Show a toast notification with a success message
+      toast({
+        description: "URL copied to clipboard!",
+        variant: "blue", // Blue color for a success message
+        duration: 1500, // Show the toast for 1.5 seconds
+        variant: "blue",
+        duration: 1500,
+      })
+    }).catch(err => {
+      // Log the error to the console
+      console.error('Failed to copy: ', err)
+      // Show a toast notification with an error message
+      toast({
+        title: "Error", // Red color for an error message
+        title: "Error",
+        description: "Failed to copy URL. Please try again.",
+        variant: "destructive",
+      })
+    })
+  }
   
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -119,7 +149,7 @@ export default function ProfileDisplay({ user }) {
       if(userId === user?._id){
         setcurrent(true);
       }
-    console.log(userId)
+    // console.log(userId)
     getUser();
   },[])
   const profile = {
@@ -232,7 +262,8 @@ export default function ProfileDisplay({ user }) {
               )
             }
             </>
-           ):(<Button size="lg"  className="text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex ">
+           ):(<Button onClick={handleShare}
+                 size="lg"  className="text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex ">
               {/* {usr.connectedUsers?.includes(String(iscurrent._id)) ? (
                 <Link href='/chat'  className="flex">
                   <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 " />
