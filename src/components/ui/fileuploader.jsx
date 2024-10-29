@@ -82,3 +82,4 @@ export const FileUploader = React.forwardRef(({accept, height}, ref) =>  {
     </div>
   );
 });
+FileUploader.displayName = "FileUploader";
