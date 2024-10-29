@@ -116,7 +116,7 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="flex items-center justify-between p-4 bg-white border-b">
+        {/* <header className="flex items-center justify-between p-4 bg-white border-b">
           <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(true)} className="lg:hidden">
             <Menu />
           </Button>
@@ -135,7 +135,7 @@ export default function AdminDashboard() {
               <ChevronDown className="w-4 h-4" />
             </div>
           </div>
-        </header>
+        </header> */}
 
         {/* Dashboard Content */}
         <main className="flex-1 overflow-y-auto p-4">
