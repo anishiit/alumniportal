@@ -6,6 +6,17 @@ import React from 'react'
 
 export default function ContactPageOne() {
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission here
+       // Show a success toast
+       toast({
+        variant: "green",
+      title: "Message Sent",
+      description: "Thank you for your message. We'll get back to you soon!",
+    })
+
+  }
 
   return (
     <div>
@@ -36,7 +47,7 @@ export default function ContactPageOne() {
                 <p className="mt-4 text-lg text-gray-600">
                   Our friendly team would love to hear from you.
                 </p>
-                <form action="" className="mt-8 space-y-4">
+                <form action="" onSubmit={handleFormSubmit} className="mt-8 space-y-4">
                   <div className="grid w-full gap-y-4 md:gap-x-4 lg:grid-cols-2">
                     <div className="grid w-full  items-center gap-1.5">
                       <label
@@ -110,7 +121,7 @@ export default function ContactPageOne() {
                     />
                   </div>
                   <button
-                    type="button"
+                    type="submit"
                     className="w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                   >
                     Send Message
