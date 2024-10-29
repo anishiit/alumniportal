@@ -255,7 +255,7 @@ export default function ProfileDisplay({ user }) {
                 </Button>
               ) : (
                 <>
-                <Button onClick={() => router.push('/admin')} variant="outline" size="sm" className="mr-2 text-xs sm:text-sm">
+                <Button onClick={() => router.push('/donation')} variant="outline" size="sm" className="mr-2 text-xs sm:text-sm">
                   Donate
                 </Button>
                 </>
