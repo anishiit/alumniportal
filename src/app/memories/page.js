@@ -289,7 +289,7 @@ export default function AlumniMemories() {
                     <div>
                       <p className="font-semibold">{memory?.author.name}</p>
                       <p className="text-sm text-gray-500">
-                      Posted by {memory?.author.name} • {formatDistanceToNow(new Date(memory?.createdAt), { addSuffix: true })}
+                      {formatDistanceToNow(new Date(memory?.createdAt), { addSuffix: true })}
                       </p>
                     </div>
                   </div>
