@@ -37,6 +37,7 @@ export default function ProfileDisplay({ user }) {
   const [err, setErr] = useState("");
   const [iscurrent, setcurrent] = useState('');
   const [loading ,setLoading] = useState(false)
+  const [currentUser, setCurrentUser] = useState({});
 
   async function getUser(){
     try {
@@ -98,7 +99,7 @@ export default function ProfileDisplay({ user }) {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const currUser = JSON.parse(localStorage.getItem("user-threads"))
-     
+      setCurrentUser(currUser)
       if (currUser) {
         getAllCollegeUsers({ collegeName: currUser.collegeName })
       }
@@ -215,9 +216,23 @@ export default function ProfileDisplay({ user }) {
               Edit Profile
             </Button>):(<></>)}
            
-           { iscurrent === true ? (<Button onClick={() => router.push('/donation')} variant="outline" size="sm" className="mr-2 text-xs sm:text-sm">
-              Donate
-            </Button>):(<Button size="lg"  className="text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex ">
+           { iscurrent === true ? (
+            <>
+            {
+              currentUser?.role === "admin" ? (
+                <Button onClick={() => router.push('/admin')} variant="outline" size="sm" className="mr-2 text-xs sm:text-sm">
+                  Admin
+                </Button>
+              ) : (
+                <>
+                <Button onClick={() => router.push('/admin')} variant="outline" size="sm" className="mr-2 text-xs sm:text-sm">
+                  Donate
+                </Button>
+                </>
+              )
+            }
+            </>
+           ):(<Button size="lg"  className="text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex ">
               {/* {usr.connectedUsers?.includes(String(iscurrent._id)) ? (
                 <Link href='/chat'  className="flex">
                   <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 " />
