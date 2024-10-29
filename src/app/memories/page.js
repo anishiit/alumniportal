@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Search, Heart, MessageCircle, Send, Image as ImageIcon } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, px } from "framer-motion"
 import Navbar2 from "@/components/header/Navbar2"
 import axios from "axios"
 import { getAllMemoriesUrl ,getMemoryByIdUrl , createMemoryUrl, addLikeOnMemoryUrl, addCommentOnMemoryUrl } from "@/urls/urls.js"
@@ -16,6 +16,7 @@ import useCloudinaryImageUploader from "@/services/cloudinary"
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
 import { formatDistanceToNow } from 'date-fns'
+import { FileUploader } from "@/components/ui/fileuploader"
 
 export default function AlumniMemories() {
 
@@ -77,21 +78,21 @@ export default function AlumniMemories() {
       if(!newMemory) {
         setIsPosting(false)
         toast({
-          description: "Error : Enter Text to proceed.",
+          description: "Enter Text to proceed.",
           variant: "red",
           duration: 2500
         })
         return
       }
-      if(!image) {
-        setIsPosting(false)
-        toast({
-          description: "Error : Enter a valid image to proceed.",
-          variant: "red",
-          duration: 2500
-        })
-        return
-      }
+      // if(!image) {
+      //   setIsPosting(false)
+      //   toast({
+      //     description: "Error : Enter a valid image to proceed.",
+      //     variant: "red",
+      //     duration: 2500
+      //   })
+      //   return
+      // }
       // Image uploading on cloudinary
       let imageInfo = {}
       await uploadImage()
@@ -105,6 +106,16 @@ export default function AlumniMemories() {
         setImage(null)
         return 
       })
+      // console.log(imageInfo)
+      // if(!imageInfo) {
+      //   setIsPosting(false)
+      //   toast({
+      //     description: "Select an image to proceed.",
+      //     variant: "red",
+      //     duration: 2500
+      //   })
+      //   return
+      // }
       // sending data to backend
       await axios.post(createMemoryUrl ,{
         content: newMemory,
@@ -224,6 +235,9 @@ export default function AlumniMemories() {
               className="mb-4 outline-"
             />
             <div className="flex justify-between items-center">
+              {/* <div className="h-60 overflow-hidden">
+              <FileUploader height={36} accept={"image/*"} />
+              </div> */}
               {/* <input
                 type="file"
                 accept="image/*"
@@ -238,7 +252,7 @@ export default function AlumniMemories() {
                 size="icon" 
                 onClick={() => fileInputRef.current.click()}
               >
-              <ImageIcon className="h-4 w-4 text-blue-700" />
+                <ImageIcon className="h-4 w-4 text-blue-700" />
               </Button>
               {previewUrl && <img src={previewUrl} alt="Preview" style={{ width: "70px" }} />}
               <Button className="bg-blue-600 hover:bg-blue-600/80" onClick={postNewMemory} disabled={isPosting}>
@@ -289,7 +303,7 @@ export default function AlumniMemories() {
                     <div>
                       <p className="font-semibold">{memory?.author.name}</p>
                       <p className="text-sm text-gray-500">
-                      Posted by {memory?.author.name} • {formatDistanceToNow(new Date(memory?.createdAt), { addSuffix: true })}
+                      Posted {formatDistanceToNow(new Date(memory?.createdAt), { addSuffix: true })}
                       </p>
                     </div>
                   </div>
