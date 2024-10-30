@@ -1,7 +1,7 @@
 'use client'
-import React,{useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react'
-import { useRouter,usePathname } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 
 const menuItems = [
@@ -10,31 +10,31 @@ const menuItems = [
     href: '/home',
   },
   {
-    name:"Posts",
-    href:"/jobposts"
+    name: "Posts",
+    href: "/jobposts"
   },
   {
-    name:"Post Job",
-    href:"/postjob"
+    name: "Post Job",
+    href: "/postjob"
   },
   {
-    name:"Network",
-    href:"/network"
+    name: "Network",
+    href: "/network"
   },
   {
-    name:"Donate",
-    href:"/donation"
+    name: "Donate",
+    href: "/donation"
   },
   {
-    name:"Batch",
-    href:"/batch"
+    name: "Batch",
+    href: "/batch"
   },
 ]
 
 
 export default function ExampleNavbarFour() {
 
-  
+
 
   const [user, setUser] = useState({});
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -47,44 +47,44 @@ export default function ExampleNavbarFour() {
     setIsMenuOpen(!isMenuOpen)
   }
 
-  const handleLogout =  (e) => {
+  const handleLogout = (e) => {
     e.preventDefault();
     try {
-      if(typeof window !== undefined){
-       localStorage.clear();
-       setLogin(false);
-       router.push('/')
-      }   
+      if (typeof window !== undefined) {
+        localStorage.clear();
+        setLogin(false);
+        router.push('/')
+      }
     } catch (error) {
       console.log(error);
     }
   }
 
-  function gotoLogin(){
+  function gotoLogin() {
     router.push('/login')
   }
-  function gotoRegistartion(){
+  function gotoRegistartion() {
     router.push('/registration')
   }
 
-  async function checkLogin(){
+  async function checkLogin() {
     console.log(isLogin)
     let user = {};
-    if(typeof window !== undefined){
-      user = JSON.parse(localStorage.getItem('user-threads'));
+    if (typeof window !== undefined) {
+      user = JSON.parse(localStorage.getItem('amsjbckumr'));
       console.log(user)
     }
-    if(user !== null && user!== undefined && user !== "undefined"){
+    if (user !== null && user !== undefined && user !== "undefined") {
       setLogin(true)
       setUser(user);
-    }else{
+    } else {
       setLogin(false)
     }
     console.log(isLogin)
   }
   useEffect(() => {
     checkLogin();
-  },[location])
+  }, [location])
 
   return (
     <div className="relative w-full bg-white">
@@ -126,38 +126,38 @@ export default function ExampleNavbarFour() {
         {
           isLogin === true ? (
             <>
-             <div className='flex flex-row'>
-              <div className='mx-2 my-auto'>
-                <button className='border-gray-700 border-[1px] rounded-md hover:bg-red-600 px-2 py-1'
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
+              <div className='flex flex-row'>
+                <div className='mx-2 my-auto'>
+                  <button className='border-gray-700 border-[1px] rounded-md hover:bg-red-600 px-2 py-1'
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </div>
+                <div className='mx-1 p-1 hover:bg-slate-300 rounded-full'>
+                  <Link href={`/profile/${user._id}`}>
+                    <img
+                      className="inline-block h-10 w-10 rounded-full"
+                      src={user?.profileImg || "/image/profileLogo.png"}
+                      alt="userImg"
+                    />
+                  </Link>
+                </div>
               </div>
-              <div className='mx-1 p-1 hover:bg-slate-300 rounded-full'>
-                <Link href={`/profile/${user._id}`}>
-                  <img 
-                    className="inline-block h-10 w-10 rounded-full"
-                    src={user?.profileImg || "/image/profileLogo.png"}
-                    alt="userImg"
-                  />
-                </Link>
-              </div>
-             </div>
             </>
           ) : (
-           <div>
-            <button className='border-gray-700 mx-2 border-[1px] rounded-md hover:bg-blue-500 hover:text-gray-50 px-2 py-1' onClick={gotoRegistartion}>
-                Signup 
-             </button>
-            <button className='border-gray-700 mx-2 border-[1px] rounded-md hover:bg-blue-500 hover:text-gray-50 px-2 py-1' onClick={gotoLogin}>
-                Login 
-             </button>
+            <div>
+              <button className='border-gray-700 mx-2 border-[1px] rounded-md hover:bg-blue-500 hover:text-gray-50 px-2 py-1' onClick={gotoRegistartion}>
+                Signup
+              </button>
+              <button className='border-gray-700 mx-2 border-[1px] rounded-md hover:bg-blue-500 hover:text-gray-50 px-2 py-1' onClick={gotoLogin}>
+                Login
+              </button>
 
-           </div>
+            </div>
           )
         }
-        
+
         <div className="ml-2 lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
         </div>
@@ -213,17 +213,17 @@ export default function ExampleNavbarFour() {
                   </nav>
                 </div>
                 <Link href={`/profile/${user?._id}`}>
-                <div className="ml-3 mt-4 flex items-center space-x-2">
-                  <img
-                    className="inline-block h-10 w-10 rounded-full"
-                    src={user?.profileImg || "/image/profileLogo.png"}
-                    alt="userImg"
-                  />
-                  <span className="flex flex-col">
-                    <span className="text-base font-medium text-gray-900">{user.name}</span>
-                    {/* <span className="text-sm font-medium text-gray-500">@dan_abromov</span> */}
-                  </span>
-                </div></Link>
+                  <div className="ml-3 mt-4 flex items-center space-x-2">
+                    <img
+                      className="inline-block h-10 w-10 rounded-full"
+                      src={user?.profileImg || "/image/profileLogo.png"}
+                      alt="userImg"
+                    />
+                    <span className="flex flex-col">
+                      <span className="text-base font-medium text-gray-900">{user.name}</span>
+                      {/* <span className="text-sm font-medium text-gray-500">@dan_abromov</span> */}
+                    </span>
+                  </div></Link>
               </div>
             </div>
           </div>

@@ -53,7 +53,7 @@ const useCloudinaryImageUploader = () => {
       }
 
       const data = await response.json();
-      setPreviewUrl(data.secure_url); 
+      setPreviewUrl(data.secure_url);
       return data// Cloudinary URL for the uploaded image
     } catch (err) {
       setError(err.message);

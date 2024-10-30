@@ -1,5 +1,7 @@
 "use client"
 
+import jwt from "jsonwebtoken"
+
 import * as React from "react"
 import * as ProgressPrimitive from "@radix-ui/react-progress"
 

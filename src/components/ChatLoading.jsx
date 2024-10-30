@@ -1,5 +1,7 @@
 "use client"
 
+import jwt from "jsonwebtoken"
+
 import { motion } from "framer-motion"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"

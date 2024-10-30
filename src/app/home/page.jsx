@@ -1,10 +1,12 @@
 "use client"
 
+import jwt from "jsonwebtoken"
+
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Bell, Calendar,  LayoutDashboard, LogOut, Mail, Menu, User, Users, X , GraduationCap,Briefcase, Search } from "lucide-react"
-import { useRouter} from 'next/navigation'
+import { Bell, Calendar, LayoutDashboard, LogOut, Mail, Menu, User, Users, X, GraduationCap, Briefcase, Search } from "lucide-react"
+import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
@@ -23,37 +25,38 @@ export default function AlumniHome() {
   const toggleMenu = () => setIsOpen(!isOpen)
 
 
-  
-//geting user info 
-const [userData, setUserData] = useState({ collegeName: '', name: '' });
-useEffect(()=>{
-  const user = JSON.parse(localStorage.getItem('user-threads'));
-  if(user){
-    const {collegeName ,name} = user;
 
-    setUserData({collegeName , name});
+  //geting user info 
+  const [userData, setUserData] = useState({ collegeName: '', name: '' });
+  useEffect(() => {
+    let user = (localStorage.getItem('amsjbckumr'));
+    user = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
+    if (user) {
+      const { collegeName, name } = user;
+
+      setUserData({ collegeName, name });
+    }
+
+  }, [])
+
+  //logout 
+  const router = useRouter();
+  const handleLogout = (e) => {
+    e.preventDefault();
+    try {
+      if (typeof window !== undefined) {
+        localStorage.clear();
+
+        router.push('/')
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
-
-},[])
-
-//logout 
-const router = useRouter();
-const handleLogout =  (e) => {
-  e.preventDefault();
-  try {
-    if(typeof window !== undefined){
-     localStorage.clear();
-    
-     router.push('/')
-    }   
-  } catch (error) {
-    console.log(error);
-  }
-}
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-    <Navbar2/>
+      <Navbar2 />
       <main className="flex-1">
         <section id="dashboard" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
           <div className="container px-4 md:px-6">
@@ -67,7 +70,7 @@ const handleLogout =  (e) => {
             </div>
           </div>
         </section>
-    
+
         <section id="events" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8">Upcoming Events</h2>
@@ -136,7 +139,7 @@ const handleLogout =  (e) => {
             </div>
           </div>
         </section>
-      
+
       </main>
       <footer className="w-full border-t bg-white py-6">
         <div className="container flex flex-col md:flex-row items-center justify-between gap-4 px-4 md:px-6">
@@ -175,15 +178,16 @@ function EventCard({ title, date, description, image }) {
 function AlumniCard({ name, class: classYear, position, image, _id }) {
   const router = useRouter()
   const [userData, setUserData] = useState({ collegeName: '', name: '' });
-useEffect(()=>{
-  const user = JSON.parse(localStorage.getItem('user-threads'));
-  if(user){
-    const {collegeName ,name} = user;
+  useEffect(() => {
+    let user = (localStorage.getItem('amsjbckumr'));
+    user = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
+    if (user) {
+      const { collegeName, name } = user;
 
-    setUserData({collegeName , name});
-  }
+      setUserData({ collegeName, name });
+    }
 
-},[])
+  }, [])
 
   return (
     <Card className="flex flex-col justify-center items-center text-center p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
@@ -194,20 +198,20 @@ useEffect(()=>{
       <h3 className="text-xl font-semibold mb-1">{name}</h3>
       <p className="text-sm text-gray-500 mb-1">Batch of {classYear}</p>
       <p className="text-sm text-gray-600 mb-4">{position}</p>
-      <Button onClick={() => { router.push(`/profile/${_id}`) }}  variant="outline">View Profile</Button>
+      <Button onClick={() => { router.push(`/profile/${_id}`) }} variant="outline">View Profile</Button>
     </Card>
   )
 }
 
 function InvolvementCard({ icon, title, description }) {
-  
+
   const { toast } = useToast()
 
   const handleWelcomeClick = () => {
-   
+
     toast({
       variant: "green",
-     title: "Request Submitted!",
+      title: "Request Submitted!",
       description: "We've sent your event participation request to the college team. They'll be in touch soon!",
     })
   }

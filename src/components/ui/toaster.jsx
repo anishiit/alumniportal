@@ -1,5 +1,7 @@
 "use client"
 
+import jwt from "jsonwebtoken"
+
 import { useToast } from "@/hooks/use-toast"
 import {
   Toast,

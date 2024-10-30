@@ -1,4 +1,6 @@
-"use client";
+"use client"
+
+import jwt from "jsonwebtoken";
 import * as React from "react"
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons"
 import { Command as CommandPrimitive } from "cmdk"

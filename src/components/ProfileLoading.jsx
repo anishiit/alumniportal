@@ -1,5 +1,7 @@
 "use client"
 
+import jwt from "jsonwebtoken"
+
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Avatar } from "@/components/ui/avatar"

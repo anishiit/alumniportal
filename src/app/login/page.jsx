@@ -1,7 +1,9 @@
 "use client"
-import {React, useState, useEffect } from 'react';
+
+import { React, useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react'
-import {collegeName} from '/src/data/college.js'
+import jwt from "jsonwebtoken"
+import { collegeName } from '/src/data/college.js'
 // import userAtom from "/src/atom/userAtom.js";
 // import { useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/navigation'
@@ -12,87 +14,92 @@ import { useToast } from '@/hooks/use-toast';
 
 function Page() {
   const { toast } = useToast();
-  const router = useRouter();  
-    // const setUser = useSetRecoilState(userAtom);
-    const [error ,setError] =useState("")
-    const [inputs, setInputs] = useState({
-        email: "",
-        password: "",
-    });
-    
-    const [isLoading , setLoading] = useState(false)
-      
-      const handleSignup = async (e) => {
-        setLoading(true)
-        e.preventDefault();
-        setError("")
-        // console.log(inputs);
-      setError("");
-        // Check if any field is empty
-        if ( !inputs.email || !inputs.password ) {
+  const router = useRouter();
+  // const setUser = useSetRecoilState(userAtom);
+  const [error, setError] = useState("")
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [isLoading, setLoading] = useState(false)
+
+  const handleSignup = async (e) => {
+    setLoading(true)
+    e.preventDefault();
+    setError("")
+    // console.log(inputs);
+    setError("");
+    // Check if any field is empty
+    if (!inputs.email || !inputs.password) {
+      toast({
+        variant: "red",
+        title: "All fields are required!",
+        // description: "All fields are required!",
+      })
+      setLoading(false)
+      return; // Exit the function if any field is empty
+    }
+
+    try {
+      await axios.post(loginUserUrl, {
+        email: inputs.email,
+        password: inputs.password,
+      })
+        .then((res) => {
+          // console.log(res.data);
+          if (typeof window !== undefined) {
+            let user =(res.data.user);
+            // user = J(user)
+            // let user = JSON.parse(JSON.stringify(res.data.user));
+            console.log(user)
+            const token = jwt.sign(user, process.env.NEXT_PUBLIC_JWT_SECRET)
+            console.log(token)
+            localStorage.setItem("amsjbckumr", token)
+          }
+          router.push('/home')
+        })
+        .catch((err) => {
+          console.log(err);
           toast({
             variant: "red",
-            title: "All fields are required!",
-            // description: "All fields are required!",
+            title: err.response.data.msg || err.message,
           })
-          setLoading(false)
-          return; // Exit the function if any field is empty
-        }
-      
-        try {
-          await axios.post(loginUserUrl , {
-            email:inputs.email,
-            password:inputs.password,
-          })
-          .then((res) => {
-            // console.log(res.data);
-            if(typeof window !== undefined){
-              const user = JSON.stringify(res.data.user);
-              localStorage.setItem("user-threads" , user)
-            }
-            router.push('/home')
-          })
-          .catch((err) => {
-            console.log(err);
-            toast({
-              variant: "red",
-              title: err.response.data.msg || err.message,
-            })
-            setLoading(false)
-            return
-          })
-      
-        } catch (error) {
-          console.error(error);
           setLoading(false)
           return
-        }
-      };
-      
-      
-    // const [colleges, setColleges] = useState([]);
+        })
 
-    // useEffect(() => {
-    //   // Fetch the colleges from the JSON file
-    //   const fetchColleges = async () => {
-    //     const res = await fetch('/src/data/college.json');
-    //     const data = await res.json();
-    //     setColleges(data);
-    //   };
-  
-    //   fetchColleges();
-    // }, []);
-  
-   
-  
+    } catch (error) {
+      console.error(error);
+      setLoading(false)
+      return
+    }
+  };
+
+
+  // const [colleges, setColleges] = useState([]);
+
+  // useEffect(() => {
+  //   // Fetch the colleges from the JSON file
+  //   const fetchColleges = async () => {
+  //     const res = await fetch('/src/data/college.json');
+  //     const data = await res.json();
+  //     setColleges(data);
+  //   };
+
+  //   fetchColleges();
+  // }, []);
+
+
+
 
 
   return (
     <div>
-    <section>
-      <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
-        <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
-          {/* <div className="mb-2 flex justify-center">
+      <section>
+        <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
+          <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
+            {/* <div className="mb-2 flex justify-center">
             <svg
               width="50"
               height="56"
@@ -106,87 +113,87 @@ function Page() {
               />
             </svg>
           </div> */}
-          <h2 className="text-center text-2xl font-bold leading-tight text-black">
-            Login to your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600 ">
-            Do not have an account?{' '}
-            <Link
-              href="../registration"
-              title=""
-              className="font-semibold text-black transition-all duration-200 hover:underline"
-            >
-              Create your account
-            </Link>
-          </p>
-         
-          <form action="#" method="POST" className="mt-8">
-            <div className="space-y-5">
-           
-              <div>
-                <label htmlFor="" className="text-base font-medium text-gray-900">
-                  {' '}
-                  Email address{' '}
-                </label>
-                <div className="mt-2">
-                  <input
-                    className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                    type="email"
-                    placeholder="Email"
-                    onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
-                    value={inputs.email}
-                  ></input>
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center justify-between">
+            <h2 className="text-center text-2xl font-bold leading-tight text-black">
+              Login to your account
+            </h2>
+            <p className="mt-2 text-center text-sm text-gray-600 ">
+              Do not have an account?{' '}
+              <Link
+                href="../registration"
+                title=""
+                className="font-semibold text-black transition-all duration-200 hover:underline"
+              >
+                Create your account
+              </Link>
+            </p>
+
+            <form action="#" method="POST" className="mt-8">
+              <div className="space-y-5">
+
+                <div>
                   <label htmlFor="" className="text-base font-medium text-gray-900">
                     {' '}
-                    Password{' '}
+                    Email address{' '}
                   </label>
-                 
-           
-            <Link
-              href="/login/reset-password"
-              title=""
-              className="text-sm text-gray-600  transition-all duration-200 hover:underline"
-            >
-               Forgot Password?{' '}
-            </Link>
-          
+                  <div className="mt-2">
+                    <input
+                      className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                      type="email"
+                      placeholder="Email"
+                      onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
+                      value={inputs.email}
+                    ></input>
+                  </div>
                 </div>
-                <div className="mt-2">
-                  <input
-                    className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                    type="password"
-                    placeholder="Password"
-                    onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
-									value={inputs.password}
-                  ></input>
+                <div>
+                  <div className="flex items-center justify-between">
+                    <label htmlFor="" className="text-base font-medium text-gray-900">
+                      {' '}
+                      Password{' '}
+                    </label>
+
+
+                    <Link
+                      href="/login/reset-password"
+                      title=""
+                      className="text-sm text-gray-600  transition-all duration-200 hover:underline"
+                    >
+                      Forgot Password?{' '}
+                    </Link>
+
+                  </div>
+                  <div className="mt-2">
+                    <input
+                      className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                      type="password"
+                      placeholder="Password"
+                      onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
+                      value={inputs.password}
+                    ></input>
+                  </div>
+                </div>
+
+                <div>
+                  <p className='text-red-500 text-center font-semibold text-base my-1' >{error}</p>
+                  <button
+                    disabled={isLoading}
+                    type="button"
+                    className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-blue-600"
+                    onClick={handleSignup}
+                  >
+                    {isLoading === false ? (<> Login <ArrowRight className="ml-2" size={16} /> </>) : (<>Loging In..</>)}
+
+                  </button>
                 </div>
               </div>
-            
-              <div>
-              <p className='text-red-500 text-center font-semibold text-base my-1' >{error}</p>
-                <button
-                  disabled={isLoading}
-                  type="button"
-                  className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-blue-600"
-                  onClick={handleSignup}
-                >
-                  {isLoading === false ? (<> Login <ArrowRight className="ml-2" size={16} /> </>) : (<>Loging In..</>)}
-                 
-                </button>
-              </div>
+            </form>
+            <div className="mt-3 space-y-3">
+
+
             </div>
-          </form>
-          <div className="mt-3 space-y-3">
-          
-          
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
 
     </div>

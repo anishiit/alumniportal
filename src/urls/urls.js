@@ -1,7 +1,7 @@
 "use client"
 
 export const user_backend_url = `${process.env.NEXT_PUBLIC_USER_BACKEND_URL}`
-export const chat_backend_url = `${process.env.NEXT_PUBLIC_CHAT_BACKEND_URL}`   
+export const chat_backend_url = `${process.env.NEXT_PUBLIC_CHAT_BACKEND_URL}`
 export const college_backend_url = `${process.env.NEXT_PUBLIC_COLLEGE_BACKEND_URL}`
 // user urls => 
 
@@ -55,9 +55,9 @@ export const createMemoryUrl = `${user_backend_url}/memory/` // post
 
 export const getMemoryByIdUrl = `${user_backend_url}/memory/getmemorybyid`  // id 
 
-export const  addLikeOnMemoryUrl = `${user_backend_url}/memory/like`
+export const addLikeOnMemoryUrl = `${user_backend_url}/memory/like`
 
-export const  addCommentOnMemoryUrl = `${user_backend_url}/memory/comment`
+export const addCommentOnMemoryUrl = `${user_backend_url}/memory/comment`
 
 export const deleteMemoryUrl = `${user_backend_url}/memory/deletememory` // memoryId
 
@@ -74,7 +74,7 @@ export const getCollegeUsersUrl = `${college_backend_url}/college/getcollegeuser
 
 export const createCollegeEventUrl = `${college_backend_url}/event/createevent`
 
-export const getCollegeEventsUrl = `${college_backend_url}/event/getcollegeevents`   
+export const getCollegeEventsUrl = `${college_backend_url}/event/getcollegeevents`
 
 export const updateCollegeEventUrl = `${college_backend_url}/event/updateevent`
 
@@ -93,3 +93,5 @@ export const getAllCollegesUrl = `${college_backend_url}/college/getallcolleges`
 export const verifyCollegeUrl = `${college_backend_url}/college/verifycollege`
 
 export const getNonVarifiedCollegesUrl = `${college_backend_url}/college/getnonverifiedcolleges`
+
+export const rejectverifyCollegeUrl = `${college_backend_url}/college/deletecollege`

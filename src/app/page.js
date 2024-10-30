@@ -4,8 +4,8 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { BadgeIcon, GiftIcon, VoteIcon, Menu, Users ,BookOpen,Globe ,Award} from "lucide-react"
-  
+import { BadgeIcon, GiftIcon, VoteIcon, Menu, Users, BookOpen, Globe, Award } from "lucide-react"
+
 import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -18,10 +18,10 @@ export default function Component() {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const toggleMenu = () => setIsOpen(!isOpen)
-  const handleLogin= () =>{
+  const handleLogin = () => {
     router.push('/login')
   }
-  const handleCollegeRegistration =()=>{
+  const handleCollegeRegistration = () => {
     router.push('/collegeRegistration');
   }
   const navItems = [
@@ -86,13 +86,13 @@ export default function Component() {
               </a>
             ))}
           </nav>
-          <div className ="mx-1"><Button onClick={handleCollegeRegistration} className="hidden md:inline-flex" variant="outline" size="lg">
-              College Registration
-            </Button>
-          <Button onClick={handleLogin} className="hidden md:inline-flex mx-2" size="lg">
-            Login
-          </Button></div>
-          
+          <div className="mx-1"><Button onClick={handleCollegeRegistration} className="hidden md:inline-flex" variant="outline" size="lg">
+            College Registration
+          </Button>
+            <Button onClick={handleLogin} className="hidden md:inline-flex mx-2" size="lg">
+              Login
+            </Button></div>
+
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
@@ -127,13 +127,13 @@ export default function Component() {
                   ))}
                 </nav>
                 <div className="mt-auto">
-                <SheetClose asChild>
+                  <SheetClose asChild>
                     <Button onClick={handleCollegeRegistration} variant="outline" size="lg" className="w-full mt-4">
                       College Registration
                     </Button>
                   </SheetClose>
                   <SheetClose asChild>
-                    <Button size="lg" className="w-full mt-1" onClick={()=>{ toggleMenu ; handleLogin()}}>Login</Button>
+                    <Button size="lg" className="w-full mt-1" onClick={() => { toggleMenu; handleLogin() }}>Login</Button>
                   </SheetClose>
                 </div>
               </div>
@@ -151,7 +151,7 @@ export default function Component() {
               <p className="mx-auto max-w-[700px] text-lg md:text-xl text-zinc-200">
                 Connect with fellow alumni, stay up-to-date on campus news, and get involved in our community.
               </p>
-              <Button onClick={()=>{router.push('/registration')}} size="lg" className="bg-white text-blue-600 hover:bg-zinc-100">
+              <Button onClick={() => { router.push('/registration') }} size="lg" className="bg-white text-blue-600 hover:bg-zinc-100">
                 Join Now
               </Button>
             </div>
@@ -304,7 +304,7 @@ function EventCard({ title, date, description, image }) {
   const { toast } = useToast()
 
   const handleWelcomeClick = () => {
-    
+
     toast({
       variant: "red",
       title: "Welcome to the Alumni Portal!",
@@ -328,7 +328,7 @@ function AlumniCard({ name, class: classYear, position, image }) {
   const { toast } = useToast()
 
   const handleWelcomeClick = () => {
-    
+
     toast({
       variant: "red",
       title: "Welcome to the Alumni Portal!",
@@ -365,7 +365,7 @@ function InvolvementCard({ icon, title, description }) {
   const { toast } = useToast()
 
   const handleWelcomeClick = () => {
-    
+
     toast({
       variant: "red",
       title: "Welcome to the Alumni Portal!",

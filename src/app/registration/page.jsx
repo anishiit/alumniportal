@@ -9,7 +9,7 @@
 // import Link from 'next/link';
 // import { registerUserUrl } from '@/urls/urls';
 // import { useToast } from '@/hooks/use-toast';
-  
+
 // function Page() {
 //   const router = useRouter();  
 //   // const setUser = useSetRecoilState(userAtom);
@@ -40,7 +40,7 @@
 //       setLoading(false);
 //       return; // Exit the function if any field is empty
 //     }
-  
+
 //     try {
 //       await axios.post(registerUserUrl , {
 //         name: inputs.name,
@@ -52,7 +52,7 @@
 //         // console.log(res.data);
 //         if(typeof window !== undefined){
 //           const user = JSON.stringify(res.data.user);
-//           localStorage.setItem("user-threads" , user)
+//           localStorage.setItem("amsjbckumr" , user)
 //         }
 //         router.push('/login')
 //         setLoading(false)
@@ -66,7 +66,7 @@
 //         })
 //         setLoading(false)
 //       })
-  
+
 //     } catch (error) {
 //       console.error(error);
 //       // setError(error.message);
@@ -148,7 +148,7 @@
 //                     {' '}
 //                     Password{' '}
 //                   </label>
-                 
+
 //                 </div>
 //                 <div className="mt-2">
 //                   <input
@@ -170,7 +170,7 @@
 //                 </select>
 //                </div>
 //                 <div className="mt-2 w-full flex h-10 rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50">
-                
+
 //                 <select 
 //   onChange={(e) => setInputs({ ...inputs, collegeName: e.target.value })} 
 //   className="w-full"
@@ -204,8 +204,8 @@
 //             </div>
 //           </form>
 //           <div className="mt-3 space-y-3">
-          
-          
+
+
 //           </div>
 //         </div>
 //       </div>
@@ -221,6 +221,8 @@
 
 
 'use client'
+
+import jwt from "jsonwebtoken"
 
 import React, { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
@@ -263,7 +265,9 @@ export default function SignupForm() {
     try {
       const res = await axios.post(registerUserUrl, inputs)
       if (typeof window !== "undefined") {
-        localStorage.setItem("user-threads", JSON.stringify(res.data.user))
+        const user = JSON.stringify(res.data.user);
+        const token = jwt.sign({user:user}, process.env.NEXT_PUBLIC_JWT_SECRET)
+        localStorage.setItem("amsjbckumr", token)
       }
       router.push('/login')
     } catch (error) {
@@ -276,7 +280,7 @@ export default function SignupForm() {
     }
   }
 
-  const filteredColleges = collegeName.filter(college => 
+  const filteredColleges = collegeName.filter(college =>
     college.toLowerCase().includes(collegeSearch.toLowerCase())
   )
 

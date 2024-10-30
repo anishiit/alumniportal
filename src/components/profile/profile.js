@@ -1,5 +1,7 @@
 "use client"
 
+import jwt from "jsonwebtoken"
+
 import { useState ,useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
@@ -65,7 +67,8 @@ export default function ProfileDisplay({ user }) {
     try {
       setLoading(true)
       if (typeof window !== "undefined") {
-        user= JSON.parse(localStorage.getItem("user-threads"))
+        user= localStorage.getItem("amsjbckumr")
+        user = jwt.verify(user,process.env.NEXT_PUBLIC_JWT_SECRET)
         setcurrent(user);
       }
 
@@ -128,7 +131,8 @@ export default function ProfileDisplay({ user }) {
   
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const currUser = JSON.parse(localStorage.getItem("user-threads"))
+      let currUser = localStorage.getItem("amsjbckumr")
+      currUser = jwt.verify(currUser,process.env.NEXT_PUBLIC_JWT_SECRET)
       setCurrentUser(currUser)
       if (currUser) {
         getAllCollegeUsers({ collegeName: currUser.collegeName })
@@ -145,7 +149,8 @@ export default function ProfileDisplay({ user }) {
   useEffect(() => {
       let user;
       if(typeof window !== undefined)
-        user = JSON.parse(localStorage.getItem("user-threads"))
+        user = localStorage.getItem("amsjbckumr")
+      user = jwt.verify(user,process.env.NEXT_PUBLIC_JWT_SECRET)
       if(userId === user?._id){
         setcurrent(true);
       }
@@ -408,6 +413,8 @@ export default function ProfileDisplay({ user }) {
 
 
 // "use client"
+
+// import jwt from "jsonwebtoken"
 // import Image from 'next/image';
 // import { useState,useEffect } from 'react';
 // import { ArrowUpRight } from 'lucide-react'
@@ -432,7 +439,8 @@ export default function ProfileDisplay({ user }) {
 //     const handleFollow = async () => {
 //       let user;
 //       if(typeof window !== undefined)
-//         user = JSON.parse(localStorage.getItem("user-threads"))
+//         user = localStorage.getItem("amsjbckumr")
+      // currUser = jwt.verify(currUser,process.env.NEXT_PUBLIC_JWT_SECRET)
 //       // if(userId === user._id){
 //       //   setcurrent(true);
 //       // }
@@ -476,7 +484,8 @@ export default function ProfileDisplay({ user }) {
 //   useEffect(() => {
 //       let user;
 //       if(typeof window !== undefined)
-//         user = JSON.parse(localStorage.getItem("user-threads"))
+//         user = localStorage.getItem("amsjbckumr")
+      // currUser = jwt.verify(currUser,process.env.NEXT_PUBLIC_JWT_SECRET)
 //       if(userId === user._id){
 //         setcurrent(true);
 //       }

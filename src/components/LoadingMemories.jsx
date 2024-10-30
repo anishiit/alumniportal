@@ -1,5 +1,7 @@
 "use client"
 
+import jwt from "jsonwebtoken"
+
 import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar } from "@/components/ui/avatar"
@@ -59,7 +61,7 @@ export default function AlumniMemoriesLoading() {
     <div className="flex flex-col min-h-screen bg-gray-50">
       <div className="container mx-auto p-4 max-w-3xl">
         <h1 className="text-4xl font-bold mb-6 text-center">Alumni Memories</h1>
-        
+
         <Card className="mb-8">
           <CardContent className="p-4">
             <motion.div

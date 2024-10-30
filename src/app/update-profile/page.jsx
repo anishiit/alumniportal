@@ -1,5 +1,7 @@
 "use client"
 
+import jwt from "jsonwebtoken"
+
 import { useState, useEffect } from "react"
 import { Plus,ArrowRight, User, Mail, Briefcase, Building, MapPin, Phone, Linkedin, Github, X } from "lucide-react"
 import axios from 'axios'
@@ -62,7 +64,8 @@ export default function ProfileForm() {
 
   function fetchUser() {
     if (typeof window !== 'undefined') {
-      const userData = JSON.parse(localStorage.getItem("user-threads"))
+      let userData = localStorage.getItem("amsjbckumr")
+      userData = jwt.verify(userData,process.env.NEXT_PUBLIC_JWT_SECRET)
       if (userData) {
         setUser(userData)
         setInputs({
@@ -131,9 +134,11 @@ export default function ProfileForm() {
     try {
       const response = await axios.post(getUserInfoUrl, { userId: inputs.userId })
       if (typeof window !== 'undefined') {
-        localStorage.setItem("user-threads", JSON.stringify(response.data.user))
+        const user = JSON.stringify(response.data.user) 
+        const token =jwt.sign({user:user},process.env.NEXT_PUBLIC_JWT_SECRET , { expiresIn: '3d' })
+        localStorage.setItem("amsjbckumr", token)
       }
-      console.log(response.data.user)
+      // console.log(response.data.user)
       fetchUser()
     } catch (error) {
       console.error(error)
@@ -518,7 +523,8 @@ export default function ProfileForm() {
 //       function fetchUser(){
 //         let user;
 //         if(typeof window !== undefined){
-//           user = JSON.parse(localStorage.getItem("user-threads"))
+//           user = localStorage.getItem("amsjbckumr")
+      // currUser = jwt.verify(currUser,process.env.NEXT_PUBLIC_JWT_SECRET)
 //         }
 //         console.log(user);
 //         if(!user) return;
@@ -544,7 +550,8 @@ export default function ProfileForm() {
 //         // Load data from local storage on component mount
 //   useEffect(() => {
 //     if(typeof window !== undefined){
-//       const usr =JSON.parse(localStorage.getItem("user-threads"));
+//       const usr =localStorage.getItem("amsjbckumr")
+      // currUser = jwt.verify(currUser,process.env.NEXT_PUBLIC_JWT_SECRET);
 //     if(usr) {
 //       setUser(usr);
 //     }
@@ -568,7 +575,7 @@ export default function ProfileForm() {
 //           .then((res) => {
 //             console.log(res.data);
 //             if(typeof window !== undefined){
-//               localStorage.setItem("user-threads",JSON.stringify(res.data.user))
+//               localStorage.setItem("amsjbckumr",JSON.stringify(res.data.user))
 //             }
 //           })
 //           .catch((err) => {

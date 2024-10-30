@@ -1,5 +1,7 @@
 "use client"
 
+import jwt from "jsonwebtoken"
+
 import { useState, useEffect } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import { motion } from "framer-motion"
@@ -11,7 +13,7 @@ import { MapPin, Calendar, MessageCircle, Share2, ArrowLeft } from "lucide-react
 import { useToast } from "@/hooks/use-toast"
 import Navbar2 from "@/components/header/Navbar2"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import {getPostByIdUrl, addCommentOnPostUrl} from "@/urls/urls.js"
+import { getPostByIdUrl, addCommentOnPostUrl } from "@/urls/urls.js"
 import axios from "axios"
 import Link from "next/link"
 
@@ -50,8 +52,8 @@ import Link from "next/link"
 
 export default function JobPostDetail() {
 
-    const pathname = usePathname();
-    const jobId = pathname.replace('/jobposts/', '');
+  const pathname = usePathname();
+  const jobId = pathname.replace('/jobposts/', '');
 
   const router = useRouter()
   const { toast } = useToast()
@@ -60,9 +62,10 @@ export default function JobPostDetail() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const user = JSON.parse(localStorage.getItem("user-threads"))
+      let user = localStorage.getItem("amsjbckumr")
+      user = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET)
       if (user) setCurrUser(user)
-        getJobById(jobId)
+      getJobById(jobId)
     }
   }, [])
 
@@ -95,7 +98,7 @@ export default function JobPostDetail() {
   }
 
   const handleComment = async (content) => {
-    if(!content) {
+    if (!content) {
       toast({
         description: "ERROR : Please enter a comment.",
         variant: "red",
@@ -113,9 +116,9 @@ export default function JobPostDetail() {
 
     // Simulating comment addition for dummy data
     try {
-        axios.post(addCommentOnPostUrl, {
-          postId:jobId, postedBy:currUser._id, content:content
-        })
+      axios.post(addCommentOnPostUrl, {
+        postId: jobId, postedBy: currUser._id, content: content
+      })
         .then((res) => {
           console.log(res.data.message)
           toast({
@@ -126,34 +129,34 @@ export default function JobPostDetail() {
           const newCommnet = {
             _id: job.comments.length + 1,
             author: currUser._id,
-            authorname:currUser.name,
+            authorname: currUser.name,
             content: content,
             avatar: currUser.avatar
           }
           const comments = [...job.comments, newCommnet]
-          setJob({...job, comments: comments})
+          setJob({ ...job, comments: comments })
         })
         .catch((err) => {
-            console.log(err)
-            toast({
-              title: "ERROR : Failed to add comment. Please try again.",
-              variant: "red",
-              duration: 1700
-            })
-        })
-      } catch (error) {
-        console.log(error)
-        toast({
+          console.log(err)
+          toast({
             title: "ERROR : Failed to add comment. Please try again.",
             variant: "red",
             duration: 1700
+          })
         })
-      }
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: "ERROR : Failed to add comment. Please try again.",
+        variant: "red",
+        duration: 1700
+      })
+    }
   }
 
-  const getJobById  = async (jobId) => {
+  const getJobById = async (jobId) => {
     try {
-      const res = await axios.post(getPostByIdUrl, {postId:jobId})
+      const res = await axios.post(getPostByIdUrl, { postId: jobId })
       setJob(res.data.post)
     } catch (error) {
       console.error(error)
@@ -165,11 +168,11 @@ export default function JobPostDetail() {
     }
   }
 
-  if(!job) {
+  if (!job) {
     return (
-        <div>
-            Loading...
-        </div>
+      <div>
+        Loading...
+      </div>
     )
   }
   return (
@@ -266,9 +269,9 @@ export default function JobPostDetail() {
 
               <div className="mt-8 flex justify-between items-center">
                 <a href={job?.url}>
-                    <Button   className="bg-blue-600 hover:bg-blue-700 text-white">
-                      Apply Now
-                    </Button>
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                    Apply Now
+                  </Button>
                 </a>
                 <div className="flex items-center space-x-4">
                   <Dialog>

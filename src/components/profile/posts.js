@@ -1,5 +1,7 @@
 "use client"
 
+import jwt from "jsonwebtoken"
+
 import { useEffect, useState } from "react"
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
@@ -10,7 +12,7 @@ import { deleteMemoryUrl, deletePostUrl, getAllPostsUrl, getUserMemoriesUrl, get
 import axios from 'axios'
 import { useToast } from "@/hooks/use-toast"
 import { Trash2, ThumbsUp, MessageCircle } from "lucide-react"
-import {formatDistanceToNow} from 'date-fns'
+import { formatDistanceToNow } from 'date-fns'
 
 export default function PostsAndMemoriesTabs() {
   const { toast } = useToast()
@@ -18,21 +20,22 @@ export default function PostsAndMemoriesTabs() {
   const userId = location.substring(9)
   const [posts, setPosts] = useState([])
   const [memories, setMemories] = useState([])
-  const [currUser ,setCurrUser] = useState('');
+  const [currUser, setCurrUser] = useState('');
 
 
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const currUser = JSON.parse(localStorage.getItem("user-threads"))
-     
+      let currUser = localStorage.getItem("amsjbckumr")
+      currUser = jwt.verify(currUser, process.env.NEXT_PUBLIC_JWT_SECRET)
+
       if (currUser) {
         setCurrUser(currUser)
       }
     }
   }, [])
   async function getUserMemories(userId) {
-    if(!userId) {
+    if (!userId) {
       toast({
         description: "User not Logged In",
         variant: "red",
@@ -54,7 +57,7 @@ export default function PostsAndMemoriesTabs() {
   }
 
   async function getUserPosts(userId) {
-    if(!userId) {
+    if (!userId) {
       toast({
         title: "Error",
         description: "User not Logged In",
@@ -69,7 +72,7 @@ export default function PostsAndMemoriesTabs() {
     } catch (error) {
       console.log(error)
       toast({
-        description:"Could not get posts",
+        description: "Could not get posts",
         variant: "red",
       })
     }
@@ -101,7 +104,7 @@ export default function PostsAndMemoriesTabs() {
 
   const deleteMemory = async (memoryId) => {
     try {
-      await axios.post(deleteMemoryUrl,{memoryId:memoryId})
+      await axios.post(deleteMemoryUrl, { memoryId: memoryId })
       setMemories(memories.filter(memory => memory._id !== memoryId))
       toast({
         title: "Memory deleted successfully",
@@ -127,7 +130,7 @@ export default function PostsAndMemoriesTabs() {
           <CardContent className="p-6">
             {posts?.length > 0 ? (
               <div className="w-full max-h-full space-y-6">
-                {posts.map((post,index) => (
+                {posts.map((post, index) => (
                   <div key={index} className="rounded-lg border overflow-hidden shadow-md">
                     {post.thumbnail && (
                       <div className="w-full h-48 sm:h-64">
@@ -142,7 +145,7 @@ export default function PostsAndMemoriesTabs() {
                       <div className="flex justify-between">
                         <h2 className="text-xl font-semibold line-clamp-2">{post.title}</h2>
                         <p className="text-sm text-gray-500">
-                            Posted {formatDistanceToNow(new Date(post?.createdAt), { addSuffix: true })}
+                          Posted {formatDistanceToNow(new Date(post?.createdAt), { addSuffix: true })}
                         </p>
                       </div>
                       <Link href={post.url} className="mt-2 text-sm text-blue-600 hover:underline break-all">
@@ -159,7 +162,7 @@ export default function PostsAndMemoriesTabs() {
                             View full Post
                           </Button>
                         </Link>
-                        {currUser._id ===post.postedBy && <Button
+                        {currUser._id === post.postedBy && <Button
                           variant="destructive"
                           size="sm"
                           onClick={() => deletePost(post._id)}
@@ -211,15 +214,15 @@ export default function PostsAndMemoriesTabs() {
                       </p>
                       <div className="mt-4 flex flex-row md:justify-start justify-between items-start sm:items-center gap-2">
                         <Link href={`/memories/${memory._id}`}>
-                        <Button
-                          className="bg-blue-600 hover:bg-blue-600/80 mr-1"
-                          size="sm"
-                        >
-                          {/* <Trash2 className="w-4 h-4 mr-2" /> */}
-                          View Memory
-                        </Button>
+                          <Button
+                            className="bg-blue-600 hover:bg-blue-600/80 mr-1"
+                            size="sm"
+                          >
+                            {/* <Trash2 className="w-4 h-4 mr-2" /> */}
+                            View Memory
+                          </Button>
                         </Link>
-                       { currUser._id ===memory.author._id &&  <Button
+                        {currUser._id === memory.author._id && <Button
                           variant="destructive"
                           size="sm"
                           onClick={() => deleteMemory(memory._id)}

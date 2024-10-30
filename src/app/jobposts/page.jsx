@@ -29,7 +29,8 @@
 
 //   useEffect(() => {
 //     if (typeof window !== "undefined") {
-//       const user = JSON.parse(localStorage.getItem("user-threads"))
+//       const user = localStorage.getItem("amsjbckumr")
+// currUser = jwt.verify(currUser, process.env.NEXT_PUBLIC_JWT_SECRET)
 //       if (user) setCurrUser(user)
 //     }
 //   }, [])
@@ -241,9 +242,11 @@
 
 'use client'
 
+import jwt from "jsonwebtoken"
+
 import axios from "axios"
 import Link from "next/link"
-import { getAllPostsUrl ,addCommentOnPostUrl} from "@/urls/urls"
+import { getAllPostsUrl, addCommentOnPostUrl } from "@/urls/urls"
 import { useState, useEffect, useCallback, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -251,7 +254,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import { Plus,Search, MapPin, Calendar, Bookmark, MessageCircle, Share2 } from "lucide-react"
+import { Plus, Search, MapPin, Calendar, Bookmark, MessageCircle, Share2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import JobSearchLoading from '@/components/JobSearchLoading'
 import Navbar2 from "@/components/header/Navbar2"
@@ -261,7 +264,7 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import {formatDistanceToNow} from 'date-fns'
+import { formatDistanceToNow } from 'date-fns'
 
 export default function SearchJob() {
   const { toast } = useToast()
@@ -273,20 +276,21 @@ export default function SearchJob() {
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
 
-  const [currUser ,setCurrUser] = useState('');
+  const [currUser, setCurrUser] = useState('');
 
 
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const currUser = JSON.parse(localStorage.getItem("user-threads"))
-     
+      let currUser = localStorage.getItem("amsjbckumr")
+      currUser = jwt.verify(currUser, process.env.NEXT_PUBLIC_JWT_SECRET)
+
       if (currUser) {
         setCurrUser(currUser)
       }
     }
   }, [])
-  
+
   const observer = useRef()
 
   const getJobPostUrl = getAllPostsUrl
@@ -297,7 +301,7 @@ export default function SearchJob() {
       const res = await axios.get(getJobPostUrl, {
         params: { page, limit: 15 },
       })
-      const newJobs = res.data.jobs.map(job => ({...job}))
+      const newJobs = res.data.jobs.map(job => ({ ...job }))
       setJobs((prevJobs) => [...prevJobs, ...newJobs])
       setHasMore(res.data.hasMore)
       setLoading(false)
@@ -327,8 +331,8 @@ export default function SearchJob() {
 
   const filteredJobs = jobs.filter((job) =>
     (job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    job.company?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    job.location?.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      job.company?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      job.location?.toLowerCase().includes(searchTerm.toLowerCase())) &&
     (jobType === "all" || job.category === jobType)
   )
 
@@ -358,56 +362,56 @@ export default function SearchJob() {
 
     try {
       axios.post(addCommentOnPostUrl, {
-        postId:jobId, postedBy:currUser._id, content:content
+        postId: jobId, postedBy: currUser._id, content: content
       })
-      .then((res) => {
-        console.log(res.data.message)
-        setJobs(jobs.map( job => {
-          if (job._id === jobId) {
-            job.comments.push({
-              _id: job.comments.length + 1,
-              author: currUser._id,
-              authorname:currUser.name,
-              content: content,
-              avatar: currUser.avatar
-            })
-          }
-          return job
-        }))
-      })
-      .catch((err) => {console.log(err)})
+        .then((res) => {
+          console.log(res.data.message)
+          setJobs(jobs.map(job => {
+            if (job._id === jobId) {
+              job.comments.push({
+                _id: job.comments.length + 1,
+                author: currUser._id,
+                authorname: currUser.name,
+                content: content,
+                avatar: currUser.avatar
+              })
+            }
+            return job
+          }))
+        })
+        .catch((err) => { console.log(err) })
     } catch (error) {
       console.log(error)
     }
-}
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar2 />
       {loading && <JobSearchLoading />}
       <div className="container mx-auto md:p-4 max-w-6xl">
-      <header className="sticky top-16 z-10 bg-white dark:bg-gray-800 shadow-sm mb-10">
-        <div className="container mx-auto md:px-4 px-2 py-4 flex justify-between items-center">
-          <h1 className="md:text-2xl text-base md:font-bold font-semibold  text-primary mr-2">JobConnect</h1>
-          <div className="flex items-center md:space-x-4 space-x-2">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <Input
-                type="text"
-                placeholder="Search jobs..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-3 py-2 w-full md:w-64 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-            </div>
-            <Link href={'/postjob'}>
-            <Button size="icon" className="rounded-full bg-primary hover:bg-primary/90">
+        <header className="sticky top-16 z-10 bg-white dark:bg-gray-800 shadow-sm mb-10">
+          <div className="container mx-auto md:px-4 px-2 py-4 flex justify-between items-center">
+            <h1 className="md:text-2xl text-base md:font-bold font-semibold  text-primary mr-2">JobConnect</h1>
+            <div className="flex items-center md:space-x-4 space-x-2">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <Input
+                  type="text"
+                  placeholder="Search jobs..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 pr-3 py-2 w-full md:w-64 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <Link href={'/postjob'}>
+                <Button size="icon" className="rounded-full bg-primary hover:bg-primary/90">
                   <Plus className="h-4 w-4" />
-            </Button>
-            </Link>
+                </Button>
+              </Link>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
         <div className="max-w-2xl mx-auto space-y-4 mb-8">
           {/* <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -467,11 +471,11 @@ export default function SearchJob() {
                         <div className="flex items-center space-x-3 ">
                           <Link href={`/profile/${job.postedBy}`}>
                             <div className="flex flex-row gap-x-4">
-                            <Avatar className="w-10 h-10">
-                              <AvatarImage src={job.postedByAvatar} alt={job.postedByName} />
-                              <AvatarFallback>{job?.postedByName[0]}</AvatarFallback>
-                            </Avatar>
-                            <p className="text-blue-700 font-semibold mt-2">{job?.postedByName}</p>
+                              <Avatar className="w-10 h-10">
+                                <AvatarImage src={job.postedByAvatar} alt={job.postedByName} />
+                                <AvatarFallback>{job?.postedByName[0]}</AvatarFallback>
+                              </Avatar>
+                              <p className="text-blue-700 font-semibold mt-2">{job?.postedByName}</p>
                             </div>
                             <div className="text-blue-700">
                               <p className="text-sm text-gray-500">{job.company}</p>

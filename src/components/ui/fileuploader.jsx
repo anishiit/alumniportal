@@ -1,7 +1,9 @@
-"use client";
+"use client"
+
+import jwt from "jsonwebtoken";
 import React, { useState } from "react";
 
-export const FileUploader = React.forwardRef(({accept, height}, ref) =>  {
+export const FileUploader = React.forwardRef(({ accept, height }, ref) => {
   const [file, setFile] = useState();
   const [fileEnter, setFileEnter] = useState(false);
   return (
@@ -39,9 +41,8 @@ export const FileUploader = React.forwardRef(({accept, height}, ref) =>  {
               });
             }
           }}
-          className={`${
-            fileEnter ? "border-4" : "border-2"
-          } mx-auto  bg-white flex flex-col w-full max-w-xs h-${height} border-dashed items-center justify-center`}
+          className={`${fileEnter ? "border-4" : "border-2"
+            } mx-auto  bg-white flex flex-col w-full max-w-xs h-${height} border-dashed items-center justify-center`}
         >
           <label
             htmlFor="file"

@@ -1,6 +1,8 @@
 
 "use client"
 
+import jwt from "jsonwebtoken"
+
 import React, { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
@@ -27,7 +29,8 @@ function Navbar2() {
   }, [])
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user-threads'))
+    let user = (localStorage.getItem('amsjbckumr'))
+    user = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
     if (user) {
       const { collegeName, name } = user
       setUserData({ collegeName, name })
@@ -36,7 +39,9 @@ function Navbar2() {
 
   const getUser = () => {
     if (typeof window !== "undefined") {
-      let data = JSON.parse(localStorage.getItem('user-threads'))
+      let data = (localStorage.getItem('amsjbckumr'))
+      data  = (jwt.verify(data, process.env.NEXT_PUBLIC_JWT_SECRET))
+      // data = JSON.parse(data)
       if (data) {
         setUser(data)
       }
@@ -51,7 +56,7 @@ function Navbar2() {
     { name: "Messages", href: "/chat", external: true, icon: <Mail className="h-4 w-4 mr-2" /> },
     { name: "Memories", href: "/memories", external: true, icon: <SmilePlus className="h-4 w-4 mr-2" /> },
     { name: "Events", href: "/event", external: true, icon: <Calendar className="h-4 w-4 mr-2" /> },
-    { name: "Profile", href: `/profile/${user._id}`, external: true, className:" md:hidden", icon: <User className="h-4 w-4 mr-2" /> },
+    { name: "Profile", href: `/profile/${user._id}`, external: true, className: " md:hidden", icon: <User className="h-4 w-4 mr-2" /> },
   ]
 
   const scrollToSection = (href) => {
@@ -168,7 +173,7 @@ function Navbar2() {
                 <span className="font-bold text-2xl text-black">Menu</span>
                 <SheetClose asChild>
                   <Button variant="ghost" size="icon">
-                   
+
                   </Button>
                 </SheetClose>
               </div>
@@ -199,7 +204,7 @@ function Navbar2() {
                 ))}
               </nav>
               <div className="mt-auto space-y-4">
-             
+
                 <SheetClose asChild>
                   <Button onClick={handleLogout} className="w-full text-lg" variant="outline">
                     <LogOut className="h-4 w-4 mr-2" />

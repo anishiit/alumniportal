@@ -1,12 +1,14 @@
 "use client"
 
+import jwt from "jsonwebtoken"
+
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { useToast } from "@/hooks/use-toast"
-import {postFeedbackUrl} from "@/urls/urls.js"
+import { postFeedbackUrl } from "@/urls/urls.js"
 import axios from 'axios'
 export default function ContactForm() {
   const [isOpen, setIsOpen] = useState(false)
@@ -16,32 +18,32 @@ export default function ContactForm() {
   const [loading, setLoading] = useState(false)
   const { toast } = useToast()
 
-  const handleFormSubmit = async(e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    
+
     setLoading(true)
-   
-      try {
-        const res =  await axios.post(postFeedbackUrl,{name:name , feedback:feedback , email:email})
-        console.log(res.data)
-        setLoading(false)
-        toast({
-          variant: "green",
+
+    try {
+      const res = await axios.post(postFeedbackUrl, { name: name, feedback: feedback, email: email })
+      console.log(res.data)
+      setLoading(false)
+      toast({
+        variant: "green",
         title: "Message Sent",
         description: "Thank you for your message. We'll get back to you soon!",
       })
-        setName('')
-        setFeedback('')
-        setEmail('')
-      } catch (error) {
-        console.log(error)
-        toast({
-          variant: "red",
+      setName('')
+      setFeedback('')
+      setEmail('')
+    } catch (error) {
+      console.log(error)
+      toast({
+        variant: "red",
         title: "Error",
         description: "Error while sending the feedback",
       })
-      }
-  
+    }
+
   }
 
   return (

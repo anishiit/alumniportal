@@ -109,88 +109,88 @@ export default function GetInvolvedPage() {
 
   return (
     <div>
-    <Navbar2/>
-    <div className="container mx-auto py-4 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-6xl mx-auto bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 shadow-xl overflow-hidden">
-        <CardHeader className="pb-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-          <CardTitle className="text-3xl sm:text-4xl font-bold text-center">
-            Get Involved
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="mb-6 relative">
-            <Select
-              value={activeOption}
-              onValueChange={setActiveOption}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select an option">
-                  {selectedOption && (
-                    <span className="flex items-center">
-                      {selectedOption.icon}
-                      <span className="ml-2">{selectedOption.title}</span>
-                    </span>
-                  )}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent className="z-50">
-                {involvementOptions.map((option) => (
-                  <SelectItem key={option.id} value={option.id}>
-                    <span className="flex items-center">
-                      {option.icon}
-                      <span className="ml-2">{option.title}</span>
-                    </span>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="mt-6">
-            <AnimatePresence mode="wait">
-              {selectedOption && (
-                <motion.div
-                  key={selectedOption.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Card className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <CardHeader className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900 dark:to-indigo-900">
-                      <CardTitle className="text-2xl font-semibold flex items-center text-blue-800 dark:text-blue-200">
+      <Navbar2 />
+      <div className="container mx-auto py-4 px-4 sm:px-6 lg:px-8">
+        <Card className="w-full max-w-6xl mx-auto bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 shadow-xl overflow-hidden">
+          <CardHeader className="pb-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+            <CardTitle className="text-3xl sm:text-4xl font-bold text-center">
+              Get Involved
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="mb-6 relative">
+              <Select
+                value={activeOption}
+                onValueChange={setActiveOption}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select an option">
+                    {selectedOption && (
+                      <span className="flex items-center">
                         {selectedOption.icon}
                         <span className="ml-2">{selectedOption.title}</span>
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-6">
-                      <p className="text-muted-foreground mb-4">{selectedOption.description}</p>
-                      <ul className="space-y-2">
-                        {selectedOption.items.map((item, index) => (
-                          <motion.li
-                            key={index}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.3, delay: index * 0.1 }}
-                            className="flex items-center text-sm"
-                          >
-                            <span className="mr-2 text-blue-500 dark:text-blue-400">•</span>
-                            {item}
-                          </motion.li>
-                        ))}
-                      </ul>
-                      <Button className="mt-6 w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg transition-all duration-300">
-                        Get Involved Now
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+                      </span>
+                    )}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent className="z-50">
+                  {involvementOptions.map((option) => (
+                    <SelectItem key={option.id} value={option.id}>
+                      <span className="flex items-center">
+                        {option.icon}
+                        <span className="ml-2">{option.title}</span>
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="mt-6">
+              <AnimatePresence mode="wait">
+                {selectedOption && (
+                  <motion.div
+                    key={selectedOption.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Card className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                      <CardHeader className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900 dark:to-indigo-900">
+                        <CardTitle className="text-2xl font-semibold flex items-center text-blue-800 dark:text-blue-200">
+                          {selectedOption.icon}
+                          <span className="ml-2">{selectedOption.title}</span>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="p-6">
+                        <p className="text-muted-foreground mb-4">{selectedOption.description}</p>
+                        <ul className="space-y-2">
+                          {selectedOption.items.map((item, index) => (
+                            <motion.li
+                              key={index}
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.3, delay: index * 0.1 }}
+                              className="flex items-center text-sm"
+                            >
+                              <span className="mr-2 text-blue-500 dark:text-blue-400">•</span>
+                              {item}
+                            </motion.li>
+                          ))}
+                        </ul>
+                        <Button className="mt-6 w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg transition-all duration-300">
+                          Get Involved Now
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { 
+import {
   Users, GraduationCap, Calendar, DollarSign, Star, Trash2, Plus, Search,
   ChevronDown, MoreHorizontal, Edit, X, Menu, Upload, Image as ImageIcon
 } from "lucide-react"
@@ -12,11 +12,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem,  
-  DropdownMenuTrigger 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import {
   Dialog,
@@ -30,7 +30,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import axios from "axios"
-import {getCollegeUsersUrl, createCollegeEventUrl, getCollegeEventsUrl, updateCollegeEventUrl, deleteCollegeEventUrl} from '@/urls/urls.js'
+import { getCollegeUsersUrl, createCollegeEventUrl, getCollegeEventsUrl, updateCollegeEventUrl, deleteCollegeEventUrl } from '@/urls/urls.js'
 import { collegeName } from "@/data/college"
 import { set } from "react-hook-form"
 import { Textarea } from "@/components/ui/textarea"
@@ -40,7 +40,7 @@ import Link from "next/link"
 export default function CollegeDashboard() {
 
 
-  
+
   const [collegeId, setCollegeId] = useState("")
   const [activeTab, setActiveTab] = useState("overview")
   const [showAddEventDialog, setShowAddEventDialog] = useState(false)
@@ -50,15 +50,15 @@ export default function CollegeDashboard() {
   const [isSearching, setIsSearching] = useState(false)
 
   useEffect(() => {
-    if(typeof window !== undefined ){
-      const collegeInfo = JSON.parse(localStorage.getItem('college')) 
-      if(collegeInfo){
+    if (typeof window !== undefined) {
+      const collegeInfo = JSON.parse(localStorage.getItem('college'))
+      if (collegeInfo) {
         setCollegeId(collegeInfo._id)
         getCollegeUsers(collegeInfo.name)
         getCollegeEvents(collegeInfo._id)
       }
     }
-  },[])
+  }, [])
 
   // Dummy data (unchanged)
   const [alumniData, setAlumniData] = useState([])
@@ -92,30 +92,30 @@ export default function CollegeDashboard() {
   const [image, setImage] = useState(null)
 
   const getCollegeUsers = async (collegeName) => {
-   try {
-    await axios.post(getCollegeUsersUrl,{collegeName: collegeName})
-    .then((res) => {
-      setAlumniData(res.data.users)
-      setFilteredAlumniData(res.data.users)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-   } catch (error) {
-    console.error('Error:', error);
-   }
+    try {
+      await axios.post(getCollegeUsersUrl, { collegeName: collegeName })
+        .then((res) => {
+          setAlumniData(res.data.users)
+          setFilteredAlumniData(res.data.users)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
 
   const getCollegeEvents = async (collegeId) => {
     try {
-      await axios.post(getCollegeEventsUrl,{collegeId: collegeId})
-      .then((res) => {
-        setUpcomingEvents(res.data.events)
-        setFilteredEventsData(res.data.events)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+      await axios.post(getCollegeEventsUrl, { collegeId: collegeId })
+        .then((res) => {
+          setUpcomingEvents(res.data.events)
+          setFilteredEventsData(res.data.events)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     } catch (error) {
       console.error('Error:', error);
     }
@@ -126,25 +126,25 @@ export default function CollegeDashboard() {
     form.append("collegeId", collegeId)
     form.append("name", event.name)
     form.append("description", event.description)
-    form.append("image" , image)
+    form.append("image", image)
 
     try {
       await axios.post(createCollegeEventUrl, form)
-      .then((res) => {
-        console.log(res.data)
-        setUpcomingEvents([...upcomingEvents, res.data.event])
-        setEvent({name: "", description: ""})
-        setImage(null)
-        // setUpcomingEvents([...upcomingEvents, { ...event, _id: upcomingEvents.length + 1, image: res.data.image }])
-      })
-      .catch((err) => {
-        console.log(err)
-        setEvent({name: "", description: ""})
-        setImage(null)
-      })
+        .then((res) => {
+          console.log(res.data)
+          setUpcomingEvents([...upcomingEvents, res.data.event])
+          setEvent({ name: "", description: "" })
+          setImage(null)
+          // setUpcomingEvents([...upcomingEvents, { ...event, _id: upcomingEvents.length + 1, image: res.data.image }])
+        })
+        .catch((err) => {
+          console.log(err)
+          setEvent({ name: "", description: "" })
+          setImage(null)
+        })
     } catch (error) {
       console.error('Error:', error);
-      setEvent({name: "", description: ""})
+      setEvent({ name: "", description: "" })
       setImage(null)
     }
   }
@@ -152,38 +152,38 @@ export default function CollegeDashboard() {
   const updateCollegeEvent = async (eventId) => {
     try {
       const form = new FormData()
-      form.append("image" , image)
+      form.append("image", image)
       form.append("name", event?.name)
       form.append("description", event?.description)
-      await axios.post(updateCollegeEventUrl, {eventId: eventId, form})
-      .then((res) => {
-        console.log(res.data)
-        setEvent({name: "", description: ""})
-        setImage(null)
-        // setUpcomingEvents([...upcomingEvents, { ...event, _id: upcomingEvents.length + 1, image: res.data.image }])
-      })
-      .catch((err) => {
-        console.log(err)
-        setEvent({name: "", description: ""})
-        setImage(null)
-      })
+      await axios.post(updateCollegeEventUrl, { eventId: eventId, form })
+        .then((res) => {
+          console.log(res.data)
+          setEvent({ name: "", description: "" })
+          setImage(null)
+          // setUpcomingEvents([...upcomingEvents, { ...event, _id: upcomingEvents.length + 1, image: res.data.image }])
+        })
+        .catch((err) => {
+          console.log(err)
+          setEvent({ name: "", description: "" })
+          setImage(null)
+        })
     } catch (error) {
       console.error('Error:', error);
-      setEvent({name: "", description: ""})
+      setEvent({ name: "", description: "" })
       setImage(null)
     }
   }
 
   const removeCollegeEvent = async (eventId) => {
     try {
-      await axios.post(deleteCollegeEventUrl, {eventId: eventId})
-      .then((res) => {
-        console.log(res.data)
-        setUpcomingEvents(upcomingEvents.filter(event => event._id !== eventId))
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+      await axios.post(deleteCollegeEventUrl, { eventId: eventId })
+        .then((res) => {
+          console.log(res.data)
+          setUpcomingEvents(upcomingEvents.filter(event => event._id !== eventId))
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     } catch (error) {
       console.error('Error:', error);
     }
@@ -221,11 +221,11 @@ export default function CollegeDashboard() {
   const handleSearch = () => {
     setIsSearching(true)
     setTimeout(() => {
-      const filteredAlumni = alumniData.filter(alumni => 
+      const filteredAlumni = alumniData.filter(alumni =>
         alumni.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         alumni.email.toLowerCase().includes(searchTerm.toLowerCase())
       )
-      const filteredStudents = studentData.filter(student => 
+      const filteredStudents = studentData.filter(student =>
         student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         student.email.toLowerCase().includes(searchTerm.toLowerCase())
       )
@@ -238,7 +238,7 @@ export default function CollegeDashboard() {
   const handleEventSearch = () => {
     setIsSearching(true)
     setTimeout(() => {
-      const filteredEvents = upcomingEvents.filter(event => 
+      const filteredEvents = upcomingEvents.filter(event =>
         event.name.toLowerCase().includes(eventSearchTerm.toLowerCase()) ||
         event?.date?.includes(eventSearchTerm)
       )
@@ -254,11 +254,11 @@ export default function CollegeDashboard() {
       reader.onload = (e) => {
         const imageDataUrl = e.target.result
         if (type === 'event') {
-          setUpcomingEvents(upcomingEvents.map(event => 
+          setUpcomingEvents(upcomingEvents.map(event =>
             event?._id === id ? { ...event, image: imageDataUrl } : event
           ))
         } else if (type === 'featuredAlumni') {
-          setFeaturedAlumni(featuredAlumni.map(alumni => 
+          setFeaturedAlumni(featuredAlumni.map(alumni =>
             alumni?._id === id ? { ...alumni, image: imageDataUrl } : alumni
           ))
         }
@@ -402,9 +402,9 @@ export default function CollegeDashboard() {
                 <div className="flex flex-col sm:flex-row justify-between mb-4 space-y-2 sm:space-y-0 sm:space-x-2">
                   <div className="relative w-full sm:w-64">
                     <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input 
-                      className="pl-8" 
-                      placeholder="Search alumni..." 
+                    <Input
+                      className="pl-8"
+                      placeholder="Search alumni..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -439,7 +439,7 @@ export default function CollegeDashboard() {
                           </thead>
                           <tbody>
                             {filteredAlumniData?.map((alumni) => (
-                             
+
                               <motion.tr
                                 key={alumni?._id}
                                 initial={{ opacity: 0, y: 20 }}
@@ -447,8 +447,8 @@ export default function CollegeDashboard() {
                                 exit={{ opacity: 0, y: -20 }}
                                 transition={{ duration: 0.2 }}
                               >
-                                 <Link  href={`/profile/${alumni._id}`}>
-                                <td className="p-2 text-blue-600 hover:underline">{alumni?.name}</td> </Link>
+                                <Link href={`/profile/${alumni._id}`}>
+                                  <td className="p-2 text-blue-600 hover:underline">{alumni?.name}</td> </Link>
                                 <td className="p-2">{alumni?.batch}</td>
                                 <td className="p-2">{alumni?.email}</td>
                                 <td className="p-2">
@@ -456,7 +456,7 @@ export default function CollegeDashboard() {
                                     <Trash2 className="h-4 w-4" />
                                   </Button>
                                 </td>
-                              
+
                               </motion.tr>
                             ))}
                           </tbody>
@@ -479,9 +479,9 @@ export default function CollegeDashboard() {
                 <div className="flex flex-col sm:flex-row justify-between mb-4 space-y-2 sm:space-y-0 sm:space-x-2">
                   <div className="relative w-full sm:w-64">
                     <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input 
-                      className="pl-8" 
-                      placeholder="Search students..." 
+                    <Input
+                      className="pl-8"
+                      placeholder="Search students..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -553,9 +553,9 @@ export default function CollegeDashboard() {
                 <div className="flex flex-col sm:flex-row justify-between mb-4 space-y-2 sm:space-y-0 sm:space-x-2">
                   <div className="relative w-full sm:w-64">
                     <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input 
-                      className="pl-8" 
-                      placeholder="Search events..." 
+                    <Input
+                      className="pl-8"
+                      placeholder="Search events..."
                       value={eventSearchTerm}
                       onChange={(e) => setEventSearchTerm(e.target.value)}
                     />
@@ -595,9 +595,9 @@ export default function CollegeDashboard() {
                               </CardHeader>
                               <CardContent>
                                 <div className="aspect-video relative overflow-hidden rounded-md">
-                                  <img 
-                                    src={event?.image} 
-                                    alt={event?.name} 
+                                  <img
+                                    src={event?.image}
+                                    alt={event?.name}
                                     className="object-cover w-full h-full"
                                   />
                                   <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
@@ -606,13 +606,13 @@ export default function CollegeDashboard() {
                                       type="file"
                                       className="hidden"
                                       accept="image/*"
-                                      onChange={(e) => {handleImageUpload(event._id, 'event', e); setImage(e.target.files[0]) } }
+                                      onChange={(e) => { handleImageUpload(event._id, 'event', e); setImage(e.target.files[0]) }}
                                     />
                                   </label>
                                 </div>
                               </CardContent>
                               <CardFooter className="flex justify-between">
-                                <Button variant="outline" size="sm" onClick={() => {updateCollegeEvent(event._id)}} >Edit</Button>
+                                <Button variant="outline" size="sm" onClick={() => { updateCollegeEvent(event._id) }} >Edit</Button>
                                 <Button variant="destructive" size="sm" onClick={() => removeCollegeEvent(event?._id)}>
                                   Remove
                                 </Button>
@@ -638,8 +638,8 @@ export default function CollegeDashboard() {
                 <div className="mb-4">
                   <Label>Funding Progress</Label>
                   <div className="h-4 bg-gray-200 rounded-full mt-2">
-                    <motion.div 
-                      className="h-full bg-blue-600 rounded-full" 
+                    <motion.div
+                      className="h-full bg-blue-600 rounded-full"
                       style={{ width: `${(fundingData.totalRaised / fundingData.goal) * 100}%` }}
                       initial={{ width: 0 }}
                       animate={{ width: `${(fundingData.totalRaised / fundingData.goal) * 100}%` }}
@@ -709,9 +709,9 @@ export default function CollegeDashboard() {
                         <CardContent>
                           <p className="mb-2">{alumni.achievement}</p>
                           <div className="aspect-video relative overflow-hidden rounded-md">
-                            <img 
-                              src={alumni.image} 
-                              alt={alumni.name} 
+                            <img
+                              src={alumni.image}
+                              alt={alumni.name}
                               className="object-cover w-full h-full"
                             />
                             <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
@@ -726,9 +726,9 @@ export default function CollegeDashboard() {
                           </div>
                         </CardContent>
                         <CardFooter>
-                          <Button 
-                            variant="destructive" 
-                            size="sm" 
+                          <Button
+                            variant="destructive"
+                            size="sm"
                             className="w-full"
                             onClick={() => removeItem(alumni?._id, 'featuredAlumni')}
                           >
@@ -778,7 +778,7 @@ export default function CollegeDashboard() {
                 className="col-span-3 flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-900"
                 type="file"
                 placeholder=""
-                onChange={(e) => {setImage(e.target.files[0]); console.log(e.target.files[0])}}
+                onChange={(e) => { setImage(e.target.files[0]); console.log(e.target.files[0]) }}
               />
               {/* <Input onChange={(e) => setImage(e.target.value)} id="event-image" type="file" accept="image/*" className="col-span-3" /> */}
             </div>
