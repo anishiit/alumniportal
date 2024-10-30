@@ -38,10 +38,23 @@ import { batch } from "@/data/batch"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
+import { useToast } from "@/hooks/use-toast"
+
+import useCloudinaryImageUploader from '@/services/cloudinary';
+
 export default function CollegeDashboard() {
 
+  const {
+    previewUrl,
+    uploading,
+    error,
+    handleImageChange,
+    uploadImage
+  } = useCloudinaryImageUploader()
 
   const router = useRouter()
+
+  const { toast } = useToast()
 
   const [collegeId, setCollegeId] = useState("")
   const [activeTab, setActiveTab] = useState("overview")
@@ -124,14 +137,25 @@ export default function CollegeDashboard() {
   }
 
   const createCollegeEvent = async () => {
-    const form = new FormData()
-    form.append("collegeId", collegeId)
-    form.append("name", event.name)
-    form.append("description", event.description)
-    form.append("image", image)
+    let imageInfo = {}
+    try {
+      imageInfo = await uploadImage()
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: "Error uploading image",
+        description: "Please try again later.",
+        variant: "red"
+      })
+      setEvent({ name: "", description: "" })
+      setImage(null)
+      return
+    }
 
     try {
-      await axios.post(createCollegeEventUrl, form)
+      await axios.post(createCollegeEventUrl, {
+        collegeId, name:event.name, description: event.description, imageInfo: imageInfo
+      })
         .then((res) => {
           console.log(res.data)
           setUpcomingEvents([...upcomingEvents, res.data.event])
@@ -781,13 +805,17 @@ export default function CollegeDashboard() {
               <Label htmlFor="event-image" className="text-right">
                 Image
               </Label>
-              <input
+              {/* <input
                 className="col-span-3 flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-900"
                 type="file"
                 placeholder=""
                 onChange={(e) => { setImage(e.target.files[0]); console.log(e.target.files[0]) }}
-              />
+              /> */}
               {/* <Input onChange={(e) => setImage(e.target.value)} id="event-image" type="file" accept="image/*" className="col-span-3" /> */}
+              <div className='flex '>
+                <input type="file" accept="image/*" onChange={handleImageChange} />
+                {previewUrl && <img src={previewUrl} alt="Preview" style={{ width: "30px" }} />}
+              </div>
             </div>
           </div>
           <DialogFooter>
