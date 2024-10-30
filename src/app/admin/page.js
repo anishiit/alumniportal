@@ -56,6 +56,7 @@ export default function AdminDashboard() {
       console.error('Error:', error)
     }
   }
+  
  useEffect(() => {
     getAllFeedbacks()
   },[])

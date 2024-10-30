@@ -64,9 +64,7 @@ export const deleteMemoryUrl = `${user_backend_url}/memory/deletememory` // memo
 
 //college url 
 
-export const getAllCollegesUrl = `${college_backend_url}/college/`
 
-export const getCollegeByIdUrl = `${college_backend_url}/college/`
 
 export const registerCollegeUrl = `${college_backend_url}/college/register`
 
@@ -87,3 +85,11 @@ export const deleteCollegeEventUrl = `${college_backend_url}/event/deleteevent`
 export const getFeedbacksUrl = `${user_backend_url}/feedback/getallfeedback`
 
 export const postFeedbackUrl = `${user_backend_url}/feedback/createfeedback`
+
+// admin
+
+export const getAllCollegesUrl = `${user_backend_url}/college/getallcolleges`
+
+export const verifyCollegeUrl = `${user_backend_url}/college/verifycollege`
+
+export const getNonVarifiedCollegesUrl = `${user_backend_url}/college/getnonverifiedcolleges`
