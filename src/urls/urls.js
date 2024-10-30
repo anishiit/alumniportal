@@ -93,3 +93,5 @@ export const getAllCollegesUrl = `${college_backend_url}/college/getallcolleges`
 export const verifyCollegeUrl = `${college_backend_url}/college/verifycollege`
 
 export const getNonVarifiedCollegesUrl = `${college_backend_url}/college/getnonverifiedcolleges`
+
+export const blockCollegeUrl = `${college_backend_url}/college/blockcollege`
