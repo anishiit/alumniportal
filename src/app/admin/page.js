@@ -14,7 +14,7 @@ import Link from "next/link"
 import axios from "axios"
 
 import { useToast } from "@/hooks/use-toast"
-import { getFeedbacksUrl, getAllCollegesUrl, getNonVarifiedCollegesUrl, verifyCollegeUrl, rejectverifyCollegeUrl } from "@/urls/urls.js"
+import { getFeedbacksUrl, getAllCollegesUrl, getNonVarifiedCollegesUrl, verifyCollegeUrl, rejectverifyCollegeUrl ,blockCollegeUrl} from "@/urls/urls.js"
 export default function AdminDashboard() {
 
   const { toast } = useToast()
@@ -167,7 +167,28 @@ export default function AdminDashboard() {
       console.error('Error:', error)
     }
   }
-
+const handleBlockCollege = async (collegeId) => {
+  try {
+    await axios
+      .post(blockCollegeUrl, { collegeId })
+      .then((res) => {
+        console.log(res.data)
+        toast({
+          description: "college blocked",
+          variant: "green",
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+        toast({
+          description: "error",
+          variant: "red",
+        })
+      })
+  } catch (error) {
+    console.error('Error:', error)
+  }
+}
   useEffect(() => {
     getAllregisteredColleges()
     getNonVerifiedColleges()
@@ -403,7 +424,9 @@ export default function AdminDashboard() {
                                   </TableCell>
                                   <TableCell>
                                     <Button onClick={() => handleVerifyCollege(college._id)} size="sm" className="mr-2">Approve</Button>
-                                    <Button onClick={() => handleRejectCollege(college._id)} size="sm" variant="outline">Reject</Button>
+                                    <Button disabled={college?.isBlocked} className='bg-yellow-600 text-white hover:bg-yellow-500/70 hover:text-white' onClick={() => handleBlockCollege(college._id)} size="sm" variant="outline">{college?.isBlocked ? "Blocked" : "Block"} </Button>
+                                    <Button className=' mx-2 bg-red-500 text-white  hover:bg-red-500/70 hover:text-white' onClick={() => handleRejectCollege(college._id)} size="sm" variant="outline">Reject</Button>
+
                                   </TableCell>
                                 </TableRow>
                               ))}
