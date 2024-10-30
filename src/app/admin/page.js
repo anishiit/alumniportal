@@ -264,7 +264,7 @@ export default function AdminDashboard() {
             <TabsContent value="approval">
               <Card>
                 <CardHeader>
-                  <CardTitle>College Approval Panel</CardTitle>
+                  <CardTitle>College Approval Panellllllllll </CardTitle>
                   <CardDescription>Review and approve new college registrations.</CardDescription>
                 </CardHeader>
                 <CardContent>
