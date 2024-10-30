@@ -9,11 +9,12 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
-
+import axios from "axios"
+import {getFeedbacksUrl} from "@/urls/urls.js"
 export default function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isAdmin , setIsAdmin] = useState(false)
-
+  const [feedbacks, setFeedbacks] = useState([])
   const colleges = [
     { id: 1, name: "Tech University", plan: "Premium", students: 5000, alumni: 20000, status: "Approved", remainingTime: "11 months", revenue: 50000 },
     { id: 2, name: "Liberal Arts College", plan: "Medium", students: 2000, alumni: 8000, status: "Approved", remainingTime: "5 months", revenue: 20000 },
@@ -22,13 +23,13 @@ export default function AdminDashboard() {
     { id: 5, name: "Engineering Institute", plan: "Medium", students: 4000, alumni: 18000, status: "Pending", remainingTime: "N/A", revenue: 0 },
   ]
 
-  const feedbacks = [
-    { id: 1, user: "John Doe", message: "Great platform for connecting with alumni!", rating: 5 },
-    { id: 2, user: "Jane Smith", message: "Could use more networking features.", rating: 4 },
-    { id: 3, user: "Bob Johnson", message: "Excellent resource for job opportunities!", rating: 5 },
-    { id: 4, user: "Alice Brown", message: "The mentorship program is fantastic!", rating: 5 },
-    { id: 5, user: "Charlie Wilson", message: "User interface could be more intuitive.", rating: 3 },
-  ]
+  // const feedbacks = [
+  //   { id: 1, user: "John Doe", message: "Great platform for connecting with alumni!", rating: 5 },
+  //   { id: 2, user: "Jane Smith", message: "Could use more networking features.", rating: 4 },
+  //   { id: 3, user: "Bob Johnson", message: "Excellent resource for job opportunities!", rating: 5 },
+  //   { id: 4, user: "Alice Brown", message: "The mentorship program is fantastic!", rating: 5 },
+  //   { id: 5, user: "Charlie Wilson", message: "User interface could be more intuitive.", rating: 3 },
+  // ]
 
   const totalRevenue = colleges.reduce((sum, college) => sum + college.revenue, 0)
 
@@ -39,18 +40,36 @@ export default function AdminDashboard() {
     // For example, you could open a modal or navigate to a new page
     // depending on your application's structure
   };
-
+  const getAllFeedbacks = async () => {
+    try {
+      await axios
+        .get(getFeedbacksUrl)
+        .then((res) => {
+          console.log(res.data)
+          setFeedbacks(res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } catch (error) {
+      console.error('Error:', error)
+    }
+  }
+ useEffect(() => {
+    getAllFeedbacks()
+  },[])
   useEffect(() => {
     let currUser;
     if(typeof window !== undefined){
       currUser = JSON.parse(localStorage.getItem("user-threads"))
-      console.log(currUser)
+    
     }
     if(currUser.role === "admin" ){
         setIsAdmin(true)
     }else{
         setIsAdmin(false)
     }
+
   },[])
 
   if(!isAdmin){
