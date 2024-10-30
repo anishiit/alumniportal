@@ -94,4 +94,6 @@ export const verifyCollegeUrl = `${college_backend_url}/college/verifycollege`
 
 export const getNonVarifiedCollegesUrl = `${college_backend_url}/college/getnonverifiedcolleges`
 
+export const blockCollegeUrl = `${college_backend_url}/college/blockcollege`
+
 export const rejectverifyCollegeUrl = `${college_backend_url}/college/deletecollege`
