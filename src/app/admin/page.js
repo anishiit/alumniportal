@@ -9,10 +9,17 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
+import axios from "axios"
+import { useToast } from "@/hooks/use-toast"
 
 export default function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isAdmin , setIsAdmin] = useState(false)
+  const [registeredCollege, setRegisteredCollege] = useState([])
+  const [nonRegisteredCollege, setNonRegisteredCollege] = useState([])
+
+
+  const {toast} = useToast()
 
   const colleges = [
     { id: 1, name: "Tech University", plan: "Premium", students: 5000, alumni: 20000, status: "Approved", remainingTime: "11 months", revenue: 50000 },
@@ -39,6 +46,63 @@ export default function AdminDashboard() {
     // For example, you could open a modal or navigate to a new page
     // depending on your application's structure
   };
+
+  const getAllregisteredColleges = async () => {
+    let currUser;
+    if(typeof window !== undefined){
+      currUser = JSON.parse(localStorage.getItem("user-threads"))
+    }
+    try {
+      await axios.post(getAllRegisteredCollegesUrl, {userId:currUser._id})
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+        toast({
+          description:err,
+          variant: "red",
+        })
+      })
+    } catch (error) {
+      console.log(error)
+      toast({
+        description:err,
+        variant: "red",
+      })
+    }
+  }
+
+  const getNonVerifiedColleges = async () => {
+    let currUser;
+    if(typeof window !== undefined){
+      currUser = JSON.parse(localStorage.getItem("user-threads"))
+    }
+    try {
+      await axios.post(getNonVerifiedCollegesUrl, {userId:currUser._id})
+      .then((res) => {  
+        console.log(res.data)  
+      })
+      .catch((err) => {
+        console.log(err)
+        toast({
+          description:err,
+          variant: "red",
+        })
+      })
+    } catch (error) {
+      console.log(error)
+      toast({
+        description:err,
+        variant: "red",
+      })
+    }
+  }
+
+  useEffect(() => {
+    getAllregisteredColleges()
+    getNonVerifiedColleges()
+  },[])
 
   useEffect(() => {
     let currUser;
