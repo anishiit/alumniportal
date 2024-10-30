@@ -6,35 +6,42 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { useToast } from "@/hooks/use-toast"
-
+import {postFeedbackUrl} from "@/urls/urls.js"
+import axios from 'axios'
 export default function ContactForm() {
   const [isOpen, setIsOpen] = useState(false)
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
-  const [message, setMessage] = useState("")
+  const [feedback, setFeedback] = useState('')
+  const [loading, setLoading] = useState(false)
   const { toast } = useToast()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const handleFormSubmit = async(e) => {
+    e.preventDefault();
     
-    // In a real application, you would send this data to your server
-    // Here's a simple example using mailto link
+    setLoading(true)
    
-
-    // Show a success toast
-    toast({
-        variant: "green",
-      title: "Message Sent",
-      description: "Thank you for your message. We'll get back to you soon!",
-    })
-
-    // Close the dialog
-    setIsOpen(false)
-
-    // Reset form fields
-    setName("")
-    setEmail("")
-    setMessage("")
+      try {
+        const res =  await axios.post(postFeedbackUrl,{name:name , feedback:feedback , email:email})
+        console.log(res.data)
+        setLoading(false)
+        toast({
+          variant: "green",
+        title: "Message Sent",
+        description: "Thank you for your message. We'll get back to you soon!",
+      })
+        setName('')
+        setFeedback('')
+        setEmail('')
+      } catch (error) {
+        console.log(error)
+        toast({
+          variant: "red",
+        title: "Error",
+        description: "Error while sending the feedback",
+      })
+      }
+  
   }
 
   return (
@@ -46,7 +53,7 @@ export default function ContactForm() {
         <DialogHeader>
           <DialogTitle>Contact Us</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleFormSubmit} className="space-y-4">
           <Input
             placeholder="Your Name"
             value={name}
@@ -62,11 +69,11 @@ export default function ContactForm() {
           />
           <Textarea
             placeholder="Your Message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
             required
           />
-          <Button type="submit" className="w-full">Send Message</Button>
+          <Button type="submit" className="w-full">{loading ? "Sending..." : "Submit"}</Button>
         </form>
       </DialogContent>
     </Dialog>
