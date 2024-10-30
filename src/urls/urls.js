@@ -86,7 +86,7 @@ export const getFeedbacksUrl = `${user_backend_url}/feedback/getallfeedback`
 
 export const postFeedbackUrl = `${user_backend_url}/feedback/createfeedback`
 
-// admin
+// admin dashboard urls
 
 export const getAllCollegesUrl = `${college_backend_url}/college/getallcolleges`
 
@@ -99,3 +99,7 @@ export const blockCollegeUrl = `${college_backend_url}/college/blockcollege`
 export const rejectverifyCollegeUrl = `${college_backend_url}/college/deletecollege`
 
 export const getAllCollegeCountUrl = `${college_backend_url}/college/getallcollegecount`
+
+export const getAllStudentsCountUrl = `${user_backend_url}/user/getallstudentcount`
+
+export const getAllAlumniCountUrl = `${user_backend_url}/user/getallalumnicount`
