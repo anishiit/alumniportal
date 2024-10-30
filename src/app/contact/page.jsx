@@ -1,20 +1,34 @@
 'use client'
 
 import React from 'react'
-import axios from 'axios';
-import {postFeedbackUrl} from "@/urls/urls"
+import { useState } from 'react'
+import axios from 'axios'
+import {postFeedbackUrl} from "@/urls/urls.js"
 import { useToast } from "@/hooks/use-toast"
+
 export default function ContactPageOne() {
+const [name, setName] = useState('')
+const [email, setEmail] = useState('')
+const [feedback, setFeedback] = useState('')
+const [loading, setLoading] = useState(false)
   const { toast } = useToast();
   const handleFormSubmit = async(e) => {
     e.preventDefault();
+    
+    setLoading(true)
+   
       try {
-        await axios.post(postFeedbackUrl,{name , message:feedback , email:email})
+        const res =  await axios.post(postFeedbackUrl,{name:name , feedback:feedback , email:email})
+        console.log(res.data)
+        setLoading(false)
         toast({
           variant: "green",
         title: "Message Sent",
         description: "Thank you for your message. We'll get back to you soon!",
       })
+        setName('')
+        setFeedback('')
+        setEmail('')
       } catch (error) {
         console.log(error)
         toast({
@@ -68,7 +82,9 @@ export default function ContactPageOne() {
                       className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:text-gray-50 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-900"
                       type="text"
                       id="email"
-                      placeholder="Email"
+                      placeholder="email"
+                      onChange={(e) => setEmail(e.target.value)}
+                      value={email}
                     />
                   </div>
                   <div className="grid w-full  items-center gap-1.5">
@@ -83,6 +99,8 @@ export default function ContactPageOne() {
                       type="text"
                       id="name"
                       placeholder="name"
+                      onChange={(e) => setName(e.target.value)}
+                      value={name}
                     />
                   </div>
                   <div className="grid w-full  items-center gap-1.5">
@@ -97,13 +115,17 @@ export default function ContactPageOne() {
                       id="message"
                       placeholder="Leave us a message"
                       cols={3}
+                      value={feedback}
+                      onChange={(e) => setFeedback(e.target.value)}
+
                     />
                   </div>
                   <button
                     type="submit"
                     className="w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                   >
-                    Send Message
+                  {loading ? "Sending..." : "Send Message"}
+            
                   </button>
                 </form>
               </div>
