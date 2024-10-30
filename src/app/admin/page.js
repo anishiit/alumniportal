@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
 import axios from "axios"
 import { useToast } from "@/hooks/use-toast"
-import { getFeedbacksUrl, getAllCollegesUrl, getNonVarifiedCollegesUrl, verifyCollegeUrl, rejectverifyCollegeUrl, blockCollegeUrl } from "@/urls/urls.js"
+import { getFeedbacksUrl, getAllCollegesUrl, getNonVarifiedCollegesUrl, verifyCollegeUrl, rejectverifyCollegeUrl, blockCollegeUrl ,getAllCollegeCountUrl} from "@/urls/urls.js"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 export default function AdminDashboard() {
@@ -25,6 +25,8 @@ export default function AdminDashboard() {
   const [nonVerifiedColleges, setNonVerifiedColleges] = useState([])
   const [selectedCollege, setSelectedCollege] = useState(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+
+  const [totalColleges, setTotalColleges] = useState(0)
 
   const colleges = [
     { id: 1, name: "Tech University", plan: "Premium", students: 5000, alumni: 20000, status: "Approved", remainingTime: "11 months", revenue: 50000 },
@@ -41,6 +43,21 @@ export default function AdminDashboard() {
     setIsDialogOpen(true)
   }
 
+  const getCollegeCount= async () => {
+    try {
+      await axios
+        .post(getAllCollegeCountUrl)
+        .then((res) => {
+          console.log(res.data.count)
+          setTotalColleges(res.data.count)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } catch (error) {
+      console.error('Error:', error)
+    }
+  }
   const getAllFeedbacks = async () => {
     try {
       await axios
@@ -186,6 +203,7 @@ export default function AdminDashboard() {
     getAllregisteredColleges()
     getNonVerifiedColleges()
     getAllFeedbacks()
+    getCollegeCount()
   }, [])
 
   useEffect(() => {
@@ -268,7 +286,7 @@ export default function AdminDashboard() {
                       <School className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">25</div>
+                      <div className="text-2xl font-bold">{totalColleges}</div>
                       <p className="text-xs text-muted-foreground">+2 from last month</p>
                     </CardContent>
                   </Card>
