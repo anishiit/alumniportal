@@ -4,8 +4,8 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { BadgeIcon, GiftIcon, VoteIcon, Menu, X } from "lucide-react"
- 
+import { BadgeIcon, GiftIcon, VoteIcon, Menu, Users ,BookOpen,Globe ,Award} from "lucide-react"
+  
 import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -27,7 +27,7 @@ export default function Component() {
   const navItems = [
     { name: "Events", href: "#events" },
     { name: "Alumni", href: "#alumni" },
-    { name: "Get Involved", href: "#get-involved" },
+    { name: "About", href: "#about" },
     { name: "Contact", href: "#contact" }
   ]
 
@@ -157,7 +157,36 @@ export default function Component() {
             </div>
           </div>
         </section>
-        <section id="events" className="w-full py-12 md:py-24 lg:py-32">
+        <section id="about" className="w-full py-7 md:py-12 lg:py-16">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">
+              About Alumni Portal
+            </h2>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              <FeatureCard
+                icon={<Users className="h-10 w-10 text-blue-600" />}
+                title="Network Expansion"
+                description="Connect with a diverse community of professionals across various industries."
+              />
+              <FeatureCard
+                icon={<BookOpen className="h-10 w-10 text-blue-600" />}
+                title="Lifelong Learning"
+                description="Access exclusive webinars, workshops, and resources for continuous growth."
+              />
+              <FeatureCard
+                icon={<Globe className="h-10 w-10 text-blue-600" />}
+                title="Global Opportunities"
+                description="Explore international job postings and collaboration possibilities."
+              />
+              <FeatureCard
+                icon={<Award className="h-10 w-10 text-blue-600" />}
+                title="Alumni Recognition"
+                description="Celebrate achievements and contributions of our distinguished alumni."
+              />
+            </div>
+          </div>
+        </section>
+        <section id="events" className="w-full py-7 md:py-12 lg:py-16">
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">
               Upcoming Events
@@ -189,7 +218,7 @@ export default function Component() {
             </div> */}
           </div>
         </section>
-        <section id="alumni" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
+        <section id="alumni" className="w-full py-7 md:py-12 lg:py-16 bg-gray-100">
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">
               Featured Alumni
@@ -216,7 +245,7 @@ export default function Component() {
             </div>
           </div>
         </section>
-        <section id="get-involved" className="w-full py-12 md:py-24 lg:py-32">
+        {/* <section id="get-involved" className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">
               Get Involved
@@ -239,7 +268,7 @@ export default function Component() {
               />
             </div>
           </div>
-        </section>
+        </section> */}
         <section id="contact" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">
@@ -319,6 +348,15 @@ function AlumniCard({ name, class: classYear, position, image }) {
       <p className="text-sm text-gray-500 mb-1">Class of {classYear}</p>
       <p className="text-sm text-gray-600 mb-4">{position}</p>
       <Button onClick={handleWelcomeClick} variant="outline">View Profile</Button>
+    </Card>
+  )
+}
+function FeatureCard({ icon, title, description }) {
+  return (
+    <Card className="flex flex-col items-center text-center p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+      <div className="mb-4 p-3 bg-blue-100 rounded-full">{icon}</div>
+      <h3 className="text-xl font-semibold mb-2">{title}</h3>
+      <p className="text-gray-600">{description}</p>
     </Card>
   )
 }
