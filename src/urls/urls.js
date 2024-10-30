@@ -88,8 +88,8 @@ export const postFeedbackUrl = `${user_backend_url}/feedback/createfeedback`
 
 // admin
 
-export const getAllCollegesUrl = `${user_backend_url}/college/getallcolleges`
+export const getAllCollegesUrl = `${college_backend_url}/college/getallcolleges`
 
-export const verifyCollegeUrl = `${user_backend_url}/college/verifycollege`
+export const verifyCollegeUrl = `${college_backend_url}/college/verifycollege`
 
-export const getNonVarifiedCollegesUrl = `${user_backend_url}/college/getnonverifiedcolleges`
+export const getNonVarifiedCollegesUrl = `${college_backend_url}/college/getnonverifiedcolleges`

@@ -10,8 +10,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
 import axios from "axios"
-import {getFeedbacksUrl} from "@/urls/urls.js"
+import { useToast } from "@/hooks/use-toast"
+import {getFeedbacksUrl, getAllCollegesUrl, getNonVarifiedCollegesUrl, verifyCollegeUrl} from "@/urls/urls.js"
 export default function AdminDashboard() {
+
+  const { toast } = useToast()
+
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isAdmin , setIsAdmin] = useState(false)
   const [feedbacks, setFeedbacks] = useState([])
@@ -56,10 +60,64 @@ export default function AdminDashboard() {
       console.error('Error:', error)
     }
   }
+  const getAllregisteredColleges = async () => {
+    let currUser;
+    if(typeof window !== undefined){
+      currUser = JSON.parse(localStorage.getItem("user-threads"))
+    }
+    try {
+      await axios.post(getAllCollegesUrl, {userId:currUser._id})
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+        toast({
+          description:"err",
+          variant: "red",
+        })
+      })
+    } catch (error) {
+      console.log(error)
+      toast({
+        description:"error",
+        variant: "red",
+      })
+    }
+  }
+
+  const getNonVerifiedColleges = async () => {
+    let currUser;
+    if(typeof window !== undefined){
+      currUser = JSON.parse(localStorage.getItem("user-threads"))
+    }
+    try {
+      await axios.post(getNonVarifiedCollegesUrl, {userId:currUser._id})
+      .then((res) => {  
+        console.log(res.data)  
+      })
+      .catch((err) => {
+        console.log(err)
+        toast({
+          description:"err",
+          variant: "red",
+        })
+      })
+    } catch (error) {
+      console.log(error)
+      toast({
+        description:"error",
+        variant: "red",
+      })
+    }
+  }
   
  useEffect(() => {
+    getAllregisteredColleges()
+    getNonVerifiedColleges()
     getAllFeedbacks()
   },[])
+
   useEffect(() => {
     let currUser;
     if(typeof window !== undefined){
