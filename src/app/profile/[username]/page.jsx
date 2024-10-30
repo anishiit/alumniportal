@@ -1,7 +1,9 @@
 "use client"
+
 import Profile from '@/components/profile/profile'
 import Posts from '@/components/profile/posts'
-async function fetchUserByUsername(username) {
+import { useEffect } from 'react';
+function fetchUserByUsername(username) {
   // Replace with your actual data fetching logic
   return {
     username,
@@ -15,10 +17,10 @@ async function fetchUserByUsername(username) {
   };
 }
 
-export default async function ProfilePage({ params }) {
+export default function ProfilePage({ params }) {
   const { username } = params;
-  const user = await fetchUserByUsername(username);
-
+  const user = fetchUserByUsername(username);
+  
   return <div >
     <Profile user={user} />
     <Posts />

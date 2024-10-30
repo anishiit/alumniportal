@@ -45,7 +45,7 @@ export default function AlumniMemories() {
     if (typeof window !== 'undefined') {
       let userData = localStorage.getItem("amsjbckumr")
       userData = jwt.verify(userData, process.env.NEXT_PUBLIC_JWT_SECRET)
-      console.log(userData._id)
+      // console.log(userData._id)
       setCurrentUser(userData)
     }
   }
@@ -58,7 +58,7 @@ export default function AlumniMemories() {
   const getAllMemories = async () => {
     try {
       const response = await axios.get(getAllMemoriesUrl)
-      console.log(response.data)
+      // console.log(response.data)
       setMemories(response.data)
 
     } catch (error) {
@@ -125,7 +125,7 @@ export default function AlumniMemories() {
         postedBy: currentUser._id,
         thumbnail: imageInfo
       }).then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         setMemories([...memories, res.data])
         filteredMemories.push(res.data)
         toast({
@@ -199,7 +199,14 @@ export default function AlumniMemories() {
         try {
           axios.post(addCommentOnMemoryUrl, {
             memoryId: memoryId, postedBy: currentUser._id, content: comment
-          }).then((res) => { console.log(res.data.message) })
+          }).then((res) => { 
+            console.log(res.data.message)
+            toast({
+              description: "Your comment added successfully.",
+              variant: "green",
+              duration: 1700
+            }) 
+          })
             .catch((err) => { console.log(err) })
         } catch (error) {
           console.log(error)

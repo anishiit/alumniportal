@@ -134,8 +134,8 @@ export default function ProfileForm() {
     try {
       const response = await axios.post(getUserInfoUrl, { userId: inputs.userId })
       if (typeof window !== 'undefined') {
-        const user = JSON.stringify(response.data.user) 
-        const token =jwt.sign({user:user},process.env.NEXT_PUBLIC_JWT_SECRET , { expiresIn: '3d' })
+        const user = (response.data.user) 
+        const token =jwt.sign(user,process.env.NEXT_PUBLIC_JWT_SECRET , { expiresIn: '3d' })
         localStorage.setItem("amsjbckumr", token)
       }
       // console.log(response.data.user)

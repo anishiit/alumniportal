@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input"
 export default function Page() {
     const location = usePathname()
     const memoryId = location.replace("/memories/", "")
-    console.log(memoryId)
+    // console.log(memoryId)
 
     const { toast } = useToast()
 
@@ -32,7 +32,7 @@ export default function Page() {
             })
                 .then((res) => {
                     setMemory(res.data)
-                    console.log(res.data)
+                    // console.log(res.data)
                     setIsLoading(false)
                 })
                 .catch((err) => {
@@ -58,7 +58,7 @@ export default function Page() {
     }
 
     const handleComment = (memoryId, comment) => {
-        console.log(comment)
+        // console.log(comment)
     }
 
     const formatContent = (content) => {
@@ -77,7 +77,7 @@ export default function Page() {
         if (typeof window !== 'undefined') {
             let userData = localStorage.getItem("amsjbckumr")
             userData = jwt.verify(userData, process.env.NEXT_PUBLIC_JWT_SECRET)
-            console.log(userData._id)
+            // console.log(userData._id)
             setCurrentUser(userData)
         }
     }

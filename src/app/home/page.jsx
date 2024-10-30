@@ -193,7 +193,7 @@ function AlumniCard({ name, class: classYear, position, image, _id }) {
     <Card className="flex flex-col justify-center items-center text-center p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
       <Avatar className="h-24 w-24 mb-4">
         <AvatarImage src={image} alt={`${name}'s profile`} />
-        <AvatarFallback>{userData.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+        <AvatarFallback>{userData.name?.split(' ')?.map(n => n[0])?.join('')}</AvatarFallback>
       </Avatar>
       <h3 className="text-xl font-semibold mb-1">{name}</h3>
       <p className="text-sm text-gray-500 mb-1">Batch of {classYear}</p>
