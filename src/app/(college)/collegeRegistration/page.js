@@ -11,6 +11,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import axios from "axios"
+import Link from "next/link"
 
 export default function CollegeRegistration() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -46,9 +47,11 @@ export default function CollegeRegistration() {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 flex">
-        <div className="container flex h-16 items-center">
-          <GraduationCap className="h-8 w-8 text-blue-600 mr-2" />
-          <span className="font-bold text-2xl text-black">Alumni Portal</span>
+        <div className="container ">
+        <Link href='/' className="flex h-16 items-center">
+        <GraduationCap className="h-8 w-8 text-blue-600 mr-2" />
+          <span className="font-bold text-2xl text-black">Alumni Portal</span></Link>
+          
            
         </div>
         
