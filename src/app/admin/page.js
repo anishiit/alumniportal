@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
 import axios from "axios"
 import { useToast } from "@/hooks/use-toast"
+import { get } from "react-hook-form"
 
 export default function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -102,6 +103,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     getAllregisteredColleges()
     getNonVerifiedColleges()
+    getAllFeedbacks()
   },[])
 
   useEffect(() => {
