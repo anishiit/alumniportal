@@ -50,7 +50,8 @@ function Page() {
             localStorage.setItem("college", college)
           }
 
-          router.push('/collegeDashboard')
+          router.push(`/collegeDashboard/${res.data.college._id}`)
+          setLoading(false)
         })
         .catch((err) => {
           console.log(err);
@@ -58,8 +59,6 @@ function Page() {
             variant: "red",
             title: err.response.data.msg,
           })
-
-          setLoading(false)
         })
 
     } catch (error) {
@@ -122,7 +121,7 @@ function Page() {
                 Create your account
               </Link>
             </p>
-            <form action="#" method="POST" className="mt-8">
+            <form onSubmit={handleSignup} className="mt-8">
               <div className="space-y-5">
 
                 <div>
@@ -163,7 +162,7 @@ function Page() {
                   <p className='text-red-500 text-center font-semibold text-base my-1' >{error}</p>
                   <button
                     disabled={isLoading}
-                    type="button"
+                    type="submit"
                     className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-blue-600"
                     onClick={handleSignup}
                   >
