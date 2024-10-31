@@ -205,6 +205,7 @@ export default function StudentHub() {
     e.preventDefault()
     const formData = new FormData(e.target)
     const proposalData = Object.fromEntries(formData.entries())
+    console.log(proposalData)
     const newProposal = {
       id: Date.now(),
       type: proposals.find(p => p.id === selectedProposal).type,
