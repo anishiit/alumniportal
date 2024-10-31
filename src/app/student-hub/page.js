@@ -37,6 +37,7 @@ import {
   DollarSign
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import Navbar2 from "@/components/header/Navbar2"
 
 export default function StudentHub() {
   const [selectedProposal, setSelectedProposal] = useState(null)
@@ -238,6 +239,8 @@ export default function StudentHub() {
   }, [])
 
   return (
+    <div> 
+    <Navbar2 />
     <main className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
       <Card className="w-full max-w-6xl mx-auto bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-800 dark:to-gray-900">
         <CardHeader>
@@ -400,6 +403,7 @@ export default function StudentHub() {
           </Tabs>
         </CardContent>
       </Card>
-    </main>
+    </main></div>
+   
   )
 }
