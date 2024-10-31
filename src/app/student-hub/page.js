@@ -9,6 +9,15 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+  } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
@@ -469,11 +478,29 @@ export default function StudentHub() {
                       </CardHeader>
                       <CardContent>
                         <p><strong>Type:</strong> {proposal.type}</p>
-                        <p><strong>Submitted:</strong> {formatDistanceToNow(new Date(proposal?.createdAt), { addSuffix: true })}</p>
+                        <p><strong>Submitted:</strong> {formatDistanceToNow(new Date(proposal?.createdAt), { addSuffix: true })} <strong> By: </strong> {proposal.proposedBy?.name}</p>
                         <p><strong>Status:</strong> {proposal.status}</p>
                       </CardContent>
                       <CardFooter>
-                        <Button variant="outline">View Details</Button>
+                        {/* <Button onClick={} variant="outline">View Details</Button> */}
+                        <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant="outline">View Details</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                            <DialogTitle>
+                                <p className="text-center my-5" >Details of Proposal</p>
+                            </DialogTitle>
+                            <h1>Title : {proposal.title}</h1>
+                            <p className="text-sm">
+                                Submitted By {proposal.proposedBy?.name} {formatDistanceToNow(new Date(proposal.createdAt), { addSuffix: true })}
+                            </p >
+                            <p className="text-base">Description : </p>
+                            <DialogDescription>{proposal.description}</DialogDescription>                            
+                            </DialogHeader>
+                        </DialogContent>
+                        </Dialog>
                       </CardFooter>
                     </Card>
                   ))}
