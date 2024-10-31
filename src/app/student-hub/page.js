@@ -20,9 +20,24 @@ import {
   Briefcase,
   Search,
   Filter,
-  Calendar
+  Calendar,
+  Leaf,
+  Monitor,
+  Book,
+  FileText,
+  Zap,
+  Repeat,
+  GitBranch,
+  Users2,
+  Heart,
+  Smartphone,
+  Glasses,
+  Hammer,
+  Globe,
+  DollarSign
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import Navbar2 from "@/components/header/Navbar2"
 
 export default function StudentHub() {
   const [selectedProposal, setSelectedProposal] = useState(null)
@@ -31,7 +46,14 @@ export default function StudentHub() {
   const [submittedProposals, setSubmittedProposals] = useState([])
   const { toast } = useToast()
 
-  const proposals = [
+  const proposals = [{
+      id: 4,
+      type: "Innovation",
+      title: "New Initiative",
+      description: "Propose a new initiative or project for the student community",
+      icon: <Lightbulb className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Initiative Title", "Objectives", "Implementation Plan", "Resource Requirements"]
+    },
     {
       id: 1,
       type: "Problem",
@@ -56,13 +78,126 @@ export default function StudentHub() {
       icon: <Code className="w-6 h-6" aria-hidden="true" />,
       fields: ["Hackathon Theme", "Technical Requirements", "Timeline", "Expected Outcomes"]
     },
+    
     {
-      id: 4,
-      type: "Innovation",
-      title: "New Initiative",
-      description: "Propose a new initiative or project for the student community",
-      icon: <Lightbulb className="w-6 h-6" aria-hidden="true" />,
-      fields: ["Initiative Title", "Objectives", "Implementation Plan", "Resource Requirements"]
+      id: 5,
+      type: "SkillExchange",
+      title: "Skill Exchange Network",
+      description: "Offer or request mentorship in areas like coding, design, communication, and more",
+      icon: <Users className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Skill Offered/Requested", "Experience Level", "Availability", "Expected Outcomes"]
+    },
+    {
+      id: 6,
+      type: "SustainableCampus",
+      title: "Sustainable Campus Challenge",
+      description: "Propose eco-friendly projects to reduce waste and promote clean energy",
+      icon: <Leaf className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Project Title", "Environmental Impact", "Implementation Strategy", "Resource Needs"]
+    },
+    {
+      id: 7,
+      type: "TechDemo",
+      title: "Tech Demo Day",
+      description: "Showcase your tech projects, apps, or inventions for feedback and inspiration",
+      icon: <Monitor className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Project Name", "Technology Stack", "Demo Requirements", "Feedback Areas"]
+    },
+    {
+      id: 8,
+      type: "KnowledgeBase",
+      title: "Community Knowledge Base",
+      description: "Contribute to a shared database of tutorials, guides, and resources",
+      icon: <Book className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Resource Title", "Topic/Category", "Content Summary", "Target Audience"]
+    },
+    {
+      id: 9,
+      type: "ResearchCollaboration",
+      title: "Research Collaboration Portal",
+      description: "Share research ideas and find collaborators for projects and grant applications",
+      icon: <FileText className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Research Topic", "Objectives", "Required Expertise", "Potential Funding Sources"]
+    },
+    {
+      id: 10,
+      type: "InnovationSprint",
+      title: "Monthly Innovation Sprint",
+      description: "Participate in a monthly challenge to solve specific problems rapidly",
+      icon: <Zap className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Sprint Theme", "Problem Statement", "Proposed Solution", "Team Requirements"]
+    },
+    {
+      id: 11,
+      type: "CareerExperience",
+      title: "Career Experience Swap",
+      description: "Share insights from internships, volunteer work, or projects",
+      icon: <Briefcase className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Experience Type", "Company/Organization", "Key Learnings", "Advice for Peers"]
+    },
+    {
+      id: 12,
+      type: "OpenSource",
+      title: "Open Source Contributions Hub",
+      description: "Learn about and contribute to open-source projects",
+      icon: <GitBranch className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Project Name", "Technology/Language", "Contribution Type", "Getting Started Guide"]
+    },
+    {
+      id: 13,
+      type: "Interdisciplinary",
+      title: "Interdisciplinary Think Tank",
+      description: "Collaborate on projects requiring cross-disciplinary expertise",
+      icon: <Users2 className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Project Title", "Disciplines Involved", "Problem Statement", "Desired Outcomes"]
+    },
+    {
+      id: 14,
+      type: "MentalHealth",
+      title: "Mental Health & Wellness Lab",
+      description: "Propose and participate in mental health and wellness initiatives",
+      icon: <Heart className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Initiative Type", "Target Audience", "Expected Benefits", "Resource Requirements"]
+    },
+    {
+      id: 15,
+      type: "AppDevelopment",
+      title: "App Development Incubator",
+      description: "Get resources and mentorship for mobile or web app development",
+      icon: <Smartphone className="w-6 h-6" aria-hidden="true" />,
+      fields: ["App Concept", "Target Platform", "Key Features", "Development Timeline"]
+    },
+    {
+      id: 16,
+      type: "InnovationLab",
+      title: "Interactive Innovation Lab",
+      description: "Participate in workshops on emerging technologies like AR, VR, AI, or IoT",
+      icon: <Glasses className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Workshop Topic", "Technology Focus", "Learning Objectives", "Prerequisites"]
+    },
+    {
+      id: 17,
+      type: "PrototypeChallenge",
+      title: "Idea-to-Prototype Challenge",
+      description: "Bring an idea from concept to prototype with mentor support",
+      icon: <Hammer className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Idea Summary", "Target User", "Key Features", "Prototype Goals"]
+    },
+    {
+      id: 18,
+      type: "GlobalIssue",
+      title: "Global Issue Forum",
+      description: "Discuss and brainstorm solutions for global challenges",
+      icon: <Globe className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Issue Category", "Problem Statement", "Proposed Solution", "Impact Assessment"]
+    },
+    {
+      id: 19,
+      type: "FundingPitch",
+      title: "Student Funding Pitch Night",
+      description: "Pitch innovative ideas to potential sponsors or investors",
+      icon: <DollarSign className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Project Name", "Funding Amount", "Use of Funds", "Return on Investment"]
     }
   ]
 
@@ -80,8 +215,9 @@ export default function StudentHub() {
     setSubmittedProposals(prev => [newProposal, ...prev])
     toast({
       title: "Proposal Submitted!",
-      description: "Your proposal has been sent to your college. Wait for furthur review.",
-      variant: "green"
+      description: "Your proposal has been sent for review to your college.Wait for further updates!.",
+      variant: "green",
+      duration: 10000
     })
     setSelectedProposal(null)
   }
@@ -97,10 +233,14 @@ export default function StudentHub() {
       { id: 1, type: "Problem", title: "Campus Wi-Fi Improvement", date: "2023-05-15", status: "In Progress" },
       { id: 2, type: "Startup", title: "EcoEats: Sustainable Food Delivery", date: "2023-05-10", status: "Under Review" },
       { id: 3, type: "Hackathon", title: "AI for Accessibility", date: "2023-05-05", status: "Approved" },
+      { id: 4, type: "SkillExchange", title: "Web Development Mentorship", date: "2023-05-20", status: "Active" },
+      { id: 5, type: "SustainableCampus", title: "Solar-Powered Study Areas", date: "2023-05-18", status: "Under Review" },
     ])
   }, [])
 
   return (
+    <div> 
+    <Navbar2 />
     <main className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
       <Card className="w-full max-w-6xl mx-auto bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-800 dark:to-gray-900">
         <CardHeader>
@@ -108,7 +248,7 @@ export default function StudentHub() {
             Student Innovation Hub
           </CardTitle>
           <CardDescription className="text-center text-lg">
-            Transform your ideas into reality
+            Transform your ideas into reality and make an impact
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -149,7 +289,9 @@ export default function StudentHub() {
                             </Label>
                             {field === "Description" || 
                              field.includes("Analysis") || 
-                             field.includes("Plan") ? (
+                             field.includes("Plan") ||
+                             field.includes("Summary") ||
+                             field.includes("Impact") ? (
                               <Textarea
                                 id={field.toLowerCase().replace(/\s+/g, '-')}
                                 name={field}
@@ -177,23 +319,33 @@ export default function StudentHub() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                    className="grid gap-6 md:grid-cols-2"
+                    transition={{ 
+                      duration: 0.3,
+                      staggerChildren: 0.1,
+                    }}
+                    className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
                   >
-                    {proposals.map((proposal) => (
-                      <Card
+                    {proposals.map((proposal) =>   (
+                      <motion.div
                         key={proposal.id}
-                        className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-                        onClick={() => setSelectedProposal(proposal.id)}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="flex"
                       >
-                        <CardHeader>
-                          <CardTitle className="flex items-center gap-2">
-                            {proposal.icon}
-                            {proposal.title}
-                          </CardTitle>
-                          <CardDescription>{proposal.description}</CardDescription>
-                        </CardHeader>
-                      </Card>
+                        <Card
+                          className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col w-full"
+                          onClick={() => setSelectedProposal(proposal.id)}
+                        >
+                          <CardHeader className="flex-grow">
+                            <CardTitle className="flex items-center gap-2">
+                              {proposal.icon}
+                              {proposal.title}
+                            </CardTitle>
+                            <CardDescription>{proposal.description}</CardDescription>
+                          </CardHeader>
+                        </Card>
+                      </motion.div>
                     ))}
                   </motion.div>
                 )}
@@ -218,10 +370,11 @@ export default function StudentHub() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="All">All Categories</SelectItem>
-                      <SelectItem value="Problem">Problems</SelectItem>
-                      <SelectItem value="Startup">Startups</SelectItem>
-                      <SelectItem value="Hackathon">Hackathons</SelectItem>
-                      <SelectItem value="Innovation">New Initiatives</SelectItem>
+                      {proposals.map((proposal) => (
+                        <SelectItem key={proposal.id} value={proposal.type}>
+                          {proposal.title}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -230,10 +383,7 @@ export default function StudentHub() {
                     <Card key={proposal.id}>
                       <CardHeader>
                         <CardTitle className="flex items-center gap-2">
-                          {proposal.type === "Problem" && <Brain className="w-5 h-5" aria-hidden="true" />}
-                          {proposal.type === "Startup" && <Rocket className="w-5 h-5" aria-hidden="true" />}
-                          {proposal.type === "Hackathon" && <Code className="w-5 h-5" aria-hidden="true" />}
-                          {proposal.type === "Innovation" && <Lightbulb className="w-5 h-5" aria-hidden="true" />}
+                          {proposals.find(p => p.type === proposal.type)?.icon}
                           {proposal.title}
                         </CardTitle>
                       </CardHeader>
@@ -253,6 +403,7 @@ export default function StudentHub() {
           </Tabs>
         </CardContent>
       </Card>
-    </main>
+    </main></div>
+   
   )
 }
