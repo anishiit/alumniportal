@@ -80,6 +80,10 @@ export const updateCollegeEventUrl = `${college_backend_url}/event/updateevent`
 
 export const deleteCollegeEventUrl = `${college_backend_url}/event/deleteevent`
 
+export const createStudenthubUrl = `${college_backend_url}/studenthub/create`
+
+export const getStudenthubUrl = `${college_backend_url}/studenthub/get`
+
 // feedbackURl
 
 export const getFeedbacksUrl = `${user_backend_url}/feedback/getallfeedback`
