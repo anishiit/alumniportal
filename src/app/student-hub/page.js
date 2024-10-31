@@ -214,8 +214,9 @@ export default function StudentHub() {
     setSubmittedProposals(prev => [newProposal, ...prev])
     toast({
       title: "Proposal Submitted!",
-      description: "Your proposal has been sent for review. We'll get back to you soon.",
-      variant: "green"
+      description: "Your proposal has been sent for review to your college.Wait for further updates!.",
+      variant: "green",
+      duration: 10000
     })
     setSelectedProposal(null)
   }
