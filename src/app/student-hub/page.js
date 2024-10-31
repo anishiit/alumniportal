@@ -1,5 +1,7 @@
 'use client'
 
+import jwt from "jsonwebtoken"
+
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
@@ -38,6 +40,10 @@ import {
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import Navbar2 from "@/components/header/Navbar2"
+import { collegeName } from "@/data/college"
+import axios from "axios"
+import { createStudenthubUrl, getStudenthubUrl } from "@/urls/urls"
+import {formatDistanceToNow} from 'date-fns'
 
 export default function StudentHub() {
   const [selectedProposal, setSelectedProposal] = useState(null)
@@ -45,6 +51,10 @@ export default function StudentHub() {
   const [filterCategory, setFilterCategory] = useState("All")
   const [submittedProposals, setSubmittedProposals] = useState([])
   const { toast } = useToast()
+
+  const [selectedType , setSelectedType] = useState("")
+  const [inputs, setInputs] = useState({})
+  const [proposalFile, setProposalFile] = useState(null)
 
   const proposals = [{
       id: 4,
@@ -201,25 +211,66 @@ export default function StudentHub() {
     }
   ]
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const formData = new FormData(e.target)
-    const proposalData = Object.fromEntries(formData.entries())
-    const newProposal = {
-      id: Date.now(),
-      type: proposals.find(p => p.id === selectedProposal).type,
-      title: proposalData[proposals.find(p => p.id === selectedProposal).fields[0]],
-      date: new Date().toLocaleDateString(),
-      status: "Under Review"
+    let currUser = {};
+    if(typeof window !== "undefined") {
+        currUser = localStorage.getItem("amsjbckumr")
+        currUser = jwt.verify(currUser, process.env.NEXT_PUBLIC_JWT_SECRET) 
     }
-    setSubmittedProposals(prev => [newProposal, ...prev])
-    toast({
-      title: "Proposal Submitted!",
-      description: "Your proposal has been sent for review to your college.Wait for further updates!.",
-      variant: "green",
-      duration: 10000
+    // console.log({...inputs, type:selectedType, proposedBy: currUser._id, collegeName: currUser.collegeName})
+    try {
+      await axios.post(createStudenthubUrl, {...inputs, type:selectedType, 
+        proposedBy: currUser._id, collegeName: currUser.collegeName
+        })
+    .then((res) => {
+        console.log(res.data.studenthub)
+        setSubmittedProposals([res.data.studenthub, ...submittedProposals])
+        setInputs({})
+        setSelectedProposal(null);
+        setSelectedType("");
+        toast({
+            title: "Proposal Submitted!",
+            description: "Your proposal has been sent for review to your college.Wait for further updates!.",
+            variant: "green",
+            duration: 10000
+        })
+        return 
     })
-    setSelectedProposal(null)
+    .catch((err) => {
+        console.log(err)
+        toast({
+            title: "Proposal Submitted!",
+            description: err.message,
+            variant: "red",
+            duration: 10000
+        })
+        return
+    })
+    } catch (error) {
+        console.log(error)
+        toast({
+            title: "Proposal Submitted!",
+            description: error.message,
+            variant: "red",
+            duration: 10000
+        })
+        return
+    }
+  }
+
+  const getStudenthub = async () => {
+    try {
+      let currUser = {};
+      if(typeof window !== "undefined") {
+          currUser = localStorage.getItem("amsjbckumr")
+          currUser = jwt.verify(currUser, process.env.NEXT_PUBLIC_JWT_SECRET) 
+      }
+      const res = await axios.post(getStudenthubUrl, { collegeName: currUser.collegeName} )
+      setSubmittedProposals(res.data.studenthub)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const filteredProposals = submittedProposals.filter(proposal => 
@@ -229,13 +280,14 @@ export default function StudentHub() {
 
   useEffect(() => {
     // Simulating fetched data
-    setSubmittedProposals([
-      { id: 1, type: "Problem", title: "Campus Wi-Fi Improvement", date: "2023-05-15", status: "In Progress" },
-      { id: 2, type: "Startup", title: "EcoEats: Sustainable Food Delivery", date: "2023-05-10", status: "Under Review" },
-      { id: 3, type: "Hackathon", title: "AI for Accessibility", date: "2023-05-05", status: "Approved" },
-      { id: 4, type: "SkillExchange", title: "Web Development Mentorship", date: "2023-05-20", status: "Active" },
-      { id: 5, type: "SustainableCampus", title: "Solar-Powered Study Areas", date: "2023-05-18", status: "Under Review" },
-    ])
+    getStudenthub()
+    // setSubmittedProposals([
+    //   { _id: 1, type: "Problem", title: "Campus Wi-Fi Improvement", createdAt: "2023-05-15", status: "In Progress" },
+    //   { _id: 2, type: "Startup", title: "EcoEats: Sustainable Food Delivery", createdAt: "2023-05-10", status: "Under Review" },
+    //   { _id: 3, type: "Hackathon", title: "AI for Accessibility", createdAt: "2023-05-05", status: "Approved" },
+    //   { _id: 4, type: "SkillExchange", title: "Web Development Mentorship", createdAt: "2023-05-20", status: "Active" },
+    //   { _id: 5, type: "SustainableCampus", title: "Solar-Powered Study Areas", createdAt: "2023-05-18", status: "Under Review" },
+    // ])
   }, [])
 
   return (
@@ -280,7 +332,7 @@ export default function StudentHub() {
                           {proposals.find(p => p.id === selectedProposal).title}
                         </h2>
                       </div>
-                      {proposals
+                      {/* {proposals
                         .find(p => p.id === selectedProposal)
                         .fields.map((field, index) => (
                           <div key={index} className="space-y-2">
@@ -308,7 +360,35 @@ export default function StudentHub() {
                               />
                             )}
                           </div>
-                        ))}
+                        ))} */}
+                        <div>
+                            <Label htmlFor="title">Title</Label>
+                            <Input
+                            id="title"
+                            value={inputs.title}
+                            onChange={(e) => setInputs({...inputs, title: e.target.value})}
+                            required
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="description">Description</Label>
+                            <Textarea
+                            id="description"
+                            value={inputs.description}
+                            onChange={(e) => setInputs({...inputs, description: e.target.value})}
+                            required
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="file">Upload PDF</Label>
+                            <Input
+                            id="file"
+                            type="file"
+                            accept=".pdf"
+                            onChange={(e) => setProposalFile(e.target.files[0])}
+
+                            />
+                        </div>
                       <Button type="submit" className="w-full">
                         <Send className="mr-2 h-4 w-4" aria-hidden="true" /> Submit Proposal
                       </Button>
@@ -335,7 +415,7 @@ export default function StudentHub() {
                       >
                         <Card
                           className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col w-full"
-                          onClick={() => setSelectedProposal(proposal.id)}
+                          onClick={() => {setSelectedProposal(proposal.id); console.log(proposal.type); setSelectedType(proposal.type)}}
                         >
                           <CardHeader className="flex-grow">
                             <CardTitle className="flex items-center gap-2">
@@ -389,7 +469,7 @@ export default function StudentHub() {
                       </CardHeader>
                       <CardContent>
                         <p><strong>Type:</strong> {proposal.type}</p>
-                        <p><strong>Submitted:</strong> {proposal.date}</p>
+                        <p><strong>Submitted:</strong> {formatDistanceToNow(new Date(proposal?.createdAt), { addSuffix: true })}</p>
                         <p><strong>Status:</strong> {proposal.status}</p>
                       </CardContent>
                       <CardFooter>
