@@ -12,8 +12,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
 import axios from "axios"
 import { useToast } from "@/hooks/use-toast"
-import { getFeedbacksUrl, getAllCollegesUrl, getNonVarifiedCollegesUrl, verifyCollegeUrl, rejectverifyCollegeUrl, blockCollegeUrl ,getAllCollegeCountUrl} from "@/urls/urls.js"
+import { getFeedbacksUrl, getAllCollegesUrl, getNonVarifiedCollegesUrl, verifyCollegeUrl, rejectverifyCollegeUrl, blockCollegeUrl ,getAllCollegeCountUrl, getAllStudentsCountUrl, getAllAlumniCountUrl} from "@/urls/urls.js"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { set } from "date-fns"
 
 export default function AdminDashboard() {
   const { toast } = useToast()
@@ -27,6 +28,8 @@ export default function AdminDashboard() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const [totalColleges, setTotalColleges] = useState(0)
+  const [totalStudents, setTotalStudents] = useState(0)
+  const [totalAlumni, setTotalAlumni] = useState(0)
 
   const colleges = [
     { id: 1, name: "Tech University", plan: "Premium", students: 5000, alumni: 20000, status: "Approved", remainingTime: "11 months", revenue: 50000 },
@@ -58,6 +61,39 @@ export default function AdminDashboard() {
       console.error('Error:', error)
     }
   }
+
+  const getAllAlumniCount = async () => {
+    try {
+      await axios
+        .get(getAllAlumniCountUrl)
+        .then((res) => {
+          console.log(res.data.count)
+          setTotalAlumni(res.data.count)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } catch (error) {
+      console.error('Error:', error)
+    }
+  }
+
+  const getAllStudentCount = async () => {
+    try {
+      await axios
+        .get(getAllStudentsCountUrl)
+        .then((res) => {
+          console.log(res.data.count)
+          setTotalStudents(res.data.count)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } catch (error) {
+      console.error('Error:', error)
+    }
+  }
+
   const getAllFeedbacks = async () => {
     try {
       await axios
@@ -204,6 +240,8 @@ export default function AdminDashboard() {
     getNonVerifiedColleges()
     getAllFeedbacks()
     getCollegeCount()
+    getAllAlumniCount()
+    getAllStudentCount()
   }, [])
 
   useEffect(() => {
@@ -296,7 +334,7 @@ export default function AdminDashboard() {
                       <Users className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">150,000</div>
+                      <div className="text-2xl font-bold">{totalStudents}</div>
                       <p className="text-xs text-muted-foreground">+5% from last month</p>
                     </CardContent>
                   </Card>
@@ -306,7 +344,7 @@ export default function AdminDashboard() {
                       <Users className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">500,000</div>
+                      <div className="text-2xl font-bold">{totalAlumni}</div>
                       <p className="text-xs text-muted-foreground">+2% from last month</p>
                     </CardContent>
                   </Card>

@@ -55,7 +55,7 @@ function Navbar2() {
     { name: "Search Job", href: "/jobposts", external: true, icon: <Search className="h-4 w-4 mr-2" /> },
     { name: "Messages", href: "/chat", external: true, icon: <Mail className="h-4 w-4 mr-2" /> },
     { name: "Memories", href: "/memories", external: true, icon: <SmilePlus className="h-4 w-4 mr-2" /> },
-    { name: "Events", href: "/event", external: true, icon: <Calendar className="h-4 w-4 mr-2" /> },
+    { name: "Student Hub", href: "/student-hub", external: true, icon: <Calendar className="h-4 w-4 mr-2" /> },
     { name: "Profile", href: `/profile/${user._id}`, external: true, className: " md:hidden", icon: <User className="h-4 w-4 mr-2" /> },
   ]
 
