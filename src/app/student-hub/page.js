@@ -1,184 +1,258 @@
-"use client"
+'use client'
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Calendar, Users, Briefcase, Rocket, ArrowLeft } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import Navbar2 from "@/components/header/Navbar2"
-import { useToast } from "@/hooks/use-toast"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+  Rocket,
+  Brain,
+  Code,
+  Lightbulb,
+  ArrowLeft,
+  Send,
+  Users,
+  Briefcase,
+  Search,
+  Filter,
+  Calendar
+} from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 
-const events = [
-  {
-    id: 1,
-    title: "Annual Alumni Meet 2024",
-    date: "August 15-17, 2024",
-    description: "Join us for three days of networking, knowledge sharing, and celebration of our alma mater.",
-    image: "/image/event1.jpeg",
-    icon: <Users className="w-6 h-6" />,
-    details: "The Annual Alumni Meet 2024 is our flagship event, bringing together graduates from all over the world. This year's theme is 'Innovating for Tomorrow,' featuring keynote speeches from industry leaders, panel discussions on emerging technologies, and opportunities to reconnect with old friends and make new connections. The event will also showcase the latest developments at our university and how alumni can contribute to its growth."
-  },
-  {
-    id: 2,
-    title: "Tech Symposium",
-    date: "October 5-6, 2024",
-    description: "Explore the latest trends in technology with industry experts and academic leaders.",
-    image: "/image/event2.jpeg",
-    icon: <Rocket className="w-6 h-6" />,
-    details: "The Tech Symposium is a two-day event focused on cutting-edge technologies shaping our future. Attendees will have the opportunity to participate in workshops on AI, blockchain, and quantum computing, hear from pioneering researchers, and engage in hands-on demonstrations of emerging tech. This event is perfect for alumni looking to stay at the forefront of technological advancements and network with like-minded professionals."
-  },
-  {
-    id: 3,
-    title: "Career Fair for Current Students",
-    date: "November 12, 2024",
-    description: "Help shape the future of our current students by participating in our annual career fair.",
-    image: "/image/event3.jpeg",
-    icon: <Briefcase className="w-6 h-6" />,
-    details: "The Career Fair for Current Students is an excellent opportunity for alumni to give back to their alma mater. By participating, you can showcase your company, offer internships or job opportunities, and provide valuable career advice to the next generation of professionals. The fair will feature company booths, one-on-one mentoring sessions, and panel discussions on various career paths and industry trends."
-  },
-  {
-    id: 4,
-    title: "Student Startup Showcase",
-    date: "December 3, 2024",
-    description: "Witness the entrepreneurial spirit of our current students and support their innovative ventures.",
-    image: "/image/event1.jpeg",
-    icon: <Rocket className="w-6 h-6" />,
-    details: "The Student Startup Showcase is an exciting event that highlights the entrepreneurial talent within our university. Current students will present their startup ideas and prototypes to an audience of alumni, investors, and industry experts. This is your chance to discover the next big innovation, offer mentorship, or even consider investment opportunities. The event will include pitch presentations, a startup expo, and networking sessions."
-  }
-]
-
-export default function EventPage() {
-  const [selectedEvent, setSelectedEvent] = useState(null)
+export default function StudentHub() {
+  const [selectedProposal, setSelectedProposal] = useState(null)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [filterCategory, setFilterCategory] = useState("All")
+  const [submittedProposals, setSubmittedProposals] = useState([])
   const { toast } = useToast()
 
-  const handleWelcomeClick = () => {
+  const proposals = [
+    {
+      id: 1,
+      type: "Problem",
+      title: "Raise a Problem",
+      description: "Share a challenge or issue you've identified that needs attention",
+      icon: <Brain className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Problem Title", "Description", "Proposed Solution", "Expected Impact"]
+    },
+    {
+      id: 2,
+      type: "Startup",
+      title: "Propose a Startup",
+      description: "Present your innovative startup idea to get support and feedback",
+      icon: <Rocket className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Startup Name", "Business Model", "Market Analysis", "Required Resources"]
+    },
+    {
+      id: 3,
+      type: "Hackathon",
+      title: "Hackathon Proposal",
+      description: "Suggest a hackathon theme and help organize a coding event",
+      icon: <Code className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Hackathon Theme", "Technical Requirements", "Timeline", "Expected Outcomes"]
+    },
+    {
+      id: 4,
+      type: "Innovation",
+      title: "New Initiative",
+      description: "Propose a new initiative or project for the student community",
+      icon: <Lightbulb className="w-6 h-6" aria-hidden="true" />,
+      fields: ["Initiative Title", "Objectives", "Implementation Plan", "Resource Requirements"]
+    }
+  ]
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    const proposalData = Object.fromEntries(formData.entries())
+    const newProposal = {
+      id: Date.now(),
+      type: proposals.find(p => p.id === selectedProposal).type,
+      title: proposalData[proposals.find(p => p.id === selectedProposal).fields[0]],
+      date: new Date().toLocaleDateString(),
+      status: "Under Review"
+    }
+    setSubmittedProposals(prev => [newProposal, ...prev])
     toast({
-      variant: "green",
-      title: "Request Submitted!",
-      description: "We've sent your event participation request to the college team. They'll be in touch soon!",
-    });
+      title: "Proposal Submitted!",
+      description: "Your proposal has been received. We'll review it and get back to you soon.",
+      variant: "default"
+    })
+    setSelectedProposal(null)
   }
 
+  const filteredProposals = submittedProposals.filter(proposal => 
+    (filterCategory === "All" || proposal.type === filterCategory) &&
+    proposal.title.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
+  useEffect(() => {
+    // Simulating fetched data
+    setSubmittedProposals([
+      { id: 1, type: "Problem", title: "Campus Wi-Fi Improvement", date: "2023-05-15", status: "In Progress" },
+      { id: 2, type: "Startup", title: "EcoEats: Sustainable Food Delivery", date: "2023-05-10", status: "Under Review" },
+      { id: 3, type: "Hackathon", title: "AI for Accessibility", date: "2023-05-05", status: "Approved" },
+    ])
+  }, [])
+
   return (
-    <div>
-      <Navbar2 />
-      <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <Card className="w-full max-w-6xl mx-auto bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 shadow-xl">
-          <CardHeader className="pb-4">
-            <div className="flex justify-between items-center">
-              <CardTitle className="text-3xl sm:text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
-                Students Hub
-              </CardTitle>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button className="bg-blue-600 text-white hover:bg-blue-600/80 hover:text-white" variant="ghost"> <Rocket className="mr-2 text-sm" /> Raise a Proposal</Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem asChild>
-                    <Link href="/student-hub/proposal-form?type=Problem">Raise a Problem</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/student-hub/proposal-form?type=Startup">Proposal for Startup</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/student-hub/proposal-form?type=Hackathon">Proposal for Hackathon</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/student-hub/proposal-form?type=New">Proposal for New</Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <AnimatePresence mode="wait">
-              {selectedEvent ? (
-                <motion.div
-                  key="event-details"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Button
-                    variant="ghost"
-                    onClick={() => setSelectedEvent(null)}
-                    className="mb-4"
+    <main className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
+      <Card className="w-full max-w-6xl mx-auto bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-800 dark:to-gray-900">
+        <CardHeader>
+          <CardTitle className="text-3xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600">
+            Student Innovation Hub
+          </CardTitle>
+          <CardDescription className="text-center text-lg">
+            Transform your ideas into reality
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="submit" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="submit">Submit Proposal</TabsTrigger>
+              <TabsTrigger value="view">View Proposals</TabsTrigger>
+            </TabsList>
+            <TabsContent value="submit">
+              <AnimatePresence mode="wait">
+                {selectedProposal ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
                   >
-                    <ArrowLeft className="mr-2 h-4 w-4" /> Back to Events
-                  </Button>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-2xl font-semibold flex items-center">
-                        {selectedEvent.icon}
-                        <span className="ml-2">{selectedEvent.title}</span>
-                      </CardTitle>
-                      <CardDescription>{selectedEvent.date}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <Image
-                        src={selectedEvent.image}
-                        alt={selectedEvent.title}
-                        width={600}
-                        height={400}
-                        className="w-full rounded-lg mb-4"
-                      />
-                      <p className="text-muted-foreground mb-4">{selectedEvent.details}</p>
-                      <Button onClick={handleWelcomeClick}>Participate Now</Button>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="event-list"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className="grid gap-6 md:grid-cols-2">
-                    {events.map((event) => (
-                      <Card key={event.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                        <CardHeader>
-                          <CardTitle className="text-xl font-semibold flex items-center">
-                            {event.icon}
-                            <span className="ml-2">{event.title}</span>
-                          </CardTitle>
-                          <CardDescription>{event.date}</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <Image
-                            src={event.image}
-                            alt={event.title}
-                            width={600}
-                            height={400}
-                            className="w-full rounded-lg mb-4"
-                          />
-                          <p className="text-muted-foreground mb-4">{event.description}</p>
-                          <div className="flex justify-between items-center">
-                            <Button variant="outline" onClick={() => setSelectedEvent(event)}>
-                              Learn More
-                            </Button>
-                            <Button onClick={handleWelcomeClick}>Participate</Button>
+                    <Button
+                      variant="ghost"
+                      onClick={() => setSelectedProposal(null)}
+                      className="mb-6"
+                    >
+                      <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" /> Back to Proposals
+                    </Button>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      <div className="flex items-center gap-2 mb-6">
+                        {proposals.find(p => p.id === selectedProposal).icon}
+                        <h2 className="text-2xl font-semibold">
+                          {proposals.find(p => p.id === selectedProposal).title}
+                        </h2>
+                      </div>
+                      {proposals
+                        .find(p => p.id === selectedProposal)
+                        .fields.map((field, index) => (
+                          <div key={index} className="space-y-2">
+                            <Label htmlFor={field.toLowerCase().replace(/\s+/g, '-')}>
+                              {field}
+                            </Label>
+                            {field === "Description" || 
+                             field.includes("Analysis") || 
+                             field.includes("Plan") ? (
+                              <Textarea
+                                id={field.toLowerCase().replace(/\s+/g, '-')}
+                                name={field}
+                                placeholder={`Enter ${field.toLowerCase()}`}
+                                className="min-h-[100px]"
+                                required
+                              />
+                            ) : (
+                              <Input
+                                id={field.toLowerCase().replace(/\s+/g, '-')}
+                                name={field}
+                                placeholder={`Enter ${field.toLowerCase()}`}
+                                required
+                              />
+                            )}
                           </div>
-                        </CardContent>
+                        ))}
+                      <Button type="submit" className="w-full">
+                        <Send className="mr-2 h-4 w-4" aria-hidden="true" /> Submit Proposal
+                      </Button>
+                    </form>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="grid gap-6 md:grid-cols-2"
+                  >
+                    {proposals.map((proposal) => (
+                      <Card
+                        key={proposal.id}
+                        className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                        onClick={() => setSelectedProposal(proposal.id)}
+                      >
+                        <CardHeader>
+                          <CardTitle className="flex items-center gap-2">
+                            {proposal.icon}
+                            {proposal.title}
+                          </CardTitle>
+                          <CardDescription>{proposal.description}</CardDescription>
+                        </CardHeader>
                       </Card>
                     ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </TabsContent>
+            <TabsContent value="view">
+              <div className="space-y-4">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="relative flex-grow">
+                    <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <Input
+                      type="text"
+                      placeholder="Search proposals..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-8"
+                    />
                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+                  <Select value={filterCategory} onValueChange={setFilterCategory}>
+                    <SelectTrigger className="w-full sm:w-[180px]">
+                      <SelectValue placeholder="Filter by category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="All">All Categories</SelectItem>
+                      <SelectItem value="Problem">Problems</SelectItem>
+                      <SelectItem value="Startup">Startups</SelectItem>
+                      <SelectItem value="Hackathon">Hackathons</SelectItem>
+                      <SelectItem value="Innovation">New Initiatives</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-4">
+                  {filteredProposals.map((proposal) => (
+                    <Card key={proposal.id}>
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          {proposal.type === "Problem" && <Brain className="w-5 h-5" aria-hidden="true" />}
+                          {proposal.type === "Startup" && <Rocket className="w-5 h-5" aria-hidden="true" />}
+                          {proposal.type === "Hackathon" && <Code className="w-5 h-5" aria-hidden="true" />}
+                          {proposal.type === "Innovation" && <Lightbulb className="w-5 h-5" aria-hidden="true" />}
+                          {proposal.title}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p><strong>Type:</strong> {proposal.type}</p>
+                        <p><strong>Submitted:</strong> {proposal.date}</p>
+                        <p><strong>Status:</strong> {proposal.status}</p>
+                      </CardContent>
+                      <CardFooter>
+                        <Button variant="outline">View Details</Button>
+                      </CardFooter>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
+    </main>
   )
 }
