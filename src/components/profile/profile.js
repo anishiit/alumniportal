@@ -215,10 +215,14 @@ export default function ProfileDisplay({ user }) {
               {/* <AvatarImage src="/image/profileLogo.png" alt={profile.fullName} /> */}
               <AvatarFallback>{usr.name?.split(" ").map(n => n[0]).join("")}</AvatarFallback>
             </Avatar>
+            
           </div>
           <div className="text-white text-center sm:text-left sm:pl-36 lg:pl-40">
             <h1 className="text-2xl sm:text-3xl font-bold">{usr?.name }</h1>
+
             <p className="text-sm sm:text-base mt-1">{usr?.jobTitle} at {usr?.companyName}</p>
+            <Link href="/connections"><p className="text-sm text-white mt-1">100 connections</p></Link>
+            
           </div>
         </div>
         <CardContent className="pt-16 pb-6 px-4 sm:px-6 lg:px-8">

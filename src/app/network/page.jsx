@@ -63,7 +63,7 @@ function Page() {
       await axios.post(getUserConnectionsUrl, {
         userId: user._id
       }).then((res) => {
-        console.log(res.data)
+        console.log(res.data.connectedUsers)
         setConnections(res.data.connectedUsers)
       })
         .catch((err) => {
