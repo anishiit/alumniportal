@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, Github, GraduationCap, Linkedin, Mail, MapPin, Phone, User, Briefcase, Building, MessageCircle,Plus, SmilePlus } from "lucide-react"
+import { Calendar, Github, Users,GraduationCap, Linkedin, Mail, MapPin, Phone, User, Briefcase, Building, MessageCircle,Plus, SmilePlus } from "lucide-react"
 import { usePathname } from 'next/navigation';
 import axios from 'axios';
 import { createUserInvitationUrl, getUserInfoUrl } from '@/urls/urls';
@@ -128,6 +128,10 @@ export default function ProfileDisplay({ user }) {
       })
     })
   }
+
+  const handleMessage = () => {
+    router.push(`/chat?userId=${usr._id}`)
+  }
   
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -139,9 +143,6 @@ export default function ProfileDisplay({ user }) {
       }
     }
   }, [])
-  const handleMessage = () => {
-    // Logic to open a messaging interface
-  };
 
   const handleDonate = () => {
     // Logic to handle donation (e.g., open a payment gateway)
@@ -224,16 +225,17 @@ export default function ProfileDisplay({ user }) {
             <p className="text-sm sm:text-base mt-1">{usr?.jobTitle} at {usr?.companyName}</p>
             {
               iscurrent === true ? (
-                <>
-                <Link href="/network"><p className="text-sm text-white mt-1">
-                  {usr.connectedUsers?.length} connections </p>
+                <div className="mt-2 flex items-center justify-center sm:justify-start">
+                <Users className="w-5 h-5 mr-2" />
+                <Link href={iscurrent ? "/network" : "#"} className="text-sm font-medium hover:underline">
+                  {usr.connectedUsers?.length || 0} connections
                 </Link>
-                </>
+              </div>
               ) : (
-                <>
+                <div className="mt-2 flex items-center justify-center sm:justify-start"><Users className="w-5 h-5 mr-2" />
                 <p className="text-sm text-white mt-1">
                 {usr.connectedUsers?.length} connections </p>
-                </>
+                </div>
               )
             }
             
@@ -285,17 +287,31 @@ export default function ProfileDisplay({ user }) {
               )
             }
             </>
-           ):(<Button onClick={handleShare}
-                 size="lg"  className="text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex ">
-              {/* {usr.connectedUsers?.includes(String(iscurrent._id)) ? (
+           ):(
+            <> {usr.connectedUsers?.includes(String(iscurrent._id)) ?(<Button onClick={handleMessage} size="sm" className="mr-2 text-xs sm:text-sm bg-blue-600 hover:bg-blue-600/80 text-white">
+            
+                    <MessageCircle className="w-4 h-4 mr-2" />
+                    Message
+                  </Button>):(<>
+                    <Button onClick={()=>{router.push('/search')}} size="sm" className="mr-2 text-xs sm:text-sm bg-blue-600 hover:bg-blue-600/80 text-white">
+                      Connect
+                    </Button>
+                  </>)}</>
+          
+            
+            )}
+            
+            {/* <Button 
+                 size="lg"  className="text-xs sm:text-sm bg-blue-600 hover:bg-blue-600/80 text-white flex ">
+              {usr.connectedUsers?.includes(String(iscurrent._id)) ? (
                 <Link href='/chat'  className="flex">
                   <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 " />
-                  Message
+                 Message
                 </Link>
               ) : (
                 'Connect'
-              )} */}Share
-            </Button>)}
+              )}  
+            </Button> */}
             
           </div>
           <Tabs defaultValue="about" className="w-full" onValueChange={setActiveTab}>
