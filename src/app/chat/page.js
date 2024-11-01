@@ -187,25 +187,6 @@ function ChatView({ chat, onBack }) {
   )
 }
 
-// export default function WhatsAppClone() {
-
-
-//   const [searchTerm, setSearchTerm] = useState('')
-//   const [activeTab, setActiveTab] = useState('chats')
-//   const [selectedChat, setSelectedChat] = useState(null)
-//   const [chats, setChats] = useState([])
-//   const [groups, setGroups] = useState([])
-//   const [newGroupName, setNewGroupName] = useState("")
-//   const [isDialogOpen, setIsDialogOpen] = useState(false);
-//   const [selectedContacts, setSelectedContacts] = useState([])
-//   const [currentUsername, setCurrentUsername] = useState('');
-//   const [loading, setLoading] = useState(false);
-//   const router = useRouter()
-//   const searchParams = useSearchParams()
-//   const userId = searchParams.get('userId')
-
-
- 
 
 
 
