@@ -594,6 +594,9 @@ export default function WhatsAppClone() {
   }
 
   const handleBackClick = () => {
+    if(userId){
+      router.push(`/profile/${userId}`)
+    }
     setSelectedChat(null)
     if (currentUser) {
       getUserChats(currentUser._id)
