@@ -288,11 +288,17 @@ export default function ProfileDisplay({ user }) {
             }
             </>
            ):(
-           
-            <Button onClick={handleMessage} size="sm" className="mr-2 text-xs sm:text-sm bg-green-600 hover:bg-green-700 text-white">
+            <> {usr.connectedUsers?.includes(String(iscurrent._id)) ?(<Button onClick={handleMessage} size="sm" className="mr-2 text-xs sm:text-sm bg-blue-600 hover:bg-blue-600/80 text-white">
+            
                     <MessageCircle className="w-4 h-4 mr-2" />
                     Message
-                  </Button>
+                  </Button>):(<>
+                    <Button onClick={()=>{router.push('/search')}} size="sm" className="mr-2 text-xs sm:text-sm bg-blue-600 hover:bg-blue-600/80 text-white">
+                      Connect
+                    </Button>
+                  </>)}</>
+          
+            
             )}
             
             {/* <Button 
