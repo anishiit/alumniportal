@@ -156,6 +156,7 @@ export default function ProfileDisplay({ user }) {
       }
     // console.log(userId)
     getUser();
+    console.log(usr , currentUser)
   },[])
   const profile = {
     name: "example",
@@ -221,7 +222,18 @@ export default function ProfileDisplay({ user }) {
             <h1 className="text-2xl sm:text-3xl font-bold">{usr?.name }</h1>
 
             <p className="text-sm sm:text-base mt-1">{usr?.jobTitle} at {usr?.companyName}</p>
-            <Link href="/connections"><p className="text-sm text-white mt-1">100 connections</p></Link>
+            {
+              iscurrent === true ? (
+                <>
+                <Link href="/network"><p className="text-sm text-white mt-1">
+                  {usr.connectedUsers?.length} connections </p>
+                </Link>
+                </>
+              ) : (
+                <>
+                </>
+              )
+            }
             
           </div>
         </div>

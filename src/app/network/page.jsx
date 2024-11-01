@@ -262,7 +262,7 @@ function Page() {
                         <tr key={person.name}>
 
                           <td className="whitespace-nowrap px-4 py-4">
-                            <Link href={`/profile/${person?.userId}`}>
+                            <Link href={`/profile/${person?._id}`}>
                               <div className="flex items-center">
                                 <div className="h-10 w-10 flex-shrink-0">
                                   <img
@@ -307,3 +307,128 @@ function Page() {
 }
 
 export default Page
+
+
+// 'use client'
+
+// import { useState, useEffect } from 'react'
+// import jwt from "jsonwebtoken"
+// import axios from 'axios'
+// import Link from 'next/link'
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+// import { Button } from "@/components/ui/button"
+// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+// import { getUserInvitationsUrl, getUserConnectionsUrl, acceptUserInvitationUrl, cancleUserInvitationUrl, deleteUserConnectionUrl } from '@/urls/urls.js'
+
+
+// export default function UserConnections() {
+//   const [connections, setConnections] = useState([])
+//   const [invitations, setInvitations] = useState([])
+//   const [isLoading, setIsLoading] = useState(true)
+  
+
+//   const fetchUserData = () => {
+//     let currUser = {};
+//     if(typeof window !== 'undefined') {
+//       const token = localStorage.getItem('amsjbckumr')
+//       const decodedToken = jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRET)
+//       currUser = decodedToken
+//     }
+//     setConnections(currUser?.connectedUsers)
+//     setInvitations(currUser?.invitations)
+//   }
+
+//   useEffect(() => {
+//     fetchUserData()
+//   }, [])
+
+//   const fetchData = async () => {
+//     setIsLoading(true)
+//     try {
+//       const [invitationsRes, connectionsRes] = await Promise.all([
+//         axios.post(getUserInvitationsUrl, { userId: decodedToken?._id }),
+//         axios.post(getUserConnectionsUrl, { userId: decodedToken?._id })
+//       ])
+//       setInvitations(invitationsRes.data.invitations)
+//       setConnections(connectionsRes.data.connectedUsers)
+//     } catch (error) {
+//       console.error('Error fetching data:', error)
+//     } finally {
+//       setIsLoading(false)
+//     }
+//   }
+
+//   const handleInvitation = async (userId, accept) => {
+//     try {
+//       await axios.post(accept ? acceptUserInvitationUrl : cancleUserInvitationUrl, {
+//         userId1: decodedToken?._id,
+//         userId2: userId
+//       })
+//       fetchData()
+//     } catch (error) {
+//       console.error('Error handling invitation:', error)
+//     }
+//   }
+
+//   const handleRemoveConnection = async (userId) => {
+//     try {
+//       await axios.post(deleteUserConnectionUrl, {
+//         userIdToRemove: userId,
+//         fromUserId: decodedToken?._id,
+//       })
+//       fetchData()
+//     } catch (error) {
+//       console.error('Error removing connection:', error)
+//     }
+//   }
+
+//   const UserList = ({ users, type }) => (
+//     <Card>
+//       <CardHeader>
+//         <CardTitle>{type === 'invitation' ? 'Invitations' : 'My Connections'}</CardTitle>
+//       </CardHeader>
+//       <CardContent>
+//         {users.map((user) => (
+//           <div key={user._id} className="flex items-center justify-between py-4">
+//             <Link href={`/profile/${user._id}`} className="flex items-center space-x-4">
+//               <Avatar>
+//                 <AvatarImage src={user.image} alt={user.name} />
+//                 <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+//               </Avatar>
+//               <div>
+//                 <p className="text-sm font-medium">{user.name}</p>
+//                 {type === 'connection' && <p className="text-sm text-muted-foreground">{user.email}</p>}
+//               </div>
+//             </Link>
+//             {type === 'invitation' ? (
+//               <div className="space-x-2">
+//                 <Button size="sm" onClick={() => handleInvitation(user._id, true)}>Accept</Button>
+//                 <Button size="sm" variant="outline" onClick={() => handleInvitation(user._id, false)}>Decline</Button>
+//               </div>
+//             ) : (
+//               <Button size="sm" variant="destructive" onClick={() => handleRemoveConnection(user._id)}>Remove</Button>
+//             )}
+//           </div>
+//         ))}
+//       </CardContent>
+//     </Card>
+//   )
+
+//   if (isLoading) return <div>Loading...</div>
+
+//   return (
+//     <Tabs defaultValue="invitations" className="w-full">
+//       <TabsList className="grid w-full grid-cols-2">
+//         <TabsTrigger value="invitations">Invitations</TabsTrigger>
+//         <TabsTrigger value="connections">My Connections</TabsTrigger>
+//       </TabsList>
+//       <TabsContent value="invitations">
+//         <UserList users={invitations} type="invitation" />
+//       </TabsContent>
+//       <TabsContent value="connections">
+//         <UserList users={connections} type="connection" />
+//       </TabsContent>
+//     </Tabs>
+//   )
+// }
