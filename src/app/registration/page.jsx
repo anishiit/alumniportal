@@ -123,18 +123,25 @@ export default function SignupForm() {
             </div>
             <div>
               <Label htmlFor="college">College</Label>
-              <Input
+              {/* <Input
                 type="text"
                 placeholder="Search for your college"
                 value={collegeSearch}
                 onChange={(e) => setCollegeSearch(e.target.value)}
                 className="mb-2"
-              />
+              /> */}
               <Select onValueChange={(value) => setInputs({ ...inputs, collegeName: value })}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select College" />
                 </SelectTrigger>
                 <SelectContent>
+                  <Input
+                    type="text"
+                    placeholder="Search for your college"
+                    value={collegeSearch}
+                    onChange={(e) => setCollegeSearch(e.target.value)}
+                    className="mb-2"
+                  />
                   {filteredColleges.map((college, index) => (
                     <SelectItem key={index} value={college}>
                       {college}
