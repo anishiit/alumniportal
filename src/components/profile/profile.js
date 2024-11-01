@@ -286,16 +286,16 @@ export default function ProfileDisplay({ user }) {
               )
             }
             </>
-           ):(<Button onClick={handleShare}
+           ):(<Button 
                  size="lg"  className="text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex ">
-              {/* {usr.connectedUsers?.includes(String(iscurrent._id)) ? (
+              {usr.connectedUsers?.includes(String(iscurrent._id)) ? (
                 <Link href='/chat'  className="flex">
                   <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 " />
-                  Message
+                 Message
                 </Link>
               ) : (
                 'Connect'
-              )} */}Share
+              )}  
             </Button>)}
             
           </div>
