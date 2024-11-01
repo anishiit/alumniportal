@@ -405,8 +405,9 @@ export default function SearchJob() {
                 />
               </div>
               <Link href={'/postjob'}>
-                <Button size="icon" className="rounded-full bg-primary hover:bg-primary/90">
-                  <Plus className="h-4 w-4" />
+                <Button size="default" className=" bg-primary hover:bg-primary/90">
+                  {/* <div className="flex "> */}
+                  <Plus className="md:h-6 h-4 md:w-6 w-4 mr-2" /> Post    
                 </Button>
               </Link>
             </div>
