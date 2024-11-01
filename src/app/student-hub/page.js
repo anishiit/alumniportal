@@ -59,6 +59,7 @@ export default function StudentHub() {
   const [searchTerm, setSearchTerm] = useState("")
   const [filterCategory, setFilterCategory] = useState("All")
   const [submittedProposals, setSubmittedProposals] = useState([])
+  const [isPosting , setIsPosting] = useState(false)
   const { toast } = useToast()
 
   const [selectedType , setSelectedType] = useState("")
@@ -222,6 +223,7 @@ export default function StudentHub() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsPosting(true)
     let currUser = {};
     if(typeof window !== "undefined") {
         currUser = localStorage.getItem("amsjbckumr")
@@ -244,6 +246,7 @@ export default function StudentHub() {
             variant: "green",
             duration: 10000
         })
+        setIsPosting(false)
         return 
     })
     .catch((err) => {
@@ -254,6 +257,7 @@ export default function StudentHub() {
             variant: "red",
             duration: 10000
         })
+        setIsPosting(false)
         return
     })
     } catch (error) {
@@ -264,6 +268,7 @@ export default function StudentHub() {
             variant: "red",
             duration: 10000
         })
+        setIsPosting(false)
         return
     }
   }
@@ -398,7 +403,7 @@ export default function StudentHub() {
 
                             />
                         </div>
-                      <Button type="submit" className="w-full">
+                      <Button disabled={isPosting} type="submit" className="w-full">
                         <Send className="mr-2 h-4 w-4" aria-hidden="true" /> Submit Proposal
                       </Button>
                     </form>
