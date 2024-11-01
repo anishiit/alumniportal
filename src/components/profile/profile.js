@@ -128,6 +128,10 @@ export default function ProfileDisplay({ user }) {
       })
     })
   }
+
+  const handleMessage = () => {
+    router.push(`/chat?userId=${usr._id}`)
+  }
   
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -139,9 +143,6 @@ export default function ProfileDisplay({ user }) {
       }
     }
   }, [])
-  const handleMessage = () => {
-    // Logic to open a messaging interface
-  };
 
   const handleDonate = () => {
     // Logic to handle donation (e.g., open a payment gateway)
@@ -286,7 +287,15 @@ export default function ProfileDisplay({ user }) {
               )
             }
             </>
-           ):(<Button 
+           ):(
+           
+            <Button onClick={handleMessage} size="sm" className="mr-2 text-xs sm:text-sm bg-green-600 hover:bg-green-700 text-white">
+                    <MessageCircle className="w-4 h-4 mr-2" />
+                    Message
+                  </Button>
+            )}
+            
+            {/* <Button 
                  size="lg"  className="text-xs sm:text-sm bg-blue-600 hover:bg-blue-600/80 text-white flex ">
               {usr.connectedUsers?.includes(String(iscurrent._id)) ? (
                 <Link href='/chat'  className="flex">
@@ -296,7 +305,7 @@ export default function ProfileDisplay({ user }) {
               ) : (
                 'Connect'
               )}  
-            </Button>)}
+            </Button> */}
             
           </div>
           <Tabs defaultValue="about" className="w-full" onValueChange={setActiveTab}>
