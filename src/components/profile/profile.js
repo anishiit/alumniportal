@@ -231,6 +231,8 @@ export default function ProfileDisplay({ user }) {
                 </>
               ) : (
                 <>
+                <p className="text-sm text-white mt-1">
+                {usr.connectedUsers?.length} connections </p>
                 </>
               )
             }
