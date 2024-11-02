@@ -111,7 +111,7 @@ export default function AlumniHome() {
                 name="Abhay Kant Mishra"
                 class="2026"
                 position="Founder & CEO, Alumni Portal"
-                image="/image/profileLogo.png"
+                image="https://res.cloudinary.com/dcqgytpzz/image/upload/v1730579180/WhatsApp_Image_2024-11-02_at_23.07.53_a484b196_trfrdp.jpg"
                 _id="670ea6e0602f7597190c86c6"
               />
             </div>
