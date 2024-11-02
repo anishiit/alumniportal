@@ -473,7 +473,7 @@ export default function SearchJob() {
                           <Link href={`/profile/${job.postedBy}`}>
                             <div className="flex flex-row gap-x-4">
                               <Avatar className="w-10 h-10">
-                                <AvatarImage src={job.postedByAvatar} alt={job.postedByName} />
+                                <AvatarImage src={job.postedBy?.profileImage} alt={job.postedByName} />
                                 <AvatarFallback>{job?.postedByName[0]}</AvatarFallback>
                               </Avatar>
                               <p className="text-blue-700 font-semibold mt-2">{job?.postedByName}</p>

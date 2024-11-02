@@ -255,7 +255,7 @@ export default function UserConnectionPage() {
                             <CardContent className="pt-0 pb-6 px-6 flex-grow flex flex-col">
                               <div className="flex justify-center -mt-12 mb-4">
                                 <Avatar className="w-24 h-24 border-4 border-white shadow-lg">
-                                  <AvatarImage src={user.avatar} alt={user.name} />
+                                  <AvatarImage src={user?.profileImage} alt={user.name} />
                                   <AvatarFallback>{user.name.split(" ").map(n => n[0]).join("")}</AvatarFallback>
                                 </Avatar>
                               </div>

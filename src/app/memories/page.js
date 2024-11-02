@@ -307,7 +307,7 @@ export default function AlumniMemories() {
                     <Link href={`/profile/${memory?.author._id}`}>
                       <div className="flex items-center mb-4">
                         <Avatar className="w-10 h-10 mr-3">
-                          <AvatarImage src={memory?.authorAvatar} alt={memory?.author.name} />
+                          <AvatarImage src={memory?.author?.profileImage} alt={memory?.author.name} />
                           <AvatarFallback>{memory.author.name[0]}</AvatarFallback>
                         </Avatar>
                         <div>
