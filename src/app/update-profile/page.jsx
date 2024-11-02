@@ -157,7 +157,7 @@ export default function ProfileForm() {
     // console.log("updating..")
     setIsLoading(true)
     const prevImagePubId = inputs.profileImage.replace("https://res.cloudinary.com/dcqgytpzz/image/upload/","").split("/")[1].split(".")[0];
-    console.log(prevImagePubId)
+    // console.log(prevImagePubId)
     let imageInfo = {}
     try {
       await uploadImage()
