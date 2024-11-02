@@ -23,6 +23,10 @@ export const getAllCollegeUsersUrl = `${user_backend_url}/user/getcollegeusers`
 
 export const connectUsersUrl = `${user_backend_url}/user/connectusers`
 
+// deleting asset from server
+
+export const deleteAssetUrl = `${user_backend_url}/delete`
+
 // post urls => 
 
 export const getAllPostsUrl = `${user_backend_url}/post/getjobs`
