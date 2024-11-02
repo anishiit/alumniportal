@@ -18,7 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import {Dialog,DialogContent,DialogDescription,DialogFooter,DialogHeader,DialogTitle,DialogTrigger} from "@/components/ui/dialog"
 
 // importing urls
-import { getUserInfoUrl, updateUserProfileUrl} from "@/urls/urls.js"
+import { getUserInfoUrl, updateUserProfileUrl, deleteAssetUrl} from "@/urls/urls.js"
 import useCloudinaryImageUploader from "@/services/cloudinary"
 import { useToast } from "@/hooks/use-toast"
 
@@ -47,6 +47,7 @@ export default function ProfileForm() {
   const [inputs, setInputs] = useState({
     name: "",
     email: "",
+    profileImage:"",
     collegeName: "",
     branch: "",
     state: "",
@@ -87,6 +88,7 @@ export default function ProfileForm() {
         setInputs({
           name: userData.name || "",
           email: userData.email || "",
+          profileImage: userData.profileImage || "",
           collegeName: userData.collegeName || "",
           branch: userData.branch || "",
           state: userData.state || "",
@@ -154,6 +156,8 @@ export default function ProfileForm() {
   async function updateProfileImage(e) {
     // console.log("updating..")
     setIsLoading(true)
+    const prevImagePubId = inputs.profileImage.replace("https://res.cloudinary.com/dcqgytpzz/image/upload/","").split("/")[1].split(".")[0];
+    // console.log(prevImagePubId)
     let imageInfo = {}
     try {
       await uploadImage()
@@ -190,6 +194,7 @@ export default function ProfileForm() {
       })
       // updating user info saved locally
       await getUser()
+      await axios.post(deleteAssetUrl,{publicId:prevImagePubId})
     } catch (error) {
       console.log(error)
       setIsLoading(false)
