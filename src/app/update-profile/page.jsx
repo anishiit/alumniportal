@@ -3,7 +3,7 @@
 import jwt from "jsonwebtoken"
 
 import { useState, useEffect } from "react"
-import { Plus,ArrowRight, User, Mail, Briefcase, Building, MapPin, Phone, Linkedin, Github, X } from "lucide-react"
+import { Plus, Pencil,ArrowRight, User, Mail, Briefcase, Building, MapPin, Phone, Linkedin, Github, X } from "lucide-react"
 import axios from 'axios'
 import Link from 'next/link'
 
@@ -15,9 +15,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {Dialog,DialogContent,DialogDescription,DialogFooter,DialogHeader,DialogTitle,DialogTrigger} from "@/components/ui/dialog"
 
 // importing urls
 import { getUserInfoUrl, updateUserProfileUrl} from "@/urls/urls.js"
+import useCloudinaryImageUploader from "@/services/cloudinary"
+
 
 // Import your data arrays here
 import { collegeName } from '@/data/college'
@@ -26,6 +29,15 @@ import { batch } from '@/data/batch'
 import { branch } from '@/data/branch'
 
 export default function ProfileForm() {
+
+  const {
+    previewUrl,
+    uploading,
+    error,
+    handleImageChange,
+    uploadImage
+  } = useCloudinaryImageUploader();
+
   const [isLoading, setIsLoading] = useState(false)
   const [user, setUser] = useState(null)
   const [inputs, setInputs] = useState({
@@ -130,6 +142,38 @@ export default function ProfileForm() {
     }
   }
 
+  async function updateProfileImage(e) {
+    console.log("updating..")
+    let imageInfo = {}
+    try {
+      await uploadImage()
+      .then((res) => {
+        console.log(res)
+        imageInfo = res
+      })
+      .catch((err) => {
+        console.log(err)
+        return
+      })
+    } catch (error) {
+      console.log(error)
+      return
+    }
+    try {
+      await axios.post(updateUserProfileUrl,{userId:inputs.userId, profileImage:imageInfo.secure_url})
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+        return
+      })
+    } catch (error) {
+      console.log(error)
+      return
+    }
+  }
+
   async function getUser() {
     try {
       const response = await axios.post(getUserInfoUrl, { userId: inputs.userId })
@@ -152,9 +196,32 @@ export default function ProfileForm() {
           <h1 className="text-2xl sm:text-3xl font-bold pb-5 text-white" >Edit Profile</h1>
           <div className="mb-6 flex justify-center">
             <Avatar className="w-24 h-24">
-              <AvatarImage src={user?.avatarUrl} alt={user?.name || 'User'} />
+              <AvatarImage src={user?.profileImage} alt={user?.name || 'User'} />
               <AvatarFallback>{user?.name?.charAt(0) || 'U'}</AvatarFallback>
             </Avatar>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size="icon" className="bg-transparent mt-[60px] text-white shadow-none hover:bg-transparent hover:underline  underline-offset-1">
+                <Pencil className="w-5 " />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle className="text-center">Edit Profile Image</DialogTitle>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="name" className="text-right">
+                      Profile Image
+                    </Label>
+                    <Input id="name" onChange={handleImageChange} type="file" accept="image/*" className="col-span-3" />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button onClick={updateProfileImage} type="submit">Save changes</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
           <p className="mt-2 text-center text-sm text-white mb-6">
             Update your profile information{' '}
