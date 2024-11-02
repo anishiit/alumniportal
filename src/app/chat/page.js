@@ -87,7 +87,7 @@ function ChatView({ chat, onBack }) {
     socket.on('receive_message', ({ message, fromUserId, fromUserName, updatedChat, isGroupChat }) => {
       const newChat = {
         _id: updatedChat.chat._id,
-        avatar: "",
+        avatar: Chat.avatar,
         isGroup: isGroupChat,
         messages: [...updatedChat.chat.allMessages],
         lastMessage: updatedChat.chat.lastMessage,
@@ -126,7 +126,7 @@ function ChatView({ chat, onBack }) {
         </Button>
 
         <Avatar>
-          <AvatarImage src={Chat?.userId?.profileImage} alt={Chat.name} />
+          <AvatarImage src={Chat?.avatar} alt={Chat.name} />
           <AvatarFallback className="text-black">{Chat.name[0].toUpperCase()}</AvatarFallback>
         </Avatar>
         <div>
@@ -234,7 +234,7 @@ export default function WhatsAppClone() {
       setLoading(true)
       const res = await axios.post(getUserChatsUrl, { userId: userId })
       const formattedChats = res.data.chats.map((chat) => ({
-        avatar: "",
+        avatar: chat.userId1._id !== userId ? chat.userId1?.profileImage : chat.userId2?.profileImage,
         _id: chat._id,
         name: chat.userId1._id !== userId ? chat.username1 : chat.username2,
         lastMessage: chat.lastMessage,
