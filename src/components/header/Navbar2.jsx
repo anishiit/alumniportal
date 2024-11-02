@@ -52,7 +52,7 @@ function Navbar2() {
 
   const navItems = [
     { name: "Reconnect", href: "/search", external: true, icon: <Users className="h-4 w-4 mr-2" /> },
-    { name: "Search Job", href: "/jobposts", external: true, icon: <Search className="h-4 w-4 mr-2" /> },
+    { name: "Careers", href: "/jobposts", external: true, icon: <Search className="h-4 w-4 mr-2" /> },
     { name: "Messages", href: "/chat", external: true, icon: <Mail className="h-4 w-4 mr-2" /> },
     { name: "Memories", href: "/memories", external: true, icon: <SmilePlus className="h-4 w-4 mr-2" /> },
     { name: "Student Hub", href: "/student-hub", external: true, icon: <Calendar className="h-4 w-4 mr-2" /> },
