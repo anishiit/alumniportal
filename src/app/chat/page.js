@@ -126,7 +126,7 @@ function ChatView({ chat, onBack }) {
         </Button>
 
         <Avatar>
-          <AvatarImage src={Chat.avatar} alt={Chat.name} />
+          <AvatarImage src={Chat?.userId?.profileImage} alt={Chat.name} />
           <AvatarFallback className="text-black">{Chat.name[0].toUpperCase()}</AvatarFallback>
         </Avatar>
         <div>
@@ -222,7 +222,7 @@ export default function WhatsAppClone() {
 
   useEffect(() => {
     if (userId && chats.length > 0) {
-      const chat = chats.find(c => c.userId === userId)
+      const chat = chats.find(c => c.userId._id === userId)
       if (chat) {
         handleChatClick(chat)
       }
@@ -236,11 +236,11 @@ export default function WhatsAppClone() {
       const formattedChats = res.data.chats.map((chat) => ({
         avatar: "",
         _id: chat._id,
-        name: chat.userId1 !== userId ? chat.username1 : chat.username2,
+        name: chat.userId1._id !== userId ? chat.username1 : chat.username2,
         lastMessage: chat.lastMessage,
         messages: chat.allMessages,
         isGroup: false,
-        userId: chat.userId1 !== userId ? chat.userId1 : chat.userId2
+        userId: chat.userId1._id !== userId ? chat.userId1 : chat.userId2
       }))
       const sortedChats = sortChats(formattedChats)
       setChats(sortedChats)
@@ -277,7 +277,7 @@ export default function WhatsAppClone() {
 
   const handleBackClick = () => {
     if(userId){
-      router.push(`/profile/${userId}`)
+      router.push(`/profile/${userId._id}`)
     }
     setSelectedChat(null)
     if (currentUser) {
@@ -341,7 +341,7 @@ export default function WhatsAppClone() {
                     onClick={() => handleChatClick(chat)}
                   >
                     <Avatar>
-                      <AvatarImage src={chat.avatar} alt={chat.name} />
+                      <AvatarImage src={chat.userId.profileImage} alt={chat.name} />
                       <AvatarFallback>{chat.name[0].toUpperCase()}</AvatarFallback>
                     </Avatar>
                     <div className="flex-grow">

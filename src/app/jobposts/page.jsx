@@ -470,7 +470,7 @@ export default function SearchJob() {
                     <div className={job.thumbnail ? "lg:w-2/3 p-6" : "w-full p-6"}>
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center space-x-3 ">
-                          <Link href={`/profile/${job.postedBy}`}>
+                          <Link href={`/profile/${job.postedBy._id}`}>
                             <div className="flex flex-row gap-x-4">
                               <Avatar className="w-10 h-10">
                                 <AvatarImage src={job.postedBy?.profileImage} alt={job.postedByName} />
