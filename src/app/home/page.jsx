@@ -104,7 +104,7 @@ export default function AlumniHome() {
                 name="Anish Kumar Singh"
                 class="2026"
                 position="Founder & CEO, Alumni Portal"
-                image="/image/profileLogo.png"
+                image="https://res.cloudinary.com/dcqgytpzz/image/upload/v1730562849/PROFILE_oarys0.jpg"
                 _id="6707c88b84ba8d7558f522aa"
               />
               <AlumniCard
@@ -177,14 +177,14 @@ function EventCard({ title, date, description, image }) {
 
 function AlumniCard({ name, class: classYear, position, image, _id }) {
   const router = useRouter()
-  const [userData, setUserData] = useState({ collegeName: '', name: '' });
+  const [userData, setUserData] = useState({ collegeName: '', name: ''});
   useEffect(() => {
     let user = (localStorage.getItem('amsjbckumr'));
     user = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
     if (user) {
-      const { collegeName, name } = user;
+      const { collegeName, name, profileImage } = user;
 
-      setUserData({ collegeName, name });
+      setUserData({ collegeName, name, profileImage });
     }
 
   }, [])
