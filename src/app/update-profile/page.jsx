@@ -20,6 +20,7 @@ import {Dialog,DialogContent,DialogDescription,DialogFooter,DialogHeader,DialogT
 // importing urls
 import { getUserInfoUrl, updateUserProfileUrl} from "@/urls/urls.js"
 import useCloudinaryImageUploader from "@/services/cloudinary"
+import { useToast } from "@/hooks/use-toast"
 
 
 // Import your data arrays here
@@ -38,6 +39,9 @@ export default function ProfileForm() {
     uploadImage
   } = useCloudinaryImageUploader();
 
+  const {toast} = useToast()
+
+  const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [user, setUser] = useState(null)
   const [inputs, setInputs] = useState({
@@ -133,7 +137,12 @@ export default function ProfileForm() {
       const response = await axios.post(updateUserProfileUrl, inputs)
       console.log(response.data)
       await getUser()
-  
+      toast({
+        title: "Success",
+        description: "Profile updated successfully",
+        variant: "green",
+        duration: 2000
+      })
     } catch (error) {
       console.error(error)
   
@@ -143,7 +152,8 @@ export default function ProfileForm() {
   }
 
   async function updateProfileImage(e) {
-    console.log("updating..")
+    // console.log("updating..")
+    setIsLoading(true)
     let imageInfo = {}
     try {
       await uploadImage()
@@ -162,14 +172,27 @@ export default function ProfileForm() {
     try {
       await axios.post(updateUserProfileUrl,{userId:inputs.userId, profileImage:imageInfo.secure_url})
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
+        setInputs({...inputs, profileImage:imageInfo.secure_url})
+        toast({
+          title: "Success",
+          description: "Profile Image updated successfully",
+          variant: "green",
+          duration: 2000
+        })
+        setIsLoading(false)
+        setIsOpen(false)
       })
       .catch((err) => {
         console.log(err)
+        setIsLoading(false)
         return
       })
+      // updating user info saved locally
+      await getUser()
     } catch (error) {
       console.log(error)
+      setIsLoading(false)
       return
     }
   }
@@ -199,9 +222,9 @@ export default function ProfileForm() {
               <AvatarImage src={user?.profileImage} alt={user?.name || 'User'} />
               <AvatarFallback>{user?.name?.charAt(0) || 'U'}</AvatarFallback>
             </Avatar>
-            <Dialog>
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
               <DialogTrigger asChild>
-                <Button size="icon" className="bg-transparent mt-[60px] text-white shadow-none hover:bg-transparent hover:underline  underline-offset-1">
+                <Button size="icon" className="bg-transparent mt-[60px] text-white shadow-none hover:bg-transparent">
                 <Pencil className="w-5 " />
                 </Button>
               </DialogTrigger>
@@ -218,7 +241,7 @@ export default function ProfileForm() {
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button onClick={updateProfileImage} type="submit">Save changes</Button>
+                  <Button disabled={isLoading} onClick={updateProfileImage} type="submit">Save changes</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
