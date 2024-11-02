@@ -225,7 +225,7 @@ export default function ProfileForm() {
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
               <DialogTrigger asChild>
                 <Button size="icon" className="bg-transparent mt-[60px] text-white shadow-none hover:bg-transparent">
-                <Pencil className="w-5 " />
+                <Pencil className="w-5 hover:text-gray-800  transition-all duration-200" />
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
