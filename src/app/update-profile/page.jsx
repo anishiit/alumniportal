@@ -218,7 +218,7 @@ export default function ProfileForm() {
         <div className="relative bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-10 md:py-16 sm:px-6 lg:px-8 mb-10 rounded-t-lg">
           <h1 className="text-2xl sm:text-3xl font-bold pb-5 text-white" >Edit Profile</h1>
           <div className="mb-6 flex justify-center">
-            <Avatar className="w-24 h-24 border-4 border-white">
+            <Avatar className="w-32 h-32 border-4 border-white">
               <AvatarImage src={user?.profileImage} alt={user?.name || 'User'} />
               <AvatarFallback>{user?.name?.charAt(0) || 'U'}</AvatarFallback>
             </Avatar>
