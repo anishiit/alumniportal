@@ -213,7 +213,7 @@ export default function ProfileDisplay({ user }) {
       <Card className="w-full max-w-4xl mx-auto overflow-hidden">
         <div className="relative bg-gradient-to-r from-blue-600 to-indigo-600 pt-20 pb-16 px-4 sm:pt-24 sm:pb-32 sm:px-6 lg:px-8">
           <div className="absolute -bottom-12 left-0 w-full flex justify-center sm:justify-start sm:left-6 lg:left-8">
-            <Avatar className="w-24 h-24 sm:w-32 sm:h-32 border-4 border-white">
+            <Avatar className="w-[100px] h-[100px] sm:w-32 sm:h-32 border-4 border-white">
               <AvatarImage src={usr?.profileImage} alt={profile.fullName} />
               <AvatarFallback>{usr.name?.split(" ").map(n => n[0]).join("")}</AvatarFallback>
             </Avatar>
