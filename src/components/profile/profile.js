@@ -280,12 +280,13 @@ export default function ProfileDisplay({ user }) {
                 </Button>
               ) : (
                 <>
-                <Button onClick={() => router.push('/donation')} variant="outline" size="sm" className="mr-2 text-xs sm:text-sm">
-                  Donate
-                </Button>
                 </>
               )
             }
+            {
+              currentUser?.role === "alumni" ? ( <Button onClick={() => router.push('/donation')} variant="outline" size="sm" className="mr-2 text-xs sm:text-sm">
+                  Donate
+                </Button>) : (<></>)}
             </>
            ):(
             <> {usr.connectedUsers?.includes(String(iscurrent._id)) ?(<Button onClick={handleMessage} size="sm" className="mr-2 text-xs sm:text-sm bg-blue-600 hover:bg-blue-600/80 text-white">
