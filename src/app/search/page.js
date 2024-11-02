@@ -304,7 +304,7 @@ export default function UserConnectionPage() {
                   </motion.div>
                 ))}
               </AnimatePresence>
-              {loading && <AlumniLoading />}
+             
               {!hasMore && <p className="text-center text-gray-500 mt-4">No more Alumni to show</p>}
               {loading === true ? (<p className="text-center text-muted-foreground">Just a moment, preparing alumni information...</p>) : (<></>)}
               {loading === false && noAlumni === false && filteredUsers.length === 0 && (
