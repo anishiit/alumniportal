@@ -17,38 +17,6 @@ import { getPostByIdUrl, addCommentOnPostUrl } from "@/urls/urls.js"
 import axios from "axios"
 import Link from "next/link"
 
-// Dummy data for demonstration
-// const dummyJob = {
-//   _id: "123456",
-//   title: "Senior Full Stack Developer",
-//   company: "TechInnovate Solutions",
-//   postedByName: "Sarah Johnson",
-//   postedByAvatar: "https://i.pravatar.cc/150?img=1",
-//   location: "San Francisco, CA (Remote Option)",
-//   createdAt: "2023-06-15T10:30:00Z",
-//   category: "Full-time",
-//   thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80",
-//   description: "TechInnovate Solutions is seeking a Senior Full Stack Developer to join our dynamic team. You will be responsible for developing and maintaining cutting-edge web applications, collaborating with cross-functional teams, and mentoring junior developers.\n\nWe are looking for someone who is passionate about creating efficient, scalable, and maintainable code, and who stays up-to-date with the latest technologies and best practices in web development.",
-//   requirements: "• 5+ years of experience in full stack development\n• Proficiency in JavaScript, TypeScript, React, Node.js, and Express\n• Experience with cloud platforms (AWS, Azure, or GCP)\n• Strong understanding of database design and ORM technologies\n• Excellent problem-solving and communication skills\n• Bachelor's degree in Computer Science or related field",
-//   benefits: "• Competitive salary and equity package\n• Health, dental, and vision insurance\n• 401(k) plan with company match\n• Flexible work hours and remote work options\n• Professional development budget\n• Regular team building events and hackathons",
-//   salary: "$120,000 - $160,000 per year, depending on experience",
-//   comments: [
-//     {
-//       _id: "c1",
-//       author: "user1",
-//       authorname: "John Doe",
-//       content: "This sounds like an amazing opportunity! Is there a specific tech stack you're using?",
-//       avatar: "https://i.pravatar.cc/150?img=2"
-//     },
-//     {
-//       _id: "c2",
-//       author: "user2",
-//       authorname: "Jane Smith",
-//       content: "I've heard great things about TechInnovate Solutions. Looking forward to applying!",
-//       avatar: "https://i.pravatar.cc/150?img=3"
-//     }
-//   ]
-// }
 
 export default function JobPostDetail() {
 
