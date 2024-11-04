@@ -275,7 +275,7 @@ export default function ProfileDisplay({ user }) {
             <>
             {
               currentUser?.role === "admin" ? (
-                <Button onClick={() => router.push('/admin')} variant="ghost" size="sm" className="mr-2 text-xs bg-amber-400 hover:bg-amber-400/80 sm:text-sm">
+                <Button onClick={() => router.push('/admin')} variant="ghost" size="sm" className="mr-2 text-xs bg-green-400 hover:bg-green-400/80 sm:text-sm">
                   Admin
                 </Button>
               ) : (
