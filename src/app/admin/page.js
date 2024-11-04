@@ -51,7 +51,7 @@ export default function AdminDashboard() {
       await axios
         .post(getAllCollegeCountUrl)
         .then((res) => {
-          console.log(res.data.count)
+       
           setTotalColleges(res.data.count)
         })
         .catch((err) => {
@@ -67,7 +67,7 @@ export default function AdminDashboard() {
       await axios
         .get(getAllAlumniCountUrl)
         .then((res) => {
-          console.log(res.data.count)
+     
           setTotalAlumni(res.data.count)
         })
         .catch((err) => {
@@ -83,7 +83,7 @@ export default function AdminDashboard() {
       await axios
         .get(getAllStudentsCountUrl)
         .then((res) => {
-          console.log(res.data.count)
+        
           setTotalStudents(res.data.count)
         })
         .catch((err) => {
@@ -99,7 +99,7 @@ export default function AdminDashboard() {
       await axios
         .get(getFeedbacksUrl)
         .then((res) => {
-          console.log(res.data.feedbacks)
+         
           setFeedbacks(res.data.feedbacks)
         })
         .catch((err) => {
@@ -119,7 +119,7 @@ export default function AdminDashboard() {
     try {
       await axios.post(getAllCollegesUrl, { userId: currUser._id })
         .then((res) => {
-          console.log(res.data)
+         
           setRegisterdColleges(res.data.colleges)
         })
         .catch((err) => {
@@ -147,7 +147,7 @@ export default function AdminDashboard() {
     try {
       await axios.post(getNonVarifiedCollegesUrl, { userId: currUser._id })
         .then((res) => {
-          console.log(res.data)
+          
           setNonVerifiedColleges(res.data.colleges)
         })
         .catch((err) => {
@@ -171,7 +171,7 @@ export default function AdminDashboard() {
       await axios
         .post(verifyCollegeUrl, { collegeId })
         .then((res) => {
-          console.log(res.data)
+         
           toast({
             description: "college verified",
             variant: "green",
@@ -194,7 +194,7 @@ export default function AdminDashboard() {
       await axios
         .post(rejectverifyCollegeUrl, { collegeId })
         .then((res) => {
-          console.log(res.data)
+        
           toast({
             description: "college rejected",
             variant: "green",
@@ -217,7 +217,7 @@ export default function AdminDashboard() {
       await axios
         .post(blockCollegeUrl, { collegeId })
         .then((res) => {
-          console.log(res.data)
+       
           toast({
             description: "college blocked",
             variant: "green",

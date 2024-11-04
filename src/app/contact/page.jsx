@@ -19,7 +19,7 @@ const [loading, setLoading] = useState(false)
    
       try {
         const res =  await axios.post(postFeedbackUrl,{name:name , feedback:feedback , email:email})
-        console.log(res.data)
+        
         setLoading(false)
         toast({
           variant: "green",

@@ -157,7 +157,7 @@ export default function CollegeDashboard() {
         collegeId, name:event.name, description: event.description, imageInfo: imageInfo
       })
         .then((res) => {
-          console.log(res.data)
+          
           setUpcomingEvents([...upcomingEvents, res.data.event])
           setEvent({ name: "", description: "" })
           setImage(null)
@@ -183,7 +183,7 @@ export default function CollegeDashboard() {
       form.append("description", event?.description)
       await axios.post(updateCollegeEventUrl, { eventId: eventId, form })
         .then((res) => {
-          console.log(res.data)
+          
           setEvent({ name: "", description: "" })
           setImage(null)
           // setUpcomingEvents([...upcomingEvents, { ...event, _id: upcomingEvents.length + 1, image: res.data.image }])
@@ -204,7 +204,7 @@ export default function CollegeDashboard() {
     try {
       await axios.post(deleteCollegeEventUrl, { eventId: eventId })
         .then((res) => {
-          console.log(res.data)
+        
           setUpcomingEvents(upcomingEvents.filter(event => event._id !== eventId))
         })
         .catch((err) => {

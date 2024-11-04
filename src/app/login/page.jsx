@@ -52,9 +52,9 @@ function Page() {
             let user =(res.data.user);
             // user = J(user)
             // let user = JSON.parse(JSON.stringify(res.data.user));
-            console.log(user)
+           
             const token = jwt.sign(user, process.env.NEXT_PUBLIC_JWT_SECRET)
-            console.log(token)
+           
             localStorage.setItem("amsjbckumr", token)
           }
           router.push('/home')

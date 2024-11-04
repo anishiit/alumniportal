@@ -45,7 +45,7 @@ export default function AlumniMemories() {
     if (typeof window !== 'undefined') {
       let userData = localStorage.getItem("amsjbckumr")
       userData = jwt.verify(userData, process.env.NEXT_PUBLIC_JWT_SECRET)
-      // console.log(userData._id)
+     
       setCurrentUser(userData)
     }
   }

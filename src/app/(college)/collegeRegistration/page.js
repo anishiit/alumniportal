@@ -34,9 +34,9 @@ export default function CollegeRegistration() {
  async function onSubmit(values) {
     setIsSubmitting(true)
     const response = await axios.post(registerCollegeUrl , values)
-    console.log(response.data)
+
    
-    // console.log(values)
+   
     // Simulate API call
     setTimeout(() => {
       setIsSubmitting(false)

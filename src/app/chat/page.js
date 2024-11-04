@@ -65,9 +65,9 @@ function ChatView({ chat, onBack }) {
   }, [roomId])
 
   useEffect(() => {
-    // console.log(change)
+  
     chat = Chat;
-    // console.log(chat , Chat);
+  
     scrollToBottom()
   }, [chat.messages, change, roomId])
 
