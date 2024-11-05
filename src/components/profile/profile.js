@@ -162,8 +162,8 @@ export default function ProfileDisplay({ user }) {
   const profile = {
     name: "example",
     email: "example@example.com",
-    graduationYear: "2015",
-    degree: "B.Tech in Computer Science and Engineering",
+    graduationYear: "Graduation Year not specified",
+    degree: "Degrees not specified",
     currentPosition: "Senior Software Engineer",
     companyName: "Tech Solutions Inc.",
     jobTitle:"Software Engineer",
