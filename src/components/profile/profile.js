@@ -167,7 +167,7 @@ export default function ProfileDisplay({ user }) {
     currentPosition: "Senior Software Engineer",
     companyName: "Tech Solutions Inc.",
     jobTitle:"Software Engineer",
-    location: "Bangalore, India",
+    location: "Location not specified",
     contactNumber: "+91 0000000000",
     linkedin: "https://www.linkedin.com/in/rahulkumar",
     github: "https://github.com/rahulkumar",
