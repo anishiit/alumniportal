@@ -137,7 +137,7 @@ export default function FeedbackPage() {
                   </div>
                   <button
                     type="submit"
-                    className="w-full rounded-md bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                    className="w-full bg-blue-600 hover:bg-blue-600/80 rounded-md px-3 py-2 text-sm font-semibold text-primary-foreground shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                     disabled={loading}
                   >
                     {loading ? "Submitting..." : "Submit Feedback"}

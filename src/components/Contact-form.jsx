@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useToast } from "@/hooks/use-toast"
 import { postFeedbackUrl } from "@/urls/urls.js"
 import axios from 'axios'
-
+import Link from "next/link"
 export default function FeedbackForm() {
   const [isOpen, setIsOpen] = useState(false)
   const [name, setName] = useState("")
@@ -45,13 +45,14 @@ export default function FeedbackForm() {
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button size="lg" className="w-full">Share Feedback</Button>
-      </DialogTrigger>
+    <Dialog  onOpenChange={setIsOpen}>
+     
+      <Link href={'/contact'}><Button size="lg"  className="w-full bg-blue-600 hover:bg-blue-600/80">Share Feedback</Button></Link>
+        
+      
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Share Your Experience</DialogTitle>
+          <DialogTitle >Share Your Experience</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleFormSubmit} className="space-y-4">
           <Input
