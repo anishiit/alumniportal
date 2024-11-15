@@ -50,7 +50,7 @@ export default function CollegeRegistration() {
         <div className="container ">
         <Link href='/' className="flex h-16 items-center">
         <GraduationCap className="h-8 w-8 text-blue-600 mr-2" />
-          <span className="font-bold text-2xl text-black">Alumni Portal</span></Link>
+          <span className="font-bold text-2xl text-black">LinkLum</span></Link>
           
            
         </div>
@@ -72,7 +72,7 @@ export default function CollegeRegistration() {
                 Empower Your Alumni Network
               </h1>
               <p className="mx-auto max-w-[700px] text-lg md:text-xl text-zinc-200">
-                Join our cutting-edge Alumni Portal and unlock a world of opportunities for your institution and alumni.
+                Join our cutting-edge LinkLum and unlock a world of opportunities for your institution and alumni.
               </p>
             </div>
           </motion.div>
@@ -329,7 +329,7 @@ export default function CollegeRegistration() {
 
       <footer className="w-full border-t bg-white py-6">
         <div className="container flex flex-col md:flex-row items-center justify-between gap-4 px-4 md:px-6">
-          <p className="text-sm text-gray-500">&copy; 2024 Alumni Portal. All rights reserved.</p>
+          <p className="text-sm text-gray-500">&copy; 2024 LinkLum. All rights reserved.</p>
           <nav className="flex gap-4">
             <a href="#" className="text-sm text-gray-500 hover:underline">Terms of Service</a>
             <a href="#" className="text-sm text-gray-500 hover:underline">Privacy Policy</a>

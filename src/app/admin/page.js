@@ -274,7 +274,7 @@ export default function AdminDashboard() {
               <SheetContent side="left" className="w-[300px] sm:w-[400px]">
                 <nav className="flex flex-col h-full">
                   <div className="flex items-center justify-between p-4 border-b">
-                    <h1 className="text-2xl font-bold">Alumni Portal</h1>
+                    <h1 className="text-2xl font-bold">LinkLum</h1>
                     <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(false)}>
                       <Menu />
                     </Button>
@@ -460,7 +460,7 @@ export default function AdminDashboard() {
                     <Card>
                       <CardHeader>
                         <CardTitle>User Feedback</CardTitle>
-                        <CardDescription>Recent feedback from alumni portal users.</CardDescription>
+                        <CardDescription>Recent feedback from LinkLum users.</CardDescription>
                       </CardHeader>
                       <CardContent>
                         <ScrollArea className="h-[400px]">

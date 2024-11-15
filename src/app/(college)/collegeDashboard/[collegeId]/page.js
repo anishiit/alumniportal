@@ -862,7 +862,7 @@ export default function CollegeDashboard() {
 
       <footer className="w-full border-t bg-white py-6">
         <div className="container flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-gray-500">&copy; 2024 Alumni Portal. All rights reserved.</p>
+          <p className="text-sm text-gray-500">&copy; 2024 LinkLum. All rights reserved.</p>
           <nav className="flex gap-4">
             <a href="#" className="text-sm text-gray-500 hover:underline">Terms of Service</a>
             <a href="#" className="text-sm text-gray-500 hover:underline">Privacy Policy</a>

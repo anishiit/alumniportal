@@ -103,14 +103,14 @@ export default function AlumniHome() {
               <AlumniCard
                 name="Anish Kumar Singh"
                 class="2026"
-                position="Founder & CEO, Alumni Portal"
+                position="Founder & CEO, LinkLum"
                 image="https://res.cloudinary.com/dcqgytpzz/image/upload/v1730562849/PROFILE_oarys0.jpg"
                 _id="6707c88b84ba8d7558f522aa"
               />
               <AlumniCard
                 name="Abhay Kant Mishra"
                 class="2026"
-                position="Founder & CEO, Alumni Portal"
+                position="Founder & CTO, LinkLum"
                 image="https://res.cloudinary.com/dcqgytpzz/image/upload/v1730579180/WhatsApp_Image_2024-11-02_at_23.07.53_a484b196_trfrdp.jpg"
                 _id="670ea6e0602f7597190c86c6"
               />

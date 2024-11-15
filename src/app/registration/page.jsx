@@ -68,7 +68,7 @@ export default function SignupForm() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-md">
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-gray-900">Sign up to Alumni Portal</h2>
+          <h2 className="text-3xl font-extrabold text-gray-900">Sign up to LinkLum</h2>
           <p className="mt-2 text-sm text-gray-600">
             Already have an account?{' '}
             <Link href="../login" className="font-medium text-blue-600 hover:text-blue-500">

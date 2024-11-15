@@ -1,6 +1,6 @@
-# 🎓 Alumni Portal – College Alumni Registration & Admin Management System
+# 🎓 LinkLum – College Alumni Registration & Admin Management System
 
-Welcome to the **Alumni Portal**, a web platform designed to connect alumni with their college, fostering a vibrant and engaged alumni network. This portal allows alumni to register their profiles, stay updated on events, and engage with their alma mater. The admin dashboard enables administrators to easily manage alumni profiles and promote upcoming events.
+Welcome to the **LinkLum**, a web platform designed to connect alumni with their college, fostering a vibrant and engaged alumni network. This portal allows alumni to register their profiles, stay updated on events, and engage with their alma mater. The admin dashboard enables administrators to easily manage alumni profiles and promote upcoming events.
 
 ## 🚀 Key Features
 

@@ -69,7 +69,7 @@ export default function Component() {
         <div className="container flex h-16 items-center justify-between">
           <Link href="#" className="flex items-center space-x-2">
             <GraduationCapIcon className="h-8 w-8 text-blue-600" />
-            <span className="font-bold text-2xl text-black">Alumni Portal</span>
+            <span className="font-bold text-2xl text-black">LinkLum</span>
           </Link>
           <nav className="hidden md:flex gap-6">
             {navItems.map((item) => (
@@ -146,7 +146,7 @@ export default function Component() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                Welcome to the Alumni Portal
+                Welcome to the LinkLum
               </h1>
               <p className="mx-auto max-w-[700px] text-lg md:text-xl text-zinc-200">
                 Connect with fellow alumni, stay up-to-date on campus news, and get involved in our community.
@@ -160,7 +160,7 @@ export default function Component() {
         <section id="about" className="w-full py-7 md:py-12 lg:py-16">
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">
-              About Alumni Portal
+              About LinkLum
             </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               <FeatureCard
@@ -285,7 +285,7 @@ export default function Component() {
       </main>
       <footer className="w-full border-t bg-white py-6">
         <div className="container flex flex-col md:flex-row items-center justify-between gap-4 px-4 md:px-6">
-          <p className="text-sm text-gray-500">&copy; 2024 Alumni Association. All rights reserved.</p>
+          <p className="text-sm text-gray-500">&copy; 2024 LinkLum. All rights reserved.</p>
           <nav className="flex gap-4">
             <Link href="#" className="text-sm text-gray-500 hover:underline">
               Terms of Service
@@ -307,7 +307,7 @@ function EventCard({ title, date, description, image }) {
 
     toast({
       variant: "red",
-      title: "Welcome to the Alumni Portal!",
+      title: "Welcome to the LinkLum!",
       description: "Log in to access this feature.",
     })
   }
@@ -331,7 +331,7 @@ function AlumniCard({ name, class: classYear, position, image }) {
 
     toast({
       variant: "red",
-      title: "Welcome to the Alumni Portal!",
+      title: "Welcome to the LinkLum!",
       description: "Log in to access this feature.",
     })
   }
@@ -368,7 +368,7 @@ function InvolvementCard({ icon, title, description }) {
 
     toast({
       variant: "red",
-      title: "Welcome to the Alumni Portal!",
+      title: "Welcome to the LinkLum!",
       description: "Log in to access this feature.",
     })
   }
