@@ -26,9 +26,10 @@ export default function Component() {
   }
   const navItems = [
     { name: "Events", href: "#events" },
+    { name: "Feedback", href: "#reviews" },
     { name: "Alumni", href: "#alumni" },
     { name: "About", href: "#about" },
-    { name: "Contact", href: "#contact" }
+   
   ]
 
   const scrollToSection = (href) => {
@@ -269,19 +270,20 @@ export default function Component() {
             </div>
           </div>
         </section> */}
-        <section id="contact" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
-          <div className="container px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">
-              Contact Us
-            </h2>
-            <div className="max-w-md mx-auto">
-              <p className="text-center mb-4">
-                Have questions or want to get in touch? We&apos;d love to hear from you!
-              </p>
-              <ContactForm />
-            </div>
-          </div>
-        </section>
+        <section id="reviews" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
+  <div className="container px-4 md:px-6">
+    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">
+      Share Your Feedback
+    </h2>
+    <div className="max-w-md mx-auto">
+      <p className="text-center mb-4">
+        Your feedback helps us improve! Share your experience and let us know how we can make our web app even better.
+      </p>
+      <ContactForm />
+    </div>
+  </div>
+</section>
+
       </main>
       <footer className="w-full border-t bg-white py-6">
         <div className="container flex flex-col md:flex-row items-center justify-between gap-4 px-4 md:px-6">

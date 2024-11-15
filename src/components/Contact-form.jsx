@@ -1,7 +1,5 @@
 "use client"
 
-import jwt from "jsonwebtoken"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,7 +8,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useToast } from "@/hooks/use-toast"
 import { postFeedbackUrl } from "@/urls/urls.js"
 import axios from 'axios'
-export default function ContactForm() {
+
+export default function FeedbackForm() {
   const [isOpen, setIsOpen] = useState(false)
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -29,8 +28,8 @@ export default function ContactForm() {
       setLoading(false)
       toast({
         variant: "green",
-        title: "Message Sent",
-        description: "Thank you for your message. We'll get back to you soon!",
+        title: "Feedback Submitted",
+        description: "Thank you for sharing your experience with us!",
       })
       setName('')
       setFeedback('')
@@ -40,20 +39,19 @@ export default function ContactForm() {
       toast({
         variant: "red",
         title: "Error",
-        description: "Error while sending the feedback",
+        description: "Error while submitting your feedback. Please try again later.",
       })
     }
-
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button size="lg" className="w-full">Get in Touch</Button>
+        <Button size="lg" className="w-full">Share Feedback</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Contact Us</DialogTitle>
+          <DialogTitle>Share Your Experience</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleFormSubmit} className="space-y-4">
           <Input
@@ -70,12 +68,12 @@ export default function ContactForm() {
             required
           />
           <Textarea
-            placeholder="Your Message"
+            placeholder="Your Feedback"
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
             required
           />
-          <Button type="submit" className="w-full">{loading ? "Sending..." : "Submit"}</Button>
+          <Button type="submit" className="w-full">{loading ? "Submitting..." : "Submit Feedback"}</Button>
         </form>
       </DialogContent>
     </Dialog>
