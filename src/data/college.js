@@ -2,6 +2,7 @@ export const collegeName= [
    "IIT Bombay",
     "IIT Delhi",
     "IIT Madras",
+    "IIT ISM Dhanbad",
     "IIT Kanpur",
     "IIT Kharagpur",
     "IIT Roorkee",
