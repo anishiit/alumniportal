@@ -156,7 +156,11 @@ export default function ProfileForm() {
   async function updateProfileImage(e) {
     // console.log("updating..")
     setIsLoading(true)
-    const prevImagePubId = inputs.profileImage.replace("https://res.cloudinary.com/dcqgytpzz/image/upload/","").split("/")[1].split(".")[0];
+    // if(!inputs.profileImage) {
+      
+    //   return 
+    // }
+    const prevImagePubId = inputs.profileImage.replace("https://res.cloudinary.com/dcqgytpzz/image/upload/","")?.split("/")[1]?.split(".")[0];
     // console.log(prevImagePubId)
     let imageInfo = {}
     try {
