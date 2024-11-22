@@ -76,10 +76,16 @@ export default function AlumniHome() {
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8">Upcoming Events</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               <EventCard
-                title="Annual Alumni Meet 2024"
-                date="August 15-17, 2024"
-                description="Join us for three days of networking, knowledge sharing, and nostalgia on the IIT Dhanbad campus."
-                image="/image/event1.jpeg"
+                title="Class of 99 Reunites!"
+                date="November 22nd & 23rd, 2024"
+                description="25 Years of Legacy: Class of '99 Reunites! : As the Millennium Class of '99 celebrates their 25th Graduation Anniversary, IIT (ISM) Dhanbad proudly welcomes our alumni back to campus.
+
+Dates: November 22nd & 23rd, 2024
+Venue: IIT (ISM) Dhanbad Campus
+
+A walk down memory lane awaits as we honour their incredible journey and achievements.
+#IITISM25Years #ClassOf99 #AlumniReunion #ForeveranISMite"
+                image="/image/class of99.png"
               />
               <EventCard
                 title="Tech Symposium"
@@ -162,14 +168,43 @@ export default function AlumniHome() {
 }
 
 function EventCard({ title, date, description, image }) {
+
+
+
+  const [isExpanded, setIsExpanded] = useState(false)
+  const maxLength = 100 // Adjust this value to change the number of characters shown initially
+
+  const toggleDescription = () => {
+    setIsExpanded(!isExpanded)
+  }
+
+  const truncatedDescription = description.length > maxLength 
+    ? `${description.substring(0, maxLength)}...` 
+    : description
+
   return (
+    // <Card className="flex flex-col overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+    //   <Image src={image} alt={title} width={400} height={200} className="object-cover  h-48 w-full" />
+    //   <CardContent className="p-6">
+    //     <h3 className="text-2xl font-semibold mb-2">{title}</h3>
+    //     <p className="text-sm text-gray-500 mb-4">{date}</p>
+    //     <p className="text-gray-600 mb-4">{description}</p>
+    //     {/* <Button variant="outline">Learn More</Button> */}
+    //   </CardContent>
+    // </Card>
     <Card className="flex flex-col overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
       <Image src={image} alt={title} width={400} height={200} className="object-cover h-48 w-full" />
       <CardContent className="p-6">
         <h3 className="text-2xl font-semibold mb-2">{title}</h3>
         <p className="text-sm text-gray-500 mb-4">{date}</p>
-        <p className="text-gray-600 mb-4">{description}</p>
-        {/* <Button variant="outline">Learn More</Button> */}
+        <p className="text-gray-600 mb-4">
+          {isExpanded ? description : truncatedDescription}
+        </p>
+        {description.length > maxLength && (
+          <Button variant="link" onClick={toggleDescription} className="p-0">
+            {isExpanded ? "Read Less" : "Read More"}
+          </Button>
+        )}
       </CardContent>
     </Card>
   )
