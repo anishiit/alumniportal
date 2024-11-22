@@ -291,11 +291,11 @@ function Navbar2() {
   ]
 
   const mobileNavItems = [
-    { name: "Home", href: "/home", icon: <Home className="h-6 w-6" /> },
-    { name: "Messages", href: "/chat", icon: <Mail className="h-6 w-6" /> },
-    { name: "Careers", href: "/jobposts", icon: <Search className="h-6 w-6" /> },
-    { name: "Memories", href: "/memories", icon: <SmilePlus className="h-6 w-6" /> },
-    { name: "Campus", href: "/student-hub", icon: <Calendar className="h-6 w-6" /> },
+    { name: "Home", href: "/home", icon: <Home className="h-5 w-5" /> },
+    { name: "Messages", href: "/chat", icon: <Mail className="h-5 w-5" /> },
+    { name: "Careers", href: "/jobposts", icon: <Search className="h-5 w-5" /> },
+    { name: "Memories", href: "/memories", icon: <SmilePlus className="h-5 w-5" /> },
+    { name: "Campus", href: "/student-hub", icon: <Calendar className="h-5 w-5" /> },
     // { name: "Profile", href: `/profile/${user._id}`, icon: 
     //   <Avatar className="h-6 w-6">
     //     <AvatarImage src={user.profileImage} alt={user.name} />
@@ -404,7 +404,7 @@ function Navbar2() {
       </Sheet>
 
       {/* Mobile Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 z-40 w-full h-16 bg-white border-t md:hidden">
+      <div className="fixed bottom-0 left-0 z-40 w-full h-14 bg-white border-t md:hidden">
         <div className="grid h-full max-w-lg grid-cols-5 mx-auto relative">
           {mobileNavItems.slice(0, 2).map((item) => (
             <Link
