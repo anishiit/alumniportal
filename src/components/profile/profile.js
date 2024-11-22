@@ -173,16 +173,7 @@ export default function ProfileDisplay({ user }) {
     github: "https://github.com/rahulkumar",
     bio: "Passionate about leveraging technology to solve real-world problems. Experienced in machine learning and cloud computing.",
     skills: ["Machine Learning", "Cloud Computing", "Data Science", "Blockchain"],
-    projects: [
-      {
-        title: "AI-Powered Chatbot",
-        description: "Developed a conversational AI chatbot for customer support",
-      },
-      {
-        title: "Blockchain-based Supply Chain",
-        description: "Implemented a transparent supply chain management system using blockchain",
-      },
-    ],
+    projects: [],
     education: [
       {
         degree: "B.Tech Engineering",
@@ -423,16 +414,23 @@ export default function ProfileDisplay({ user }) {
             <TabsContent value="projects" className="mt-4 sm:mt-6">
               <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Projects</h3>
               <div className="grid gap-3 sm:gap-4">
-                {profile.projects.map((project, index) => (
-                  <Card key={index}>
-                    <CardHeader className="p-3 sm:p-4">
-                      <CardTitle className="text-sm sm:text-base">{project.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-3 sm:p-4 pt-0">
-                      <p className="text-xs sm:text-sm">{project.description}</p>
-                    </CardContent>
-                  </Card>
-                ))}
+                {
+                  profile.projects.length === 0 ? (
+                    <div className="flex flex-wrap gap-1 sm:gap-2">
+                        <h3 className="text-sm">No Projects added to Show</h3>
+                    </div>
+                   ) : (
+                    profile.projects.map((project, index) => (
+                      <Card key={index}>
+                        <CardHeader className="p-3 sm:p-4">
+                          <CardTitle className="text-sm sm:text-base">{project.title}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-3 sm:p-4 pt-0">
+                          <p className="text-xs sm:text-sm">{project.description}</p>
+                        </CardContent>
+                      </Card>
+                  )))
+                }
               </div>
             </TabsContent>
           </Tabs>
