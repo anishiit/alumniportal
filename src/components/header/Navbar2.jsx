@@ -361,19 +361,29 @@ function Navbar2() {
             <GraduationCap className="h-6 w-6 text-blue-600" />
             <span className="font-bold text-lg text-black">{userData.collegeName}</span>
           </Link>
-          <div className="flex items-center gap-0">
-            <Button variant="ghost" size="sm" onClick={handleLogout} className="text-red-600 hover:text-red-700 hover:bg-red-100">
-              <LogOut className="h-4 w-4 mr-2" />
-              Logout
-            </Button>
-            <Link href={`/profile/${user._id}`}>
-            <Button variant="ghost" className="relative h-8 w-8 m-4 rounded-full">
+          <div className="flex items-center gap-4">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 m-4 rounded-full">
                   <Avatar className="h-10 w-10">
                     <AvatarImage src={user.profileImage} alt={user.name} />
                     <AvatarFallback>{user.name?.charAt(0)}</AvatarFallback>
                   </Avatar>
                 </Button>
-                </Link>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuItem asChild>
+                  <Link href={`/profile/${user._id}`}>
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </header>
@@ -404,7 +414,7 @@ function Navbar2() {
       </Sheet>
 
       {/* Mobile Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 z-40 w-full h-14 bg-white border-t md:hidden">
+      <div className="fixed bottom-0 left-0 z-40 w-full h-14 bg-blue-50 rounded-t-3xl md:hidden">
         <div className="grid h-full max-w-lg grid-cols-5 mx-auto relative">
           {mobileNavItems.slice(0, 2).map((item) => (
             <Link
