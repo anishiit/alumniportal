@@ -152,9 +152,22 @@ export default function Component() {
               <p className="mx-auto max-w-[700px] text-lg md:text-xl text-zinc-200">
                 Connect with fellow alumni, stay up-to-date on campus news, and get involved in our community.
               </p>
-              <Button onClick={() => { router.push('/registration') }} size="lg" className="bg-white text-blue-600 hover:bg-zinc-100">
-                Join Now
-              </Button>
+              <div>
+  <Button
+    onClick={() => { router.push('/registration'); }}
+    className="bg-white text-blue-600 hover:bg-zinc-100 text-sm lg:text-lg px-4 lg:px-6 py-2 lg:py-3"
+  >
+    Join Now
+  </Button>
+  <Button
+    onClick={handleLogin}
+    className="bg-white text-blue-600 hover:bg-zinc-100 mx-2 text-sm lg:text-lg px-4 lg:px-6 py-2 lg:py-3"
+  >
+    Login
+  </Button>
+</div>
+
+              
             </div>
           </div>
         </section>
