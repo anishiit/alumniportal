@@ -292,10 +292,10 @@ function Navbar2() {
 
   const mobileNavItems = [
     { name: "Home", href: "/home", icon: <Home className="h-5 w-5" /> },
-    { name: "Messages", href: "/chat", icon: <Mail className="h-5 w-5" /> },
+    { name: "Reconnect", href: "/search", icon: <Users className="h-5 w-5" /> },
     { name: "Careers", href: "/jobposts", icon: <Search className="h-5 w-5" /> },
     { name: "Memories", href: "/memories", icon: <SmilePlus className="h-5 w-5" /> },
-    { name: "Campus", href: "/student-hub", icon: <Calendar className="h-5 w-5" /> },
+   { name: "Messages", href: "/chat", icon: <Mail className="h-5 w-5" /> },
     // { name: "Profile", href: `/profile/${user._id}`, icon: 
     //   <Avatar className="h-6 w-6">
     //     <AvatarImage src={user.profileImage} alt={user.name} />
@@ -362,6 +362,10 @@ function Navbar2() {
             <span className="font-bold text-lg text-black">{userData.collegeName}</span>
           </Link>
           <div className="flex items-center gap-4">
+          <Link href={"/student-hub"}>
+          <div className="flex items-center justify-center -mx-3 w-10 h-10 rounded-full ">
+              <Calendar className="h-6 w-6 text-black" />
+            </div></Link>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 m-4 rounded-full">
