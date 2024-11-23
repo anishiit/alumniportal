@@ -170,7 +170,7 @@ function ChatView({ chat, onBack }) {
           <div ref={messagesEndRef} />
         </div>
       </ScrollArea>
-      <div className="p-4 border-t">
+      <div className="p-4 border-t md:mb-0 mb-12">
         <form onSubmit={handleSendMessage} className="flex space-x-2">
           <Input
             className="flex-grow"
@@ -293,6 +293,7 @@ export default function WhatsAppClone() {
 
   return (
     <div className='relative'>
+      
       <Navbar2 />
       <div className="flex w-full h-[91%] bg-background fixed bottom-0 overflow-x-clip">
         <div className="w-full md:w-96 flex flex-col border-r">
