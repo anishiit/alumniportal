@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Head from 'next/head'
 import Image from 'next/image'
 import { motion, useAnimation, useInView } from 'framer-motion'
 import { Card, CardContent } from "@/components/ui/card"
@@ -40,19 +41,22 @@ function AnimatedSection({ children, className = "" }) {
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      {/* <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex justify-center space-x-6">
-          {['mission', 'vision', 'values', 'founders', 'contact'].map((section) => (
-            <a
-              key={section}
-              href={`#${section}`}
-              className="text-blue-600 hover:text-blue-800 transition-colors"
-            >
-              {section.charAt(0).toUpperCase() + section.slice(1)}
-            </a>
-          ))}
-        </div>
-      </nav> */}
+      <Head>
+        <title>About LinkLum - Connecting Generations</title>
+        <meta
+          name="description"
+          content="Learn about LinkLum, a cutting-edge platform connecting students, alumni, and institutions. Explore our mission, vision, and values, and meet our founders."
+        />
+        <meta name="keywords" content="LinkLum, students, alumni, institutions, mission, vision, founders, values" />
+        <meta name="author" content="LinkLum Team" />
+        <meta property="og:title" content="About LinkLum - Connecting Generations" />
+        <meta property="og:description" content="Discover how LinkLum bridges the gap between generations through a seamless digital ecosystem for learning, networking, and growth." />
+        <meta property="og:image" content="/path-to-image.jpg" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://linklum.com/about" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="canonical" href="https://linklum.com/about" />
+      </Head>
 
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-5xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
@@ -72,9 +76,9 @@ export default function AboutPage() {
           <Card className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6 shadow-lg">
             <CardContent>
               <p className="text-xl italic text-center">
-                "To create a seamless digital ecosystem that empowers students, alumni, and educational institutions to connect, 
+                To create a seamless digital ecosystem that empowers students, alumni, and educational institutions to connect, 
                 collaborate, and grow together. We strive to foster mentorship, networking opportunities, and career advancements, 
-                turning virtual connections into real-world success."
+                turning virtual connections into real-world success.
               </p>
             </CardContent>
           </Card>
@@ -92,12 +96,19 @@ export default function AboutPage() {
         <AnimatedSection id="values">
           <h2 className="text-3xl font-semibold mb-6 text-center">Our Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[
-              { title: 'Innovation', description: 'We believe in pushing boundaries and creating innovative solutions that cater to the ever-evolving needs of our users.' },
-              { title: 'Collaboration', description: 'We value teamwork and collaboration among students, alumni, and educational institutions to build a supportive community.' },
-              { title: 'Integrity', description: 'We uphold the highest standards of honesty, transparency, and respect in everything we do.' },
-              { title: 'Inclusivity', description: 'Our platform is built to be open, accessible, and welcoming to all, ensuring that every individual can benefit from the opportunities we provide.' },
-            ].map((value) => (
+            {[{
+              title: 'Innovation',
+              description: 'We believe in pushing boundaries and creating innovative solutions that cater to the ever-evolving needs of our users.'
+            }, {
+              title: 'Collaboration',
+              description: 'We value teamwork and collaboration among students, alumni, and educational institutions to build a supportive community.'
+            }, {
+              title: 'Integrity',
+              description: 'We uphold the highest standards of honesty, transparency, and respect in everything we do.'
+            }, {
+              title: 'Inclusivity',
+              description: 'Our platform is built to be open, accessible, and welcoming to all, ensuring that every individual can benefit from the opportunities we provide.'
+            }].map((value) => (
               <Card key={value.title} className="p-6 hover:shadow-lg transition-shadow duration-300">
                 <CardContent>
                   <h3 className="text-2xl font-semibold mb-2">{value.title}</h3>
@@ -111,10 +122,15 @@ export default function AboutPage() {
         <AnimatedSection id="founders">
           <h2 className="text-3xl font-semibold mb-6 text-center">Our Founders</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[
-              { name: "Anish Kumar Singh", role: "Co-Founder & CEO", image: "/placeholder.svg?height=300&width=300" },
-              { name: "Abhay Kant Mishra", role: "Co-Founder & CTO", image: "/placeholder.svg?height=300&width=300" },
-            ].map((founder) => (
+            {[{
+              name: "Anish Kumar Singh",
+              role: "Co-Founder & CEO",
+              image: "/placeholder.svg?height=300&width=300"
+            }, {
+              name: "Abhay Kant Mishra",
+              role: "Co-Founder & CTO",
+              image: "/placeholder.svg?height=300&width=300"
+            }].map((founder) => (
               <Card key={founder.name} className="p-6 hover:shadow-lg transition-shadow duration-300">
                 <CardContent className="flex flex-col items-center">
                   <Image
@@ -150,7 +166,7 @@ export default function AboutPage() {
           <Card className="p-6">
             <CardContent>
               <p className="text-center mb-6">
-                Feel free to reach out if you have any questions or would like to get involved with LinkLum. We'd love to hear from you!
+                Feel free to reach out if you have any questions or would like to get involved with LinkLum. We love to hear from you!
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="flex items-center justify-center">
@@ -181,4 +197,3 @@ export default function AboutPage() {
     </div>
   )
 }
-
