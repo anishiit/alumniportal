@@ -25,10 +25,11 @@ export default function Component() {
     router.push('/collegeRegistration');
   }
   const navItems = [
+    { name:"Career", href: "/career" },
     { name: "Events", href: "#events" },
     { name: "Feedback", href: "#reviews" },
     { name: "Alumni", href: "#alumni" },
-    { name: "About", href: "#about" },
+    { name: "About", href: "/about" },
    
   ]
 
@@ -68,23 +69,23 @@ export default function Component() {
     <div className="flex flex-col min-h-screen bg-gray-50">
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
         <div className="container flex h-16 items-center justify-between">
-          <Link href="#" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
             <GraduationCapIcon className="h-8 w-8 text-blue-600" />
             <span className="font-bold text-2xl text-black">LinkLum</span>
           </Link>
           <nav className="hidden md:flex gap-6">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.name}
                 href={item.href}
                 className="text-lg font-medium text-gray-600 hover:text-blue-600 transition-colors"
-                onClick={(e) => {
-                  e.preventDefault()
-                  scrollToSection(item.href)
-                }}
+                //onClick={(e) => {
+                //  e.preventDefault()
+                //  scrollToSection(item.href)
+                //}}
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </nav>
           <div className="mx-1"><Button onClick={handleCollegeRegistration} className="hidden md:inline-flex" variant="outline" size="lg">

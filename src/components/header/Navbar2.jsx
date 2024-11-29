@@ -253,6 +253,9 @@ function Navbar2() {
 
   useEffect(() => {
     let user = (localStorage.getItem('amsjbckumr'))
+    if(!user){
+      return;
+    }
     user = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
     if (user) {
       const { collegeName, name } = user
@@ -263,6 +266,9 @@ function Navbar2() {
   const getUser = () => {
     if (typeof window !== "undefined") {
       let data = (localStorage.getItem('amsjbckumr'))
+      if(!data){
+        return;
+      }
       data = (jwt.verify(data, process.env.NEXT_PUBLIC_JWT_SECRET))
       if (data) {
         setUser(data)
