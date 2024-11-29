@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { ArrowRight, Mail, Phone, MapPin, Linkedin, Github, CheckCircle2 } from 'lucide-react'
 import Navbar from "@/components/header/Navbar"
+import Link from "next/link"
 
 export const metadata = {
   title: 'About LinkLum - Connecting Generations',
@@ -109,13 +110,17 @@ export default function AboutPage() {
                 name: "Anish Kumar Singh",
                 role: "Co-Founder & CEO",
                 image: "/placeholder.svg?height=400&width=400",
-                bio: "Passionate about bridging gaps between academic and professional circles. Anish brings years of experience in educational technology and a vision for transforming how students and alumni connect."
+                bio: "Passionate about bridging gaps between academic and professional circles. Anish brings years of experience in educational technology and a vision for transforming how students and alumni connect.",
+                linkedin: "",
+                github: "",
               },
               {
                 name: "Abhay Kant Mishra",
                 role: "Co-Founder & CTO",
                 image: "/placeholder.svg?height=400&width=400",
-                bio: "With expertise in software development and a deep interest in AI, Abhay leads our technical innovations. His problem-solving skills drive LinkLum's cutting-edge features and user-centric design."
+                bio: "With expertise in software development and a deep interest in AI, Abhay leads our technical innovations. His problem-solving skills drive LinkLum's cutting-edge features and user-centric design.",
+                linkedin: "",
+                github: "",
               }
             ].map((founder) => (
               <Card key={founder.name} className="overflow-hidden">
@@ -135,11 +140,15 @@ export default function AboutPage() {
                     <p className="text-gray-600 mb-4">{founder.bio}</p>
                     <div className="flex space-x-4">
                       <Button variant="outline" size="icon">
-                        <Linkedin className="h-4 w-4" />
+                        <a href={founder.linkedin}>
+                          <Linkedin className="h-4 w-4" />
+                        </a>  
                         <span className="sr-only">LinkedIn profile of {founder.name}</span>
                       </Button>
                       <Button variant="outline" size="icon">
-                        <Github className="h-4 w-4" />
+                        <a href={founder.github}>
+                          <Github className="h-4 w-4" />
+                        </a>
                         <span className="sr-only">GitHub profile of {founder.name}</span>
                       </Button>
                     </div>
@@ -162,12 +171,12 @@ export default function AboutPage() {
                 <div className="flex flex-col items-center text-center">
                   <Mail className="h-8 w-8 text-blue-600 mb-4" />
                   <h3 className="text-lg font-semibold mb-2">Email Us</h3>
-                  <p className="text-gray-600">contact@linklum.com</p>
+                  <p className="text-gray-600">contact@linklum.in</p>
                 </div>
                 <div className="flex flex-col items-center text-center">
                   <Phone className="h-8 w-8 text-blue-600 mb-4" />
                   <h3 className="text-lg font-semibold mb-2">Call Us</h3>
-                  <p className="text-gray-600">+1 (123) 456-7890</p>
+                  <p className="text-gray-600">+1 (123) 000000</p>
                 </div>
                 <div className="flex flex-col items-center text-center">
                   <MapPin className="h-8 w-8 text-blue-600 mb-4" />
@@ -180,9 +189,11 @@ export default function AboutPage() {
         </section>
 
         <section className="text-center">
+          <Link href="/">
           <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-lg px-8 py-3 rounded-full hover:shadow-lg transition-shadow duration-300">
             Join LinkLum Today <ArrowRight className="ml-2" />
           </Button>
+          </Link>
         </section>
       </main>
     </div>
