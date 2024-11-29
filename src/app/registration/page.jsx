@@ -158,7 +158,7 @@ export default function SignupForm() {
           </div>
           <Button
             type="button"
-            className="w-full bg-blue-600"
+            className="w-full bg-blue-600 hover:bg-blue-600/80"
             onClick={handleSignup}
             disabled={isLoading}
           >

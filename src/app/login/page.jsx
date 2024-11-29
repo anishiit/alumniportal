@@ -180,7 +180,7 @@ function Page() {
                   <Button
                     disabled={isLoading}
                     type="submit"
-                    className="w-full bg-blue-600"
+                    className="w-full bg-blue-600 hover:bg-blue-600/80"
                     //onClick={handleSignup}
                   >
                     {isLoading === false ? (<> Login <ArrowRight className="ml-2" size={16} /> </>) : (<>Loging In..</>)}
