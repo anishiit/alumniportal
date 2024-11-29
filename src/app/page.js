@@ -143,7 +143,7 @@ export default function Component() {
           </Sheet>
         </div>
       </header>
-      <main className="flex-1">
+      <main className="container mx-auto flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">

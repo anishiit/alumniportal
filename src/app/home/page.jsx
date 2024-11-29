@@ -57,7 +57,7 @@ export default function AlumniHome() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar2 />
-      <main className="flex-1">
+      <main className="container mx-auto flex-1">
         <section id="dashboard" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
@@ -147,7 +147,7 @@ A walk down memory lane awaits as we honour their incredible journey and achieve
         </section>
 
       </main>
-      <footer className="w-full border-t bg-white py-6">
+      <footer className="container mx-auto border-t bg-white py-6">
         <div className="container flex flex-col md:flex-row items-center justify-between gap-4 px-4 md:px-6">
           <p className="text-sm text-gray-500">&copy; 2024 IIT Dhanbad Alumni Association. All rights reserved.</p>
           <nav className="flex gap-4">

@@ -292,10 +292,10 @@ export default function WhatsAppClone() {
   if (loading) return <ChatLoading />
 
   return (
-    <div className='relative'>
+    <div className='relative flex flex-row justify-center mx-auto'>
       
       <Navbar2 />
-      <div className="flex w-full h-[91%] bg-background fixed bottom-0 overflow-x-clip">
+      <div className="max-w-[2100px] mx-auto flex w-full h-[91%] bg-background border-white border-[1px] fixed bottom-0 overflow-x-clip">
         <div className="w-full md:w-96 flex flex-col border-r">
           {/* Chat list header */}
           <div className="flex justify-between items-center p-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-primary-foreground">
@@ -334,7 +334,7 @@ export default function WhatsAppClone() {
               <TabsTrigger value="groups" onClick={() => setActiveTab('groups')}>Groups</TabsTrigger>
             </TabsList>
             <TabsContent value="chats" className="flex-grow">
-              <ScrollArea className="h-[calc(92vh-200px)]">
+              <ScrollArea className="h-[calc(92vh-200px)] md:pb-10 pb-20">
                 {filteredChats.map(chat => (
                   <div
                     key={chat._id}

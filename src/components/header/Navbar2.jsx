@@ -314,7 +314,7 @@ function Navbar2() {
     <>
       {/* Desktop Navbar */}
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 md:block hidden">
-        <div className="container flex h-16 items-center justify-between">
+        <div className="max-w-7xl mx-auto flex h-16 items-center justify-between">
           <Link href="/home" className="flex items-center space-x-2">
             <GraduationCap className="h-8 w-8 text-blue-600" />
             <span className="font-bold text-2xl text-black">{userData.collegeName}</span>
