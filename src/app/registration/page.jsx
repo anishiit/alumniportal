@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
+import Navbar from "@/components/header/Navbar"
 
 export default function SignupForm() {
   const router = useRouter()
@@ -65,13 +66,17 @@ export default function SignupForm() {
   )
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-md">
+    <div> 
+      <Navbar />
+    
+    <div className="flex justify-center min-h-screen max-h-[90%] bg-gray-100">
+      <div className="w-full max-w-md max-h-fit mt-14 p-8 space-y-8 bg-white rounded-xl shadow-md">         
         <div className="text-center">
+
           <h2 className="text-3xl font-extrabold text-gray-900">Sign up to LinkLum</h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-sm text-blue-600">
             Already have an account?{' '}
-            <Link href="../login" className="font-medium text-blue-600 hover:text-blue-500">
+            <Link href="../login" className="font-medium underline text-blue-600 hover:text-blue-500">
               Login to your account
             </Link>
           </p>
@@ -153,7 +158,7 @@ export default function SignupForm() {
           </div>
           <Button
             type="button"
-            className="w-full"
+            className="w-full bg-blue-600"
             onClick={handleSignup}
             disabled={isLoading}
           >
@@ -163,6 +168,7 @@ export default function SignupForm() {
         </form>
       </div>
     </div>
+  </div>
   )
 }
 
