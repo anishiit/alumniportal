@@ -34,6 +34,11 @@ export default function Component() {
   ]
 
   const scrollToSection = (href) => {
+    //console.log(href.substring(0,1))
+    if( href.substring(0,1) === "/"){
+      router.push(href);
+      return;
+    }
     const element = document.querySelector(href)
     if (element) {
       element.scrollIntoView({ behavior: "smooth" })
@@ -115,7 +120,7 @@ export default function Component() {
                 <nav className="flex flex-col gap-4">
                   {navItems.map((item) => (
                     <SheetClose asChild key={item.name}>
-                      <a
+                      <Link
                         href={item.href}
                         className="text-2xl font-semibold hover:text-blue-600 transition-colors"
                         onClick={(e) => {
@@ -124,7 +129,7 @@ export default function Component() {
                         }}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     </SheetClose>
                   ))}
                 </nav>
