@@ -68,7 +68,7 @@ export default function Component() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-        <div className="container flex h-16 items-center justify-between">
+        <div className="max-w-[2200px] mx-auto  flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <GraduationCapIcon className="h-8 w-8 text-blue-600" />
             <span className="font-bold text-2xl text-black">LinkLum</span>
@@ -300,7 +300,7 @@ export default function Component() {
 
       </main>
       <footer className="w-full border-t bg-white py-6">
-        <div className="container flex flex-col md:flex-row items-center justify-between gap-4 px-4 md:px-6">
+        <div className="max-w-[2000px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 px-4 md:px-6">
           <p className="text-sm text-gray-500">&copy; 2024 LinkLum. All rights reserved.</p>
           <nav className="flex gap-4">
             <Link href="#" className="text-sm text-gray-500 hover:underline">

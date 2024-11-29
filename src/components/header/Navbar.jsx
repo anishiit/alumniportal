@@ -31,8 +31,8 @@ export default function Navbar() {
    return (
     <div className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 md:block hidden" >
     <header className="">
-        <div className="container mx-auto flex h-16 items-center justify-between">
-          <Link href="#" className="flex items-center space-x-2">
+        <div className="max-w-[2200px] mx-auto flex h-16 items-center justify-between">
+          <Link href="/" className="flex items-center space-x-2">
             <GraduationCapIcon className="h-8 w-8 text-blue-600" />
             <span className="font-bold text-2xl text-black">LinkLum</span>
           </Link>
