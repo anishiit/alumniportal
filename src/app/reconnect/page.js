@@ -44,7 +44,9 @@ export default function UserConnectionPage() {
       if (typeof window !== "undefined") {
         currUser = localStorage.getItem("amsjbckumr");
         if(!currUser){
-          router.push("/login")
+          console.log("no user")
+          router.replace('/login');
+          return 
         }
         currUser = jwt.verify(currUser, process.env.NEXT_PUBLIC_JWT_SECRET)
       }
@@ -139,18 +141,15 @@ export default function UserConnectionPage() {
     if (typeof window != undefined) {
       let currUser = localStorage.getItem("amsjbckumr")
       if(!currUser){
-        router.push("/")
+        console.log("no current user")
+        router.push("/login")
+        return 
       }
       currUser = jwt.verify(currUser, process.env.NEXT_PUBLIC_JWT_SECRET);
       getAllCollegeUsers({ collegeName: currUser.collegeName });
     }
   }, []);
 
-
-  //useEffect(() => {
-    //setPage(1);
-    //setUsers([]);
-  //}, [searchQuery, selectedBatch, selectedBranch]);
 
   if (!users) {
     return <></>
