@@ -107,7 +107,7 @@ export default function UserConnectionPage() {
     }
   }
 
-  const filteredUsers = users?.filter(user =>
+  const filteredUsers = users.filter(user =>
     (user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.username?.toLowerCase().includes(searchQuery.toLowerCase())) &&
     (selectedBatch === "All" || user.batch === selectedBatch) &&
@@ -139,18 +139,13 @@ export default function UserConnectionPage() {
     if (typeof window != undefined) {
       let currUser = localStorage.getItem("amsjbckumr")
       if(!currUser){
-        router.push("/")
+        router.push("/login")
       }
       currUser = jwt.verify(currUser, process.env.NEXT_PUBLIC_JWT_SECRET);
       getAllCollegeUsers({ collegeName: currUser.collegeName });
     }
   }, []);
 
-
-  //useEffect(() => {
-    //setPage(1);
-    //setUsers([]);
-  //}, [searchQuery, selectedBatch, selectedBranch]);
 
   if (!users) {
     return <></>
