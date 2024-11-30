@@ -21,6 +21,8 @@ export const deleteUserConnectionUrl = `${user_backend_url}/user/deleteconnectio
 
 export const getAllCollegeUsersUrl = `${user_backend_url}/user/getcollegeusers`
 
+export const getAllUsersOfCollegeUrl = `${user_backend_url}/user/getallcollegeusers`
+
 export const connectUsersUrl = `${user_backend_url}/user/connectusers`
 
 // deleting asset from server
