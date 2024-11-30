@@ -251,6 +251,18 @@ function Navbar2() {
     getUser()
   }, [])
 
+
+  const handleLogout = (e) => {
+    e.preventDefault()
+    try {
+      if (typeof window !== "undefined") {
+        localStorage.clear()
+        router.push('/')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   useEffect(() => {
     let user = (localStorage.getItem('amsjbckumr'))
     if(!user){
@@ -276,17 +288,7 @@ function Navbar2() {
     }
   }
 
-  const handleLogout = (e) => {
-    e.preventDefault()
-    try {
-      if (typeof window !== "undefined") {
-        localStorage.clear()
-        router.push('/')
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+
 
   const navItems = [
     { name: "Reconnect", href: "/search", icon: <Users className="h-4 w-4 mr-2" /> },
