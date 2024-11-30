@@ -35,14 +35,17 @@ export default function UserConnectionPage() {
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const router = useRouter()
-  const observer = useRef()
+  //const observer = useRef()
   async function getAllCollegeUsers({ collegeName }) {
     if (loading) return;
     setLoading(true)
     try {
       let currUser = {}
       if (typeof window !== "undefined") {
-        currUser = localStorage.getItem("amsjbckumr")
+        currUser = localStorage.getItem("amsjbckumr");
+        if(!currUser){
+          router.push("/login")
+        }
         currUser = jwt.verify(currUser, process.env.NEXT_PUBLIC_JWT_SECRET)
       }
 
@@ -135,6 +138,9 @@ export default function UserConnectionPage() {
   useEffect(() => {
     if (typeof window != undefined) {
       let currUser = localStorage.getItem("amsjbckumr")
+      if(!currUser){
+        router.push("/")
+      }
       currUser = jwt.verify(currUser, process.env.NEXT_PUBLIC_JWT_SECRET);
       getAllCollegeUsers({ collegeName: currUser.collegeName });
     }
@@ -227,7 +233,7 @@ export default function UserConnectionPage() {
                       {groupUsers.map((user, index) => (
                         <motion.div
                           key={user._id}
-                          ref={index === filteredUsers.length - 1 ? lastJobRef : null}
+                          //ref={index === filteredUsers.length - 1}
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -20 }}
