@@ -44,7 +44,9 @@ export default function UserConnectionPage() {
       if (typeof window !== "undefined") {
         currUser = localStorage.getItem("amsjbckumr");
         if(!currUser){
-          router.push("/login")
+          console.log("no user")
+          router.replace('/login');
+          return 
         }
         currUser = jwt.verify(currUser, process.env.NEXT_PUBLIC_JWT_SECRET)
       }
@@ -107,7 +109,7 @@ export default function UserConnectionPage() {
     }
   }
 
-  const filteredUsers = users.filter(user =>
+  const filteredUsers = users?.filter(user =>
     (user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.username?.toLowerCase().includes(searchQuery.toLowerCase())) &&
     (selectedBatch === "All" || user.batch === selectedBatch) &&
@@ -139,7 +141,9 @@ export default function UserConnectionPage() {
     if (typeof window != undefined) {
       let currUser = localStorage.getItem("amsjbckumr")
       if(!currUser){
+        console.log("no current user")
         router.push("/login")
+        return 
       }
       currUser = jwt.verify(currUser, process.env.NEXT_PUBLIC_JWT_SECRET);
       getAllCollegeUsers({ collegeName: currUser.collegeName });
