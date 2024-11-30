@@ -16,7 +16,7 @@ import Navbar2 from "@/components/header/Navbar2"
 
 import { useToast } from "@/hooks/use-toast"
 
-
+const description1=["Stay connected with your Alumni and fellow classmates. Explore the latest updates and opportunities.","Stay connected with your alma mater and fellow alumni. Explore the latest updates and opportunities."]
 
 
 export default function AlumniHome() {
@@ -32,9 +32,9 @@ export default function AlumniHome() {
     let user = (localStorage.getItem('amsjbckumr'));
     user = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
     if (user) {
-      const { collegeName, name } = user;
+      const { collegeName, name, role,  } = user;
 
-      setUserData({ collegeName, name });
+      setUserData({ collegeName, name, role });
     }
 
   }, [])
@@ -65,7 +65,13 @@ export default function AlumniHome() {
                 Welcome, {userData.name}!
               </h1>
               <p className="mx-auto max-w-[700px] text-lg md:text-xl text-zinc-200">
-                Stay connected with your alma mater and fellow alumni. Explore the latest updates and opportunities.
+                { 
+                  userData.role === "alumni" ? (
+                    description1[1]
+                  ) : (
+                    description1[0]
+                  ) 
+                }
               </p>
             </div>
           </div>
@@ -73,7 +79,7 @@ export default function AlumniHome() {
 
         <section id="events" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
           <div className="container px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8">Upcoming Events</h2>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8">Events</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               <EventCard
                 title="Class of 99 Reunites!"
@@ -129,18 +135,18 @@ A walk down memory lane awaits as we honour their incredible journey and achieve
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               <InvolvementCard
                 icon={<Users className="h-10 w-10 text-blue-600" />}
-                title="Mentor a Student"
-                description="Share your experience and guide current students in their career paths."
+                title={ userData.role === "alumni" ? ("Mentor a Student") : ("Get Mentorship from Alumni")}
+                description={ userData.role === "alumni" ? ("Share your experience and guide current students in their career paths.") : ("Get mentorship from alumni to elevate your career, knowledge, and experience")}
               />
               <InvolvementCard
                 icon={<GraduationCap className="h-10 w-10 text-blue-600" />}
-                title="Contribute to Scholarships"
-                description="Help deserving students achieve their dreams by contributing to our scholarship fund."
+                title={ userData.role === "alumni" ? ("Contribute to Scholarships") : ("Get Scholarships from Alumni")}
+                description={ userData.role === "alumni" ? ("Help deserving students achieve their dreams by contributing to our scholarship fund.") : ("Recive scholarships from alumni to enhance your education, and unloak future career opportunities")}
               />
               <InvolvementCard
                 icon={<Calendar className="h-10 w-10 text-blue-600" />}
                 title="Organize Alumni Meetups"
-                description="Bring together fellow alumni in your city for networking and nostalgia."
+                description="Bring together alumni in one place for networking and nostalgia."
               />
             </div>
           </div>

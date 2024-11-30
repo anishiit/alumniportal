@@ -69,8 +69,8 @@ export default function SignupForm() {
     <div> 
       <Navbar />
     
-    <div className="flex justify-center min-h-screen max-h-[90%] bg-gray-100">
-      <div className="w-full max-w-md max-h-fit mt-14 p-8 space-y-8 bg-white rounded-xl shadow-md">         
+    <div className="flex justify-center min-h-screen max-h-[90%] bg-white">
+      <div className="w-full max-w-md max-h-fit mt-14 p-8 space-y-8 bg-white rounded-xl">         
         <div className="text-center">
 
           <h2 className="text-3xl font-extrabold text-gray-900">Sign up to LinkLum</h2>
