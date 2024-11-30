@@ -12,7 +12,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
 import ContactForm from '@/components/Contact-form'
 import { useToast } from "@/hooks/use-toast"
-
+import NavForSlash from '@/components/header/NavForSlash'
 
 export default function Component() {
   const [isOpen, setIsOpen] = useState(false)
@@ -72,82 +72,7 @@ export default function Component() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-        <div className="max-w-[2200px] mx-auto  flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
-            <GraduationCapIcon className="h-8 w-8 text-blue-600" />
-            <span className="font-bold text-2xl text-black">LinkLum</span>
-          </Link>
-          <nav className="hidden md:flex gap-6">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-lg font-medium text-gray-600 hover:text-blue-600 transition-colors"
-                //onClick={(e) => {
-                //  e.preventDefault()
-                //  scrollToSection(item.href)
-                //}}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
-          <div className="mx-1"><Button onClick={handleCollegeRegistration} className="hidden md:inline-flex" variant="outline" size="lg">
-            College Registration
-          </Button>
-            <Button onClick={handleLogin} className="hidden md:inline-flex mx-2" size="lg">
-              Login
-            </Button></div>
-
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Toggle menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-              <div className="flex flex-col h-full">
-                <div className="flex items-center justify-between mb-6">
-                  <span className="font-bold text-2xl text-black">Menu</span>
-                  <SheetClose asChild>
-                    <Button variant="ghost" size="icon">
-                      {/* <X className="h-6 w-6" /> */}
-                    </Button>
-                  </SheetClose>
-                </div>
-                <nav className="flex flex-col gap-4">
-                  {navItems.map((item) => (
-                    <SheetClose asChild key={item.name}>
-                      <Link
-                        href={item.href}
-                        className="text-2xl font-semibold hover:text-blue-600 transition-colors"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          scrollToSection(item.href)
-                        }}
-                      >
-                        {item.name}
-                      </Link>
-                    </SheetClose>
-                  ))}
-                </nav>
-                <div className="mt-auto">
-                  <SheetClose asChild>
-                    <Button onClick={handleCollegeRegistration} variant="outline" size="lg" className="w-full mt-4">
-                      College Registration
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button size="lg" className="w-full mt-1" onClick={() => { toggleMenu; handleLogin() }}>Login</Button>
-                  </SheetClose>
-                </div>
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
-      </header>
+    <NavForSlash />
       <main className="container mx-auto flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
           <div className="container px-4 md:px-6">
