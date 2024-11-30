@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label"
 import { Plus, Search, MapPin, Calendar, Bookmark, MessageCircle, Share2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import JobSearchLoading from '@/components/JobSearchLoading'
-import Navbar from "@/components/header/Navbar"
+import NavForSlash from "@/components/header/NavForSlash"
 import { useToast } from "@/hooks/use-toast"
 import {
   Dialog,
@@ -166,7 +166,7 @@ export default function SearchJob() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Navbar />
+      <NavForSlash />
       {loading && <JobSearchLoading />}
       <div className="container mx-auto md:p-4 max-w-6xl">
         <header className="sticky top-16 z-10 bg-white dark:bg-gray-800 shadow-sm mb-10">

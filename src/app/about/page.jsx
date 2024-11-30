@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { ArrowRight, Mail, Phone, MapPin, Linkedin, Github, CheckCircle2 } from 'lucide-react'
-import Navbar from "@/components/header/Navbar"
+import NavForSlash from "@/components/header/NavForSlash"
 import Link from "next/link"
 
 export const metadata = {
@@ -24,7 +24,7 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      <Navbar />
+      <NavForSlash />
       <main className="container mx-auto px-4 py-12">
         <section className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">

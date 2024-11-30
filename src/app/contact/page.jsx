@@ -5,7 +5,7 @@ import axios from 'axios'
 import { postFeedbackUrl } from "@/urls/urls.js"
 import { useToast } from "@/hooks/use-toast"
 import { StarIcon } from 'lucide-react'
-
+import NavForSlash from '@/components/header/NavForSlash'
 export default function FeedbackPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -44,6 +44,7 @@ export default function FeedbackPage() {
 
   return (
     <div className="bg-background text-foreground">
+    <NavForSlash/>
       <div className="mx-auto max-w-7xl px-4">
         <div className="flex flex-col space-y-8 pb-10 pt-12 md:pt-24">
           <div className="mx-auto max-w-max rounded-full border bg-secondary p-1 px-3">
