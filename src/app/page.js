@@ -11,10 +11,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
 import ContactForm from '@/components/Contact-form'
+import jwt from "jsonwebtoken"
 import { useToast } from "@/hooks/use-toast"
 import NavForSlash from '@/components/header/NavForSlash'
+import Navbar2 from "@/components/header/Navbar2"
 
 export default function Component() {
+  const [userData, setUserData] = useState("")
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const toggleMenu = () => setIsOpen(!isOpen)
@@ -24,6 +27,17 @@ export default function Component() {
   const handleCollegeRegistration = () => {
     router.push('/collegeRegistration');
   }
+
+  useEffect(() => {
+    let user = (localStorage.getItem('amsjbckumr'))
+    if(!user){
+      return;
+    }
+    user = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
+    if (user) {
+      setUserData(user)
+    }
+  }, [])
   const navItems = [
     { name:"Career", href: "/career" },
     { name: "Events", href: "#events" },
@@ -72,7 +86,8 @@ export default function Component() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-    <NavForSlash />
+    {userData ? (<Navbar2></Navbar2>):( <NavForSlash />)}
+   
       <main className="container mx-auto flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
           <div className="container px-4 md:px-6">
@@ -83,20 +98,25 @@ export default function Component() {
               <p className="mx-auto max-w-[700px] text-lg md:text-xl text-zinc-200">
                 Connect with fellow alumni, stay up-to-date on campus news, and get involved in our community.
               </p>
-              <div>
-  <Button
-    onClick={() => { router.push('/registration'); }}
-    className="bg-white text-blue-600 hover:bg-zinc-100 text-sm lg:text-lg px-4 lg:px-6 py-2 lg:py-3"
-  >
-    Join Now
-  </Button>
-  <Button
-    onClick={handleLogin}
-    className="bg-white text-blue-600 hover:bg-zinc-100 mx-2 text-sm lg:text-lg px-4 lg:px-6 py-2 lg:py-3"
-  >
-    Login
-  </Button>
-</div>
+              {userData ? (
+            <></>    ):(
+                  <div>
+             
+             <Button
+               onClick={() => { router.push('/registration'); }}
+               className="bg-white text-blue-600 hover:bg-zinc-100 text-sm lg:text-lg px-4 lg:px-6 py-2 lg:py-3"
+             >
+               Join Now
+             </Button>
+             <Button
+               onClick={handleLogin}
+               className="bg-white text-blue-600 hover:bg-zinc-100 mx-2 text-sm lg:text-lg px-4 lg:px-6 py-2 lg:py-3"
+             >
+               Login
+             </Button>
+           </div>
+)}
+
 
               
             </div>

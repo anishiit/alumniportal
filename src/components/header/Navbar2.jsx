@@ -230,7 +230,7 @@ import jwt from "jsonwebtoken"
 import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { Home, FolderClosed, Plus, Activity, User, Bell, Calendar, LayoutDashboard, SmilePlus, LogOut, Mail, Menu, Users, X, GraduationCap, Briefcase, Search, ChevronDown } from "lucide-react"
-import { useRouter } from 'next/navigation'
+import { useRouter ,usePathname } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -246,7 +246,7 @@ function Navbar2() {
   const [isOpen, setIsOpen] = useState(false)
   const [userData, setUserData] = useState({ collegeName: '', name: '' })
   const router = useRouter()
-
+  const pathname = usePathname()
   useEffect(() => {
     getUser()
   }, [])
@@ -261,7 +261,7 @@ function Navbar2() {
       const { collegeName, name } = user
       setUserData({ collegeName, name })
     }
-  }, [])
+  }, [handleLogout])
 
   const getUser = () => {
     if (typeof window !== "undefined") {
@@ -365,7 +365,7 @@ function Navbar2() {
         <div className="container flex h-16 items-center justify-between">
           <Link href="/home" className="flex items-center space-x-2">
             <GraduationCap className="h-6 w-6 text-blue-600" />
-            <span className="font-bold text-lg text-black">{userData.collegeName}</span>
+            <span className="font-bold text-lg text-black">{pathname === '/' ? "LinkLum":userData.collegeName}</span>
           </Link>
           <div className="flex items-center gap-4">
           <Link href={"/student-hub"}>
@@ -402,7 +402,7 @@ function Navbar2() {
         <SheetContent side="right" className="w-[300px] sm:w-[400px]">
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-between mb-6">
-              <span className="font-bold text-xl text-black">{userData.collegeName}</span>
+              <span className="font-bold text-xl text-black">  {{pathname}=='/' ? userData.collegeName : "LinkLum"}</span>
               <SheetClose asChild>
                 <Button variant="ghost" size="icon">
                   <X className="h-6 w-6" />

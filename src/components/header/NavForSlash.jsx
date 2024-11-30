@@ -317,7 +317,7 @@ function Navbar2() {
         <div className="max-w-[2200px] mx-auto flex h-16 items-center justify-between">
           <Link href="/home" className="flex items-center space-x-2">
             <GraduationCap className="h-8 w-8 text-blue-600" />
-            <span className="font-bold text-2xl text-black">{userData.collegeName}</span>
+            <span className="font-bold text-2xl text-black">LinkLum</span>
           </Link>
 
           <nav className="flex gap-6">
@@ -332,8 +332,7 @@ function Navbar2() {
               </Link>
             ))}
           </nav>
-
-          <div className="flex items-center gap-4">
+{user && <div className="flex items-center gap-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 m-4 rounded-full">
@@ -356,7 +355,8 @@ function Navbar2() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          </div>
+          </div>}
+          
         </div>
       </header>
 
@@ -365,14 +365,14 @@ function Navbar2() {
         <div className="container flex h-16 items-center justify-between">
           <Link href="/home" className="flex items-center space-x-2">
             <GraduationCap className="h-6 w-6 text-blue-600" />
-            <span className="font-bold text-lg text-black">{userData.collegeName}</span>
+            <span className="font-bold text-lg text-black">LinkLum</span>
           </Link>
-          <div className="flex items-center gap-4">
+          {user &&  <div className="flex items-center gap-4">
           <Link href={"/student-hub"}>
           <div className="flex items-center justify-center -mx-3 w-10 h-10 rounded-full ">
               <Calendar className="h-6 w-6 text-black" />
             </div></Link>
-            <DropdownMenu>
+            {user &&  <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 m-4 rounded-full">
                   <Avatar className="h-10 w-10">
@@ -393,8 +393,10 @@ function Navbar2() {
                   <span>Log out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+            </DropdownMenu>}
+           
+          </div>}
+         
         </div>
       </header>
 
