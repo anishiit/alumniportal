@@ -376,7 +376,7 @@ function Navbar2() {
             <GraduationCap className="h-6 w-6 text-blue-600" />
             <span className="font-bold text-lg text-black">LinkLum</span>
           </Link>
-          {user &&  <div className="flex items-center gap-4">
+          {user ? (<div className="flex items-center gap-4">
           <Link href={"/student-hub"}>
           <div className="flex items-center justify-center -mx-3 w-10 h-10 rounded-full ">
               <Calendar className="h-6 w-6 text-black" />
@@ -404,7 +404,12 @@ function Navbar2() {
               </DropdownMenuContent>
             </DropdownMenu>}
            
-          </div>}
+          </div>) : (
+            <Button className="bg-blue-600 text-sm hover:bg-blue-600/80 mx-2 rounded-sm" onClick={() => {router.push('/login')}}>
+              Login
+            </Button>
+
+          )}
          
         </div>
       </header>
