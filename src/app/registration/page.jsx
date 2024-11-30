@@ -16,7 +16,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import Navbar from "@/components/header/Navbar"
+//import Navbar from "@/components/header/Navbar"
+
+import NavForSlash from '@/components/header/NavForSlash'
 
 export default function SignupForm() {
   const router = useRouter()
@@ -67,7 +69,7 @@ export default function SignupForm() {
 
   return (
     <div> 
-      <Navbar />
+      <NavForSlash />
     
     <div className="flex justify-center min-h-screen max-h-[90%] bg-white">
       <div className="w-full max-w-md max-h-fit mt-14 p-8 space-y-8 bg-white rounded-xl">         
