@@ -257,7 +257,12 @@ function Navbar2() {
     try {
       if (typeof window !== "undefined") {
         localStorage.clear()
-        router.push('/')
+        if(pathname === '/'){
+          window.location.reload()
+        }else{
+          router.push('/')
+        }
+        
       }
     } catch (error) {
       console.log(error)
@@ -273,7 +278,7 @@ function Navbar2() {
       const { collegeName, name } = user
       setUserData({ collegeName, name })
     }
-  }, [handleLogout])
+  }, [])
 
   const getUser = () => {
     if (typeof window !== "undefined") {

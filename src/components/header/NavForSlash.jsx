@@ -229,7 +229,7 @@
 import jwt from "jsonwebtoken"
 import React, { useState, useEffect } from "react"
 import Link from "next/link"
-import { Home, FolderClosed, Plus, Activity, User, Bell, Calendar, LayoutDashboard, SmilePlus, LogOut, Mail, Menu, Users, X, GraduationCap, Briefcase, Search,Building2 , ChevronDown } from "lucide-react"
+import { Home, FolderClosed, Plus, Activity, User, Bell, Calendar, LayoutDashboard, SmilePlus, LogOut, Mail, Menu, Users, X, GraduationCap, Briefcase, Search,Building2, MessageSquareDiff, ChevronDown } from "lucide-react"
 import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
@@ -294,13 +294,16 @@ function Navbar2() {
     { name: "Events", href: "#events", icon: <Mail className="h-4 w-4 mr-2" /> },
     { name: "Alumni", href: "#alumni", icon: <Users className="h-4 w-4 mr-2" /> },
     { name: "About", href: "/about", icon: <Building2 className="h-4 w-4 mr-2" /> },
+    { name: "Feedback", href: "/contact", icon: <MessageSquareDiff className="h-4 w-4 mr-2" /> },
   ]
 
   const mobileNavItems = [
     { name: "Home", href: "/", icon: <Home className="h-5 w-5" /> },
     
     { name: "Careers", href: "/career", icon: <Search className="h-5 w-5" /> },
+    { name: "Feedback", href: "/contact", icon: <MessageSquareDiff className="h-5 w-5" /> },
     { name: "Alumni", href: "#alumni", icon: <SmilePlus className="h-5 w-5" /> },
+
    { name: "About", href: "/about", icon: <Mail className="h-5 w-5" /> },
     // { name: "Profile", href: `/profile/${user._id}`, icon: 
     //   <Avatar className="h-6 w-6">
@@ -320,7 +323,7 @@ function Navbar2() {
             <span className="font-bold text-2xl text-black">LinkLum</span>
           </Link>
 
-          <nav className="flex gap-6">
+          <nav className="flex gap-6 ">
             {navItems.map((item) => (
               <Link 
                 key={item.name} 
