@@ -135,9 +135,7 @@ function toast({
 function useToast() {
   const [state, setState] = React.useState(memoryState)
 
-  if (typeof Android !== "undefined" && Android.adjustPadding) {
-    Android.adjustPadding(50, 0, 0, 0); // Adjust padding for Android
-} 
+
 
   React.useEffect(() => {
     listeners.push(setState)
