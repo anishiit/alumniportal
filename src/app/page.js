@@ -134,7 +134,7 @@ export default function Component() {
         <section id="events" className="w-full py-7 md:py-12 lg:py-16">
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">
-              Upcoming Events
+              Events
             </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               <EventCard

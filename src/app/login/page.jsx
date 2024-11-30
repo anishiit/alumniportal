@@ -99,8 +99,8 @@ function Page() {
   return (
     <div>
       <Navbar />
-      <div className="flex justify-center min-h-screen max-h-[90%] bg-gray-100">
-      <div className="w-full max-w-md max-h-fit mt-32 p-8 space-y-8 bg-white rounded-xl shadow-md">  
+      <div className="flex justify-center min-h-screen bg-white">
+      <div className="w-full max-w-md max-h-fit mt-32 p-8 space-y-8 bg-white rounded-xl">  
           {/* <div className="mb-2 flex justify-center">
             <svg
               width="50"
