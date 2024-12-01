@@ -18,6 +18,7 @@ import { getUserChatsUrl, getChatByIdUrl, chat_backend_url } from '@/urls/urls.j
 import Navbar2 from '@/components/header/Navbar2'
 import ChatLoading from "@/components/ChatLoading"
 import { useRouter, useSearchParams } from 'next/navigation'
+import { formatDistanceToNow } from "date-fns"
 // Socket io connection => 
 
 // const ENDPOINT = `${process.env.NEXT_PUBLIC_BACKEND_URL_CHAT}`
@@ -240,7 +241,8 @@ export default function WhatsAppClone() {
         lastMessage: chat.lastMessage,
         messages: chat.allMessages,
         isGroup: false,
-        userId: chat.userId1._id !== userId ? chat.userId1 : chat.userId2
+        userId: chat.userId1._id !== userId ? chat.userId1 : chat.userId2,
+        lastMessageTime:chat.updatedAt,
       }))
       const sortedChats = sortChats(formattedChats)
       setChats(sortedChats)
@@ -253,9 +255,9 @@ export default function WhatsAppClone() {
 
   const sortChats = (chatsToSort) => {
     return [...chatsToSort].sort((a, b) => {
-      const lastMessageA = a.messages.length > 0 ? a.messages[a.messages.length - 1] : { timestamp: 0 }
-      const lastMessageB = b.messages.length > 0 ? b.messages[b.messages.length - 1] : { timestamp: 0 }
-      return new Date(lastMessageB.timestamp) - new Date(lastMessageA.timestamp)
+      //const lastMessageA = a.messages.length > 0 ? a.messages[a.messages.length - 1] : { timestamp: 0 }
+      //const lastMessageB = b.messages.length > 0 ? b.messages[b.messages.length - 1] : { timestamp: 0 }
+      return new Date(b.lastMessageTime) - new Date(a.lastMessageTime)
     })
   }
 
@@ -350,7 +352,7 @@ export default function WhatsAppClone() {
                       <div className='flex justify-between'>
                         <p className="text-sm text-muted-foreground">{chat.lastMessage}</p>
                         <p className="text-xs text-muted-foreground">
-                          {chat.messages[chat.messages.length - 1]?.time}
+                          { formatDistanceToNow(chat.lastMessageTime, {addSuffix: true}) }
                         </p>
                       </div>
                     </div>
