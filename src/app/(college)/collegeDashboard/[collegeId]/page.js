@@ -110,8 +110,22 @@ export default function CollegeDashboard() {
     try {
       await axios.post(getCollegeUsersUrl, { collegeName: collegeName })
         .then((res) => {
-          setAlumniData(res.data.users)
-          setFilteredAlumniData(res.data.users)
+          let alumni = [];
+          let student = [];
+          res.data.users?.map((user) => {
+          if(user.role === "alumni"){
+            alumni = [...alumni, user];
+          }else{
+            student = [...student, user];
+          }
+         
+        })
+          //setAlumniData(res.data.users)
+          //setFilteredAlumniData(res.data.users)
+          setAlumniData(alumni);
+          setStudentData(student);
+          setFilteredAlumniData(alumni);
+        setFilteredStudentData(student);
         })
         .catch((err) => {
           console.log(err)
@@ -465,7 +479,7 @@ export default function CollegeDashboard() {
                               <th className="text-left p-2">Name</th>
                               <th className="text-left p-2">Graduation Year</th>
                               <th className="text-left p-2">Email</th>
-                              <th className="text-left p-2">Actions</th>
+                              {/* <th className="text-left p-2">Actions</th> */}
                             </tr>
                           </thead>
                           <tbody>
@@ -482,11 +496,11 @@ export default function CollegeDashboard() {
                                   <td className="p-2 text-blue-600 hover:underline">{alumni?.name}</td> </Link>
                                 <td className="p-2">{alumni?.batch}</td>
                                 <td className="p-2">{alumni?.email}</td>
-                                <td className="p-2">
+                                { /* <td className="p-2">
                                   <Button variant="ghost" size="sm" onClick={() => removeItem(alumni._id, 'alumni')}>
                                     <Trash2 className="h-4 w-4" />
                                   </Button>
-                                </td>
+                                </td> */ }
 
                               </motion.tr>
                             ))}
@@ -542,7 +556,7 @@ export default function CollegeDashboard() {
                               <th className="text-left p-2">Name</th>
                               <th className="text-left p-2">Year</th>
                               <th className="text-left p-2">Email</th>
-                              <th className="text-left p-2">Actions</th>
+                                {/* <th className="text-left p-2">Actions</th> */}
                             </tr>
                           </thead>
                           <tbody>
@@ -555,13 +569,13 @@ export default function CollegeDashboard() {
                                 transition={{ duration: 0.2 }}
                               >
                                 <td className="p-2">{student?.name}</td>
-                                <td className="p-2">{student?.year}</td>
+                                <td className="p-2">{student?.batch}</td>
                                 <td className="p-2">{student?.email}</td>
-                                <td className="p-2">
+                                {/* <td className="p-2">
                                   <Button variant="ghost" size="sm" onClick={() => removeItem(student?._id, 'student')}>
                                     <Trash2 className="h-4 w-4" />
                                   </Button>
-                                </td>
+                                </td> */}
                               </motion.tr>
                             ))}
                           </tbody>
