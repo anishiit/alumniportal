@@ -18,7 +18,8 @@ export default function FeedbackPage() {
     e.preventDefault()
     setLoading(true)
 
-    try {
+    try { 
+      
       const res = await axios.post(postFeedbackUrl, { name, feedback, email })
       setLoading(false)
       toast({

@@ -158,22 +158,22 @@ export default function Component() {
             </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               <EventCard
-                title="Alumni Reunion"
-                date="June 15, 2024"
-                description="Join us for our annual alumni reunion celebration."
-                image="/image/event3.jpeg"
+                title="Inter IIT Tech Meet"
+                date="Dec 11-14, 2024"
+                description="Greetings, tech enthusiasts and brilliant minds from across IITs!"
+                image="/image/interIIT.png"
               />
               <EventCard
-                title="Career Networking"
-                date="July 20, 2024"
-                description="Connect with fellow alumni and explore new opportunities."
-                image="/image/event2.jpeg"
+                title="Inter IIT 57th Sports meet 2024"
+                date="Dec 10-17, 2024"
+                description="The 2024 Inter IIT Sports Meet will be held at IIT Kanpur and IIT Indore..."
+                image="/image/image.png"
               />
               <EventCard
-                title="Homecoming Weekend"
-                date="October 5-7, 2024"
-                description="Return to campus for a weekend of nostalgia and fun."
-                image="/image/event1.jpeg"
+                title="Inter-IIT Cultural Meet 7.0"
+                date="Dec 26-29, 2024"
+                description="The largest showcase of cultural talent across the country"
+                image="/image/cultural.png"
               />
             </div>
             {/* <div className="mt-10 text-center">
