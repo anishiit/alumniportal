@@ -15,7 +15,7 @@ import jwt from "jsonwebtoken"
 import { useToast } from "@/hooks/use-toast"
 import NavForSlash from '@/components/header/NavForSlash'
 import Navbar2 from "@/components/header/Navbar2"
-
+import  Testimonial from "@/components/Testimonial"
 export default function Component() {
   const [userData, setUserData] = useState("")
   const [isOpen, setIsOpen] = useState(false)
@@ -234,6 +234,7 @@ export default function Component() {
             </div>
           </div>
         </section> */}
+        <Testimonial />
         <section id="reviews" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
   <div className="container px-4 md:px-6">
     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">
