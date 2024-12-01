@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { BadgeIcon, GiftIcon, VoteIcon, Menu, Users, BookOpen, Globe, Award } from "lucide-react"
-
+import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
 import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -46,6 +46,43 @@ export default function Component() {
     { name: "About", href: "/about" },
    
   ]
+  const testimonials = [
+    {
+      quote:
+        "You become a star not because of your title. you become a star because you are adding star value to the COMPANY",
+      name: "N. R. Narayana Murthy",
+      designation: "co-founder of Infosys",
+      src: "/image/murti.webp",
+    },
+    {
+      quote:
+        "As a leader, it&apos;s important to focus not only on your own success but also on the success of others.",
+      name: "Sundar Pichai",
+      designation: "CEO of Google",
+      src: "/image/sunder.webp",
+    },
+    {
+      quote:
+        "Don’t quit. It will happen one day.",
+      name: "Chetan Bhagat",
+      designation: "Author",
+      src: "/image/Chetan-Bhagat.webp",
+    },
+    {
+      quote:
+        "Age doesn't matter if you have the attitude and drive to succeed.",
+      name: "Sachin Bansal",
+      designation: "Ex-CEO of Flipkart",
+      src: "/image/Flipkart_Sachin_Bansal.webp",
+    },
+    {
+      quote:
+        "Life is not about finding yourself. Life is about creating yourself.",
+      name: "Raghuram Rajan ",
+      designation: "Former RBI Governor",
+      src: "/image/raghuram-rajan-former-rbi-governori.webp",
+    },
+  ];
 
   const scrollToSection = (href) => {
     //console.log(href.substring(0,1))
@@ -183,8 +220,14 @@ export default function Component() {
             </div> */}
           </div>
         </section>
-        <section id="alumni" className="w-full py-7 md:py-12 lg:py-16 bg-gray-100">
-          <div className="container px-4 md:px-6">
+
+        <section id="alumni" className="w-full py-7 md:py-12 lg:py-16 bg-z">
+        <div className="container px-4 md:px-6">
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center md:mb-6 -mb-8">
+              Featured Alumni
+            </h2><AnimatedTestimonials testimonials={testimonials} /></div>
+        
+          {/* <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">
               Featured Alumni
             </h2>
@@ -208,7 +251,7 @@ export default function Component() {
                 image="/image/profileLogo.png"
               />
             </div>
-          </div>
+          </div> */}
         </section>
         {/* <section id="get-involved" className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
