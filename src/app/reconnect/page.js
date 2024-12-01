@@ -44,7 +44,7 @@ export default function UserConnectionPage() {
       if (typeof window !== "undefined") {
         currUser = localStorage.getItem("amsjbckumr");
         if(!currUser){
-          console.log("no user")
+          //console.log("no user")
           router.replace('/login');
           return 
         }
@@ -141,7 +141,7 @@ export default function UserConnectionPage() {
     if (typeof window != undefined) {
       let currUser = localStorage.getItem("amsjbckumr")
       if(!currUser){
-        console.log("no current user")
+        //console.log("no current user")
         router.push("/login")
         return 
       }

@@ -318,7 +318,7 @@ function Navbar2() {
       {/* Desktop Navbar */}
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 md:block hidden">
         <div className="max-w-[2200px] mx-auto flex h-16 items-center justify-between">
-          <Link href="/home" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
             <GraduationCap className="h-8 w-8 text-blue-600" />
             <span className="font-bold text-2xl text-black">LinkLum</span>
           </Link>
@@ -328,14 +328,15 @@ function Navbar2() {
               <Link 
                 key={item.name} 
                 href={item.href} 
-                className="text-lg font-medium text-gray-600 hover:text-blue-600 transition-colors flex items-center"
+                className="text-lg font-medium text-gray-600 hover:text-blue-600 transition-colors flex flex-shrink items-center"
               >
                 {item.icon}
                 {item.name}
               </Link>
             ))}
           </nav>
-{user && <div className="flex items-center gap-4">
+          <div>
+{user ? (<div className="flex items-center gap-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 m-4 rounded-full">
@@ -358,7 +359,12 @@ function Navbar2() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          </div>}
+          </div>) : (
+            <Button className="bg-blue-600 hover:bg-blue-600/80 mx-2 rounded-sm" onClick={() => {router.push('/login')}}>
+              Login
+            </Button>
+          )}
+</div>
           
         </div>
       </header>
@@ -366,11 +372,11 @@ function Navbar2() {
       {/* Mobile Top Navbar */}
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 md:hidden">
         <div className="container flex h-16 items-center justify-between">
-          <Link href="/home" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
             <GraduationCap className="h-6 w-6 text-blue-600" />
             <span className="font-bold text-lg text-black">LinkLum</span>
           </Link>
-          {user &&  <div className="flex items-center gap-4">
+          {user ? (<div className="flex items-center gap-4">
           <Link href={"/student-hub"}>
           <div className="flex items-center justify-center -mx-3 w-10 h-10 rounded-full ">
               <Calendar className="h-6 w-6 text-black" />
@@ -398,7 +404,12 @@ function Navbar2() {
               </DropdownMenuContent>
             </DropdownMenu>}
            
-          </div>}
+          </div>) : (
+            <Button className="bg-blue-600 text-sm hover:bg-blue-600/80 mx-2 rounded-sm" onClick={() => {router.push('/login')}}>
+              Login
+            </Button>
+
+          )}
          
         </div>
       </header>

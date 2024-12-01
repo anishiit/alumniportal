@@ -12,7 +12,9 @@ import Link from 'next/link';
 import axios from 'axios';
 import { loginUserUrl } from '@/urls/urls';
 import { useToast } from '@/hooks/use-toast';
-import Navbar from "@/components/header/Navbar"
+
+//import Navbar from "@/components/header/Navbar"
+import NavForSlash from '@/components/header/NavForSlash'
 
 function Page() {
   const { toast } = useToast();
@@ -98,7 +100,7 @@ function Page() {
 
   return (
     <div>
-      <Navbar />
+      <NavForSlash />
       <div className="flex justify-center min-h-screen bg-white">
       <div className="w-full max-w-md max-h-fit mt-32 p-8 space-y-8 bg-white rounded-xl">  
           {/* <div className="mb-2 flex justify-center">
