@@ -56,7 +56,7 @@ export default function Component() {
     },
     {
       quote:
-        "As a leader, it&apos;s important to focus not only on your own success but also on the success of others.",
+        "As a leader, it's important to focus not only on your own success but also on the success of others.",
       name: "Sundar Pichai",
       designation: "CEO of Google",
       src: "/image/sunder.webp",
