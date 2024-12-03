@@ -78,6 +78,8 @@ export const loginCollegeUrl = `${college_backend_url}/college/login`
 
 export const getCollegeUsersUrl = `${college_backend_url}/college/getcollegeusers`
 
+export const addFeaturedAlumniUrl = `${college_backend_url}/college/addfeaturedalumni`
+
 export const createCollegeEventUrl = `${college_backend_url}/event/createevent`
 
 export const getCollegeEventsUrl = `${college_backend_url}/event/getcollegeevents`
@@ -89,6 +91,8 @@ export const deleteCollegeEventUrl = `${college_backend_url}/event/deleteevent`
 export const createStudenthubUrl = `${college_backend_url}/studenthub/create`
 
 export const getStudenthubUrl = `${college_backend_url}/studenthub/get`
+
+ 
 
 // feedbackURl
 
