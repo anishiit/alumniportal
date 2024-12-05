@@ -302,7 +302,7 @@ export default function Component() {
             <Link href="#" className="text-sm text-gray-500 hover:underline">
               Terms of Service
             </Link>
-            <Link href="#" className="text-sm text-gray-500 hover:underline">
+            <Link href="/privacy-policy" className="text-sm text-gray-500 hover:underline">
               Privacy Policy
             </Link>
           </nav>
