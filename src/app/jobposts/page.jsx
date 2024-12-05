@@ -276,7 +276,7 @@ export default function SearchJob() {
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
 
-  const [currUser, setCurrUser] = useState('');
+  const [currUser, setCurrUser] = useState({});
 
 
 
@@ -288,6 +288,9 @@ export default function SearchJob() {
       if (currUser) {
         setCurrUser(currUser)
       }
+      // if(page === 1){
+      //   getPostData(currUser.collegeName)
+      // }
     }
   }, [])
 
@@ -296,10 +299,17 @@ export default function SearchJob() {
   const getJobPostUrl = getAllPostsUrl
 
   async function getPostData() {
+    let currUser;
+    if (typeof window !== "undefined") {
+      currUser = localStorage.getItem("amsjbckumr")
+      currUser = jwt.verify(currUser, process.env.NEXT_PUBLIC_JWT_SECRET)
+    }
+    const collegeName = currUser?.collegeName;
     try {
       setLoading(true)
-      const res = await axios.get(getJobPostUrl, {
-        params: { page, limit: 15 },
+      console.log(currUser)
+      const res = await axios.post(getJobPostUrl, {
+        params: { page, limit: 15, collegeName }
       })
       const newJobs = res.data.jobs.map(job => ({ ...job }))
       setJobs((prevJobs) => [...prevJobs, ...newJobs])
@@ -312,7 +322,9 @@ export default function SearchJob() {
   }
 
   useEffect(() => {
-    getPostData()
+    // if(page > 1){
+      getPostData()
+    // }
   }, [page])
 
   const lastJobRef = useCallback(
