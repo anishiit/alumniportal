@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ArrowLeft, Search, UserPlus, UserCheck, GraduationCap, Briefcase, MapPin, User } from "lucide-react"
+import { ArrowLeft, Search, UserPlus, UserCheck, GraduationCap, Briefcase, MapPin, User, ShieldCheck, ShieldOff } from "lucide-react"
 import Link from "next/link"
 import axios from "axios"
 import { batch } from '@/data/batch'
@@ -249,7 +249,17 @@ export default function UserConnectionPage() {
                                   <AvatarFallback>{user.name.split(" ").map(n => n[0]).join("")}</AvatarFallback>
                                 </Avatar>
                               </div>
-                              <h3 className="text-xl font-semibold text-center mb-2">{user.name}{user.isCurrentUser === true ? (<p className="text-sm text-muted-foreground" >(You)</p>) : (<></>)}</h3>
+                              {/* <h3 className="text-xl font-semibold text-center mb-2">{user.name}  
+                              
+                              
+                              </h3> */}
+
+                              <div className="flex flex-row items-center justify-center" > 
+                                <h3>{user.name}</h3>
+                                {user.isVerified === true ? (<p ><ShieldCheck className="w-4 h-4 ml-2 font-bold"/></p>) : (<p className="text-sm text-muted-foreground text-red-500 mb-[2px] "><ShieldOff className="w-4 h-4 ml-2"/></p>)}
+                                {user.isCurrentUser === true ? (<p className="text-sm text-muted-foreground" >(You)</p>) : (<></>)}
+                              </div>
+                              
                               <p className="text-sm text-muted-foreground text-center mb-4">{user.jobTitle || "Position not specified"}</p>
                               <div className="space-y-2 text-sm flex-grow">
                                 <div className="flex items-center justify-center">
