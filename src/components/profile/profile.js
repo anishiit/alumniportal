@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, Github, Users,GraduationCap, Linkedin, Mail, MapPin, Phone, User, Briefcase, Building, MessageCircle,Plus, SmilePlus , Badged} from "lucide-react"
+import { Calendar, Github, Users,GraduationCap, Linkedin, Mail, MapPin, Phone, User, Briefcase, Building, MessageCircle,Plus, SmilePlus , Badged, ShieldOff,ShieldCheck} from "lucide-react"
 import { usePathname } from 'next/navigation';
 import axios from 'axios';
 import { createUserInvitationUrl, getUserInfoUrl } from '@/urls/urls';
@@ -46,19 +46,34 @@ export default function ProfileDisplay({ user }) {
 
   async function getUser(){
     try {
+      let user;
+      if(typeof window !== undefined)
+        user = localStorage.getItem("amsjbckumr")
+      user = jwt.verify(user,process.env.NEXT_PUBLIC_JWT_SECRET)
+
       setLoading(true);
       await axios.post(getUserInfoUrl,{userId:userId})
       .then((res) => {
         // console.log(res.data);
         setUsr(res.data.user);
+        console.log(res.data.user);
+        if(user._id === res.data.user._id){
+          if (typeof window !== undefined) {
+            const token = jwt.sign(res.data.user, process.env.NEXT_PUBLIC_JWT_SECRET)
+            localStorage.setItem("amsjbckumr", token)
+          }
+        }
+        setCurrentUser(res.data.user);
       })
       .catch((err) => {
         console.log(err);
         setErr(err.response.data.msg);
+ 
       })
       setLoading(false);
     } catch (error) {
       console.log(error)
+
     }
   }
 
@@ -138,7 +153,7 @@ export default function ProfileDisplay({ user }) {
       let currUser = localStorage.getItem("amsjbckumr")
       currUser = jwt.verify(currUser,process.env.NEXT_PUBLIC_JWT_SECRET)
       setCurrentUser(currUser)
-      console.log(currUser)
+      
       if (currUser) {
         getAllCollegeUsers({ collegeName: currUser.collegeName })
       }
@@ -157,8 +172,11 @@ export default function ProfileDisplay({ user }) {
         setcurrent(true);
       }
     // console.log(userId)
-    getUser();
-    console.log(usr , currentUser)
+ 
+getUser();
+   
+
+    // console.log(u , user)
   },[])
   const profile = {
     name: "example",
@@ -212,7 +230,20 @@ export default function ProfileDisplay({ user }) {
             
           </div>
           <div className="text-white text-center sm:text-left sm:pl-36 lg:pl-40">
-            <h1 className="text-2xl sm:text-3xl font-bold">{usr?.name }</h1>
+          <div className="md:flex gap-2">
+          <h1 className="text-2xl sm:text-3xl font-bold">{usr?.name }</h1>
+          {usr.isVerified === true ? (
+        <Badge variant="success" className="hidden md:flex mr-2 -py-2  px-3 text-xs sm:text-sm  text--800 rounded-full">
+          <ShieldCheck className="w-4 h-4 mr-2" />
+          Verified User
+        </Badge>
+      ): (
+        <div className="mr-2 hidden md:flex flex-row items-center outline outline-1 outline-red-500 px-3 bg-transparent  font-thin text-red-100 text-xs sm:text-xs   rounded-full">
+          <ShieldOff className="w-4 h-4 mr-2 text-red-600 font-extrabold" />
+          Non-Verified User
+        </div>
+      )}</div>
+            
 
             <p className="text-sm sm:text-base mt-1">{usr?.jobTitle} at {usr?.companyName}</p>
             {
@@ -276,10 +307,15 @@ export default function ProfileDisplay({ user }) {
           Verify Now
         </Button>
       )}
-      {usr.isVerified && (
-        <Badge variant="success" className="mr-2 py-1 px-3 text-xs sm:text-sm bg-green-100 text-green-800 rounded-full">
-          <User className="w-4 h-4 mr-2" />
+      {usr.isVerified === true ? (
+        <Badge variant="success" className="mr-2 md:hidden py-1 px-3 text-xs sm:text-sm bg-green-100 text--800 rounded-full">
+          <ShieldCheck className="w-4 h-4 mr-2" />
           Verified User
+        </Badge>
+      ): (
+        <Badge variant="success" className="mr-2 py-1 md:hidden px-3 text-xs sm:text-sm bg-red-100 text--800 rounded-full">
+          <ShieldOff className="w-4 h-4 mr-2" />
+          Non-Verified User
         </Badge>
       )}
           {iscurrent === true ? ( <Button onClick={() => router.push('/update-profile')} variant="outline" size="sm" className="mr-2 text-xs sm:text-sm">
