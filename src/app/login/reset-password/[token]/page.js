@@ -39,21 +39,21 @@ export default function ChangePassword() {
     try {
         await axios.post(`${process.env.NEXT_PUBLIC_USER_BACKEND_URL}/user/changepassword`, { userId, newPassword: password })
         .then((res) => {
-            console.log(res.data);
-            setMessage(res.data.msg);
+            // console.log(res.data);
+            setMessage(res?.data?.msg);
             toast({
                 variant: "green",
                 description: "Password changed successfully",
             })
         })
         .catch((err) => {
-            console.log(err)
-            setError(err.response.data.msg)
+            // console.log(err)
+            setError(err?.response?.data?.msg)
             return
         })
     } catch (error) {
-        console.log(error)
-        setError(error.message)
+        // console.log(error)
+        setError(error?.message)
         return
     }
     
@@ -72,7 +72,7 @@ export default function ChangePassword() {
 
   useEffect(() => {
         const token = pathname.replace('/login/reset-password/', '');
-        console.log(token);
+        // console.log(token);
         try {
             // console.log(process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECERET);
             const decodedToken = jwt.decode(token);
