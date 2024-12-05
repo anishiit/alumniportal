@@ -26,20 +26,21 @@ export default function ForgotPassword() {
     setError("")
 
     try {
-      const response = await axios.post("/api/forgot-password", { email })
+       await axios.post(`${process.env.NEXT_PUBLIC_USER_BACKEND_URL}/user/forgotpassword`, { email })
+       .then((res)=>{
+        console.log(res.data)
+       })
+       .catch((err)=>{
+        setError(err.response.data.msg)
+        console.log(err)
+        return 
+       })
+
       setSuccess(true)
-      toast({
-        title: "Reset link sent",
-        description: "Please check your email for the password reset link.",
-        variant: "default",
-      })
+     
     } catch (err) {
-      setError("Please contact Anish and Abhay for changing Password")
-      toast({
-        title: "VIP Feature",
-        description: "Please contact Anish and Abhay for changing Password 😁",
-        variant: "blue",
-      })
+      
+      setError(err.message)
     } finally {
       setIsLoading(false)
     }
