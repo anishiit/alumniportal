@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast"
 import NavForSlash from '@/components/header/NavForSlash'
 import Navbar2 from "@/components/header/Navbar2"
 import  Testimonial from "@/components/Testimonial"
+import Footer from "@/components/footer/Footer"
 export default function Component() {
   const [userData, setUserData] = useState("")
   const [isOpen, setIsOpen] = useState(false)
@@ -295,19 +296,9 @@ export default function Component() {
 </section>
 
       </main>
-      <footer className="w-full border-t bg-white py-6 -mb-16">
-        <div className="max-w-[2000px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 px-4 md:px-6">
-          <p className="text-sm text-gray-500">&copy; 2024 LinkLum. All rights reserved.</p>
-          <nav className="flex gap-4">
-            <Link href="/terms-and-conditions" className="text-sm text-gray-500 hover:underline">
-              Terms of Service
-            </Link>
-            <Link href="/privacy-policy" className="text-sm text-gray-500 hover:underline">
-              Privacy Policy
-            </Link>
-          </nav>
-        </div>
-      </footer>
+
+      <Footer />
+
     </div>
   )
 }

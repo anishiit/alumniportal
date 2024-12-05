@@ -1,8 +1,30 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
+import NavForSlash from '@/components/header/NavForSlash'
+import Navbar2 from "@/components/header/Navbar2"
+import Link from "next/link"
+import Footer from "@/components/footer/Footer"
 
 export default function TermsAndConditions() {
+    
+    const [userData, setUserData] = useState()
+    useEffect(() => {
+        let user = (localStorage.getItem('amsjbckumr'))
+        if(!user){
+          return;
+        }
+        user = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
+        if (user) {
+          setUserData(user)
+        }
+      }, [])
+
   return (
-    <div className="min-h-screen bg-white">
+    <>
+    <div className="min-h-[90vh] bg-white">
+        {userData ? (<Navbar2></Navbar2>):( <NavForSlash />)}
       {/* Hero Section */}
       <div className="w-full bg-gradient-to-br from-blue-600 to-indigo-600 py-16 text-center text-white">
         <h1 className="text-4xl font-bold md:text-5xl">Terms and Conditions</h1>
@@ -108,7 +130,11 @@ export default function TermsAndConditions() {
           </CardContent>
         </Card>
       </div>
+
     </div>
+
+    <Footer />
+    </> 
   )
 }
 
