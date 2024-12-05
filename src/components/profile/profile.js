@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Calendar, Github, Users,GraduationCap, Linkedin, Mail, MapPin, Phone, User, Briefcase, Building, MessageCircle,Plus, SmilePlus , Badged, ShieldOff,ShieldCheck} from "lucide-react"
 import { usePathname } from 'next/navigation';
 import axios from 'axios';
-import { createUserInvitationUrl, getUserInfoUrl } from '@/urls/urls';
+import { createUserInvitationUrl, getUserInfoUrl } from '@/urls/urls.js';
 import { getAllCollegeUsersUrl, connectUsersUrl, createChatOfUsers } from "@/urls/urls.js"
 import { useRouter } from 'next/navigation'
 import Navbar2 from "../header/Navbar2"
@@ -37,6 +37,7 @@ export default function ProfileDisplay({ user }) {
   const location = usePathname(); 
 
   const userId = location.substring(9);
+
   const [users ,setUsers]= useState([]);
   const [usr, setUsr] = useState({});
   const [err, setErr] = useState("");
@@ -106,12 +107,27 @@ export default function ProfileDisplay({ user }) {
   
   
   const handleConnect = async (id) => {
-    setUsers(users.map(user => 
-      user._id === id ? { ...user, isConnected: !user.isConnected } : user
-    ))
+    // setUsers(users.map(user => 
+    //   user._id === id ? { ...user, isConnected: !user.isConnected } : user
+    // ))
+    let loggedInUser ;
+    if(typeof window !== undefined){
+      loggedInUser = localStorage.getItem("amsjbckumr")
+      loggedInUser = jwt.verify(loggedInUser,process.env.NEXT_PUBLIC_JWT_SECRET)
+    }
+    if(loggedInUser.isVerified === false){
+      toast({
+        title:"Not a verified user!",
+        description: "You need to verify your account first",
+        variant: "red", // Blue color for a success message
+        duration: 3000, // Show the toast for 1.5 seconds
+      })
+      return
+    }
     try {
-      await axios.post(connectUsersUrl, { userId1: iscurrent?._id, userId2: id })
-      await axios.post(createChatOfUsers, { userId1: iscurrent?._id, userId2: id })
+      await axios.post(connectUsersUrl, { userId1: loggedInUser?._id, userId2: userId })
+      await axios.post(createChatOfUsers, { userId1: loggedInUser?._id, userId2: userId })
+      window.location.reload();
     } catch (error) {
       console.log(error)
     }
@@ -345,7 +361,7 @@ getUser();
                     <MessageCircle className="w-4 h-4 mr-2" />
                     Message
                   </Button>):(<>
-                    <Button onClick={()=>{router.push('/search')}} size="sm" className="mr-2 text-xs sm:text-sm bg-blue-600 hover:bg-blue-600/80 text-white">
+                    <Button onClick={handleConnect} size="sm" className="mr-2 text-xs sm:text-sm bg-blue-600 hover:bg-blue-600/80 text-white">
                       Connect
                     </Button>
                   </>)}</>

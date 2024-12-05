@@ -19,10 +19,14 @@ import { getAllUsersOfCollegeUrl, connectUsersUrl, createChatOfUsers } from "@/u
 import Navbar2 from "@/components/header/Navbar2"
 import AlumniLoading from '@/components/AlumniLoading'
 import { useRouter } from 'next/navigation'
+import { useToast } from "@/hooks/use-toast"
 
 
 
 export default function UserConnectionPage() {
+
+  const { toast } = useToast()
+
   const [searchQuery, setSearchQuery] = useState("")
   const [users, setUsers] = useState([])
   const [currentUser, setCurrentUser] = useState({})
@@ -94,9 +98,21 @@ export default function UserConnectionPage() {
   const handleConnect = async (id) => {
     let currUser = localStorage.getItem("amsjbckumr")
     currUser = jwt.verify(currUser, process.env.NEXT_PUBLIC_JWT_SECRET)
+  
+    if(currUser.isVerified !== true){
+      toast({
+        title:"Not a verified user!",
+        description: "You need to verify your account first",
+        variant: "red", // Blue color for a success message
+        duration: 3000, // Show the toast for 1.5 seconds
+      })
+      return
+    }
+
     setUsers(users.map(user =>
       user._id === id ? { ...user, isConnected: !user.isConnected } : user
     ))
+
     try {
       if (!currUser._id || !id) {
         console.log("Please provide two user id to connect")

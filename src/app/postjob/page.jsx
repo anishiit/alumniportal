@@ -43,7 +43,7 @@ export default function ContactPageOne() {
       toast({
         variant: "red",
         title: "Please fill all the fields",
-        duration: 1500
+        duration: 2000
       })
       return;
     }
