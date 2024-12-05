@@ -2,14 +2,28 @@
 
 import { useEffect, useState } from 'react'
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react'
-import { usePathname} from 'next/navigation'
+import { usePathname,useRouter} from 'next/navigation'
+import { Button } from '@/components/ui/button'
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 export default function VerificationPage() {
   const [verificationStatus, setVerificationStatus] = useState('loading')
   const [message, setMessage] = useState('')
-
+  const [user, setUser] = useState()
   const pathname = usePathname();
+  const router = useRouter()
   useEffect(() => {
+    let user ;
+    if (typeof window !== 'undefined') {
+      user = localStorage.getItem('amsjbckumr')
+      if(!user) {
+        window.location.href = '/login'
+        return
+      }
+      user= jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET)
+      setUser(user)
+    }
+
     const verifyUser = async () => {
       try {
         const token = pathname.replace('/verify-email/student/', '');
@@ -21,12 +35,12 @@ export default function VerificationPage() {
         // Replace this URL with your actual backend verification endpoint
        await axios.post( `${process.env.NEXT_PUBLIC_USER_BACKEND_URL}/user/verifystudent`, {token}  )
        .then((res) => {
-        console.log(res.data);
+       
         setMessage(res.data.msg);
         setVerificationStatus('success');
        })
         .catch((error) => {
-            console.log(error);
+            
             setMessage(error.response.data.msg);
             setVerificationStatus('error');
         })
@@ -38,6 +52,7 @@ export default function VerificationPage() {
 
     verifyUser()
   }, [])
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -63,7 +78,9 @@ export default function VerificationPage() {
             <XCircle className="h-16 w-16 text-red-500" />
             <p className="mt-4 text-red-600 font-semibold">{message}</p>
           </div>
+          
         )}
+        <Button onClick={() => router.push(`/profile/${user?._id}`)} className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white rounded-md"> Visit Profile</Button>
       </div>
     </div>
   )
