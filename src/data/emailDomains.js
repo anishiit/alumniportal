@@ -1,0 +1,25 @@
+export const emailDomains = [
+    'iitb.ac.in',
+    'iitd.ac.in',
+    'iitm.ac.in',
+    'iitkgp.ac.in',
+    'iitk.ac.in',
+    'iitg.ac.in',
+    'iitbbs.ac.in',
+    'iitism.ac.in',
+    'iitgn.ac.in',
+    'iith.ac.in',
+    'iitj.ac.in',
+    'iitjmu.ac.in',
+    'iitmandi.ac.in',
+    'iitp.ac.in',
+    'iitpkd.ac.in',
+    'iitbhu.ac.in',
+    'iitdh.ac.in',
+    'iitbhilai.ac.in',
+    'iitgoa.ac.in',
+    'iittirupati.ac.in',
+    'iiitdm.ac.in',
+    // Add more IIT domains as needed
+  ];
+  

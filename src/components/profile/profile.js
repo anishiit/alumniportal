@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, Github, Users,GraduationCap, Linkedin, Mail, MapPin, Phone, User, Briefcase, Building, MessageCircle,Plus, SmilePlus } from "lucide-react"
+import { Calendar, Github, Users,GraduationCap, Linkedin, Mail, MapPin, Phone, User, Briefcase, Building, MessageCircle,Plus, SmilePlus , Badged} from "lucide-react"
 import { usePathname } from 'next/navigation';
 import axios from 'axios';
 import { createUserInvitationUrl, getUserInfoUrl } from '@/urls/urls';
@@ -138,6 +138,7 @@ export default function ProfileDisplay({ user }) {
       let currUser = localStorage.getItem("amsjbckumr")
       currUser = jwt.verify(currUser,process.env.NEXT_PUBLIC_JWT_SECRET)
       setCurrentUser(currUser)
+      console.log(currUser)
       if (currUser) {
         getAllCollegeUsers({ collegeName: currUser.collegeName })
       }
@@ -257,7 +258,30 @@ export default function ProfileDisplay({ user }) {
             </DropdownMenuContent>
           </DropdownMenu>):(<></>)
           }
-        
+        {/* <Link href="/verify-email"> <Button
+         
+          size="sm"
+          className="mr-2 text-xs sm:text-sm bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-semibold py-2 px-4 rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+        >
+          <User className="w-4 h-4 mr-2" />
+          Verify Now
+        </Button></Link> */}
+        {(iscurrent === true && currentUser.isVerified === false) && (
+        <Button
+          onClick={() => router.push('/verify-email')}
+          size="sm"
+          className="mr-2 text-xs sm:text-sm bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-semibold py-2 px-4 rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+        >
+          <User className="w-4 h-4 mr-2" />
+          Verify Now
+        </Button>
+      )}
+      {usr.isVerified && (
+        <Badge variant="success" className="mr-2 py-1 px-3 text-xs sm:text-sm bg-green-100 text-green-800 rounded-full">
+          <User className="w-4 h-4 mr-2" />
+          Verified User
+        </Badge>
+      )}
           {iscurrent === true ? ( <Button onClick={() => router.push('/update-profile')} variant="outline" size="sm" className="mr-2 text-xs sm:text-sm">
               Edit Profile
             </Button>):(<></>)}

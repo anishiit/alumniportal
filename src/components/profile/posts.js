@@ -148,9 +148,9 @@ export default function PostsAndMemoriesTabs() {
                           Posted {formatDistanceToNow(new Date(post?.createdAt), { addSuffix: true })}
                         </p>
                       </div>
-                      <Link href={post.url} className="mt-2 text-sm text-blue-600 hover:underline break-all">
-                        {post.url}
-                      </Link>
+                     { post?.url && <Link href={post?.url} className="mt-2 text-sm text-blue-600 hover:underline break-all">
+                        {post?.url}
+                      </Link>}
                       <p className="mt-2 text-sm text-gray-600 line-clamp-3 flex-grow">{post.description}</p>
                       <div className="mt-4 flex flex-row justify-between items-start sm:items-center gap-2">
                         <Link href={`/jobposts/${post._id}`}>
