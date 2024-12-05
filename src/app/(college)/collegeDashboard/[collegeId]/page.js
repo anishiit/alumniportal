@@ -30,7 +30,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import axios from "axios"
-import { getCollegeUsersUrl, createCollegeEventUrl, getCollegeEventsUrl, updateCollegeEventUrl, deleteCollegeEventUrl } from '@/urls/urls.js'
+import { getCollegeUsersUrl, createCollegeEventUrl, getCollegeEventsUrl, updateCollegeEventUrl, deleteCollegeEventUrl, addFeaturedAlumniUrl } from '@/urls/urls.js'
 import { collegeName } from "@/data/college"
 import { set } from "react-hook-form"
 import { Textarea } from "@/components/ui/textarea"
@@ -71,6 +71,7 @@ export default function CollegeDashboard() {
         setCollegeId(collegeInfo._id)
         getCollegeUsers(collegeInfo.name)
         getCollegeEvents(collegeInfo._id)
+        setFeaturedAlumni(collegeInfo.featuredAlumni)
       }
     }
   }, [])
