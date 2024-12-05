@@ -81,7 +81,7 @@ export default function ForgotPassword() {
                 </Alert>
               )}
               {success && (
-                <Alert className="mt-4">
+                <Alert className="mt-4 bg-green-300">
                   <AlertTitle>Success</AlertTitle>
                   <AlertDescription>Reset link sent to your email.</AlertDescription>
                 </Alert>

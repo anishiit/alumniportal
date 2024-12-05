@@ -37,7 +37,7 @@ export default function ChangePassword() {
     }
     setError('')
     try {
-        await axios.post(`${process.env.NEXT_PUBLIC_USER_BACKEND_URL}/user/changepassword`, { password, userId })
+        await axios.post(`${process.env.NEXT_PUBLIC_USER_BACKEND_URL}/user/changepassword`, { userId, newPassword: password })
         .then((res) => {
             console.log(res.data);
             setMessage(res.data.msg);
@@ -72,14 +72,17 @@ export default function ChangePassword() {
 
   useEffect(() => {
         const token = pathname.replace('/login/reset-password/', '');
+        console.log(token);
         try {
-            const decodedToken = jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRET);
+            // console.log(process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECERET);
+            const decodedToken = jwt.decode(token);
             const { email,userId } = decodedToken;
             setEmail(email);
             setUserId(userId);
 
         } catch (error) {
-            // console.log(error);
+            console.log(error);
+
             setError('Invalid token');
         }
   }, [])
