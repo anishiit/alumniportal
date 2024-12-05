@@ -299,7 +299,7 @@ export default function Component() {
         <div className="max-w-[2000px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 px-4 md:px-6">
           <p className="text-sm text-gray-500">&copy; 2024 LinkLum. All rights reserved.</p>
           <nav className="flex gap-4">
-            <Link href="#" className="text-sm text-gray-500 hover:underline">
+            <Link href="/terms-and-conditions" className="text-sm text-gray-500 hover:underline">
               Terms of Service
             </Link>
             <Link href="/privacy-policy" className="text-sm text-gray-500 hover:underline">
