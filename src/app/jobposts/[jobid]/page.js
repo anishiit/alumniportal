@@ -99,7 +99,7 @@ export default function JobPostDetail() {
             author: currUser._id,
             authorname: currUser.name,
             content: content,
-            avatar: currUser.avatar
+            avatar: currUser.profileImage
           }
           const comments = [...job.comments, newCommnet]
           setJob({ ...job, comments: comments })

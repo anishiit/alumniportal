@@ -193,7 +193,7 @@ export default function AlumniMemories() {
           author: currentUser._id,
           authorname: currentUser.name,
           content: comment,
-          avatar: currentUser.avatar
+          avatar: currentUser.profileImage
         })
         // api req to push the comment
         try {

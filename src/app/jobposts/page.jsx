@@ -373,7 +373,7 @@ export default function SearchJob() {
                 author: currUser._id,
                 authorname: currUser.name,
                 content: content,
-                avatar: currUser.avatar
+                avatar: currUser.profileImage
               })
             }
             return job
