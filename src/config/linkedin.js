@@ -5,10 +5,10 @@ export const LINKEDIN_CONFIG = {
   REDIRECT_URI: `https://linklum.in/auth/linkedin/callback`,
   SCOPES: [
     // 'openid',
-    'profile', 
-    'email',
+    // 'profile', 
+    // 'email',
     // 'w_member_social',  // Enhanced profile access
-    // 'r_liteprofile',    // Basic profile info
+    'r_liteprofile',    // Basic profile info
     // 'r_education'       // Educational details
   ].join(' ')
 }
