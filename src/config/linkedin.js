@@ -7,10 +7,10 @@ export const LINKEDIN_CONFIG = {
   SCOPES: [
     // 'r_fullprofile'
     // 'openid',
-    'profile', 
+    // 'profile', 
     // 'email',
     // 'w_member_social',  // Enhanced profile access
-    // 'r_liteprofile',    // Basic profile info
+    'r_liteprofile',    // Basic profile info
     // 'r_education'       // Educational details
   ].join(' ')
 }
