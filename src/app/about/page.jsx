@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator"
 import { ArrowRight, Mail, Phone, MapPin, Linkedin, Github, CheckCircle2 } from 'lucide-react'
 import NavForSlash from "@/components/header/NavForSlash"
 import Link from "next/link"
+import Footer from '@/components/footer/Footer'
 
 export const metadata = {
   title: 'About LinkLum - Connecting Generations',
@@ -23,6 +24,7 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
+    <>
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <NavForSlash />
       <main className="container mx-auto px-4 py-12">
@@ -197,6 +199,10 @@ export default function AboutPage() {
         </section>
       </main>
     </div>
+
+    <Footer />
+
+    </>
   )
 }
 

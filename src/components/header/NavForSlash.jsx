@@ -294,14 +294,14 @@ function Navbar2() {
     { name: "Events", href: "#events", icon: <Mail className="h-4 w-4 mr-2" /> },
     { name: "Alumni", href: "#alumni", icon: <Users className="h-4 w-4 mr-2" /> },
     { name: "About", href: "/about", icon: <Building2 className="h-4 w-4 mr-2" /> },
-    { name: "Feedback", href: "/contact", icon: <MessageSquareDiff className="h-4 w-4 mr-2" /> },
+    { name: "Feedback", href: "/review", icon: <MessageSquareDiff className="h-4 w-4 mr-2" /> },
   ]
 
   const mobileNavItems = [
     { name: "Home", href: "/", icon: <Home className="h-5 w-5" /> },
     
     { name: "Careers", href: "/career", icon: <Search className="h-5 w-5" /> },
-    { name: "Feedback", href: "/contact", icon: <MessageSquareDiff className="h-5 w-5" /> },
+    { name: "Feedback", href: "/review", icon: <MessageSquareDiff className="h-5 w-5" /> },
     { name: "Alumni", href: "#alumni", icon: <SmilePlus className="h-5 w-5" /> },
 
    { name: "About", href: "/about", icon: <Mail className="h-5 w-5" /> },
