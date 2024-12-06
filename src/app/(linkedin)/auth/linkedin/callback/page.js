@@ -24,12 +24,12 @@ export default function LinkedInCallback() {
           // Handle successful authentication
           // Store token, redirect user
           console.log(response)
-          router.push('/dashboard');
+          // router.push('/dashboard');
         })
         .catch(error => {
           // Handle authentication failure
           console.log(error)
-          router.push('/login');
+          // router.push('/login');
         });
     }
   }, [searchParams]);
