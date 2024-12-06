@@ -281,10 +281,25 @@ getUser();
           </div>
         </div>
         <CardContent className="pt-16 pb-6 px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-end mb-6">
-          {iscurrent === true ?  ( <DropdownMenu>
+          <div className="flex flex-wrap justify-end  gap-2 mb-6">
+            <div className="flex items-center">
+           
+      {usr.isVerified === true ? (
+        <Badge variant="success" className="mr-2 md:hidden py-1 px-3 text-xs sm:text-sm bg-green-100 text--800 rounded-full">
+          <ShieldCheck className="w-4 h-4 mr-2" />
+          Verified User
+        </Badge>
+      ): (
+        <Badge variant="success" className="mr-2 py-1 md:hidden px-3 text-xs sm:text-sm bg-red-100 text--800 rounded-full">
+          <ShieldOff className="w-4 h-4 mr-2" />
+          Non-Verified User
+        </Badge>
+      )}
+            </div>
+        <div className="flex items-center gap-2">
+        {iscurrent === true ?  ( <DropdownMenu>
             <DropdownMenuTrigger asChild>
-            <Button size="sm" variant="ghost"  className="mr-2 text-xs sm:text-sm rounded-sm bg-blue-600 hover:bg-blue-600/80 hover:text-white text-white">
+            <Button size="sm" variant="ghost"  className=" text-xs sm:text-sm rounded-sm bg-blue-600 hover:bg-blue-600/80 hover:text-white text-white">
                   <Plus className="h-4 w-4 mr-1 -ml-1" />
                   Post
             </Button>
@@ -305,35 +320,19 @@ getUser();
             </DropdownMenuContent>
           </DropdownMenu>):(<></>)
           }
-        {/* <Link href="/verify-email"> <Button
-         
-          size="sm"
-          className="mr-2 text-xs sm:text-sm bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-semibold py-2 px-4 rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
-        >
-          <User className="w-4 h-4 mr-2" />
-          Verify Now
-        </Button></Link> */}
-        {(iscurrent === true && currentUser.isVerified === false) && (
-        <Button
-          onClick={() => router.push('/verify-email')}
-          size="sm"
-          className="mr-2 text-xs sm:text-sm bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-semibold py-2 px-4 rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
-        >
-          <User className="w-4 h-4 mr-2" />
-          Verify Now
-        </Button>
+          {(iscurrent === true && currentUser.isVerified === false) && (
+              <Button
+              onClick={() => router.push('/verify-email')}
+              variant="default"
+              size="sm"
+              className="bg-blue-600 text-primary-foreground hover:bg-primary/90 rounded-md transition-colors duration-200"
+            >
+              <ShieldCheck className="w-4 h-4 mr-2 " />
+              <span className="hidden sm:inline">Verify Account</span>
+              <span className="sm:hidden">Verify</span>
+            </Button>
       )}
-      {usr.isVerified === true ? (
-        <Badge variant="success" className="mr-2 md:hidden py-1 px-3 text-xs sm:text-sm bg-green-100 text--800 rounded-full">
-          <ShieldCheck className="w-4 h-4 mr-2" />
-          Verified User
-        </Badge>
-      ): (
-        <Badge variant="success" className="mr-2 py-1 md:hidden px-3 text-xs sm:text-sm bg-red-100 text--800 rounded-full">
-          <ShieldOff className="w-4 h-4 mr-2" />
-          Non-Verified User
-        </Badge>
-      )}
+          
           {iscurrent === true ? ( <Button onClick={() => router.push('/update-profile')} variant="outline" size="sm" className="mr-2 text-xs sm:text-sm">
               Edit Profile
             </Button>):(<></>)}
@@ -368,6 +367,17 @@ getUser();
           
             
             )}
+          </div>
+          
+        {/* <Link href="/verify-email"> <Button
+         
+          size="sm"
+          className="mr-2 text-xs sm:text-sm bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-semibold py-2 px-4 rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+        >
+          <User className="w-4 h-4 mr-2" />
+          Verify Now
+        </Button></Link> */}
+    
             
             {/* <Button 
                  size="lg"  className="text-xs sm:text-sm bg-blue-600 hover:bg-blue-600/80 text-white flex ">
