@@ -2,7 +2,7 @@
 "use client"
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
 export default function LinkedInCallback() {
