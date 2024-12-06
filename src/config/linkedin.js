@@ -2,7 +2,7 @@
 export const LINKEDIN_CONFIG = {
   CLIENT_ID: process.env.NEXT_PUBLIC_LINKEDIN_CLIENT_ID,
   CLIENT_SECRET: process.env.NEXT_PUBLIC_LINKEDIN_CLIENT_SECRET,
-  REDIRECT_URI: `http://localhost:3000/auth/linkedin/callback`,
+  REDIRECT_URI: `https://linklum.in/auth/linkedin/callback`,
   SCOPES: [
     // 'openid',
     'profile', 
