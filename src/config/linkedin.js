@@ -5,7 +5,7 @@ export const LINKEDIN_CONFIG = {
   REDIRECT_URI: `https://linklum.in/auth/linkedin/callback`,
   // REDIRECT_URI: `http://localhost:3000/auth/linkedin/callback`,
   SCOPES: [
-    'openid',
+    // 'openid',
     'profile', 
     // 'email',
     // 'w_member_social',  // Enhanced profile access
