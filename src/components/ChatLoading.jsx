@@ -9,10 +9,11 @@ import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar } from "@/components/ui/avatar"
 import { Search, Users } from 'lucide-react'
+import Navbar2 from "./header/Navbar2"
 
 const SkeletonLine = ({ width = "w-full" }) => (
   <motion.div
-    className={`h-4 bg-gray-200 rounded ${width}`}
+    className={`h-4 bg-gray-200 my-1 rounded ${width}`}
     animate={{ opacity: [0.5, 1, 0.5] }}
     transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
   />
@@ -50,18 +51,20 @@ const SkeletonChatView = () => (
         {[...Array(5)].map((_, index) => (
           <motion.div
             key={index}
-            className={`flex ${index % 2 === 0 ? 'justify-end' : 'justify-start'} mb-2`}
+            className={`flex ${index % 2 === 0 ? 'justify-end' : 'justify-start'} mb-2 `}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
           >
             <motion.div
-              className={`max-w-64 md:max-w-lg p-2 rounded-lg ${index % 2 === 0 ? 'bg-blue-500' : 'bg-gray-100'}`}
+              className={`max-w-64 md:max-w-lg p-2 rounded-lg ${index % 2 === 0 ? 'bg-blue-500' : 'bg-gray-100 my-2'}`}
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
             >
-              <SkeletonLine width="w-full" />
-              <SkeletonLine width="w-2/3" />
+
+              {/* <SkeletonLine width="md:w-[600px] w-[100px]" /> */}
+              {/* <SkeletonLine width="w-2/3" /> */}
+              <p className="md:w-[600px] h-3 "></p>
             </motion.div>
           </motion.div>
         ))}
@@ -80,6 +83,8 @@ const SkeletonChatView = () => (
 
 export default function ChatAppLoading() {
   return (
+    <div className="flex flex-col">
+      <Navbar2 />
     <div className="flex w-full h-screen bg-background">
       <div className="w-full md:w-96 flex flex-col border-r">
         <div className="flex justify-between items-center p-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-primary-foreground">
@@ -119,6 +124,7 @@ export default function ChatAppLoading() {
       <div className="hidden md:block flex-grow">
         <SkeletonChatView />
       </div>
+    </div>
     </div>
   )
 }
