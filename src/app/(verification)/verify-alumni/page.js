@@ -33,7 +33,7 @@ export default function VerificationPage() {
           <Alert className="mx-auto max-w-2xl bg-green-100 text-green-800">
             <AlertTitle className="text-xl font-semibold">Verification Submitted</AlertTitle>
             <AlertDescription className="mt-2">
-              The LinkLum team has received your verification request and is currently processing it. We'll notify you once the verification is complete.
+              The LinkLum team has received your verification request and is currently processing it. We&apos;ll notify you once the verification is complete.
             </AlertDescription>
           </Alert>
         </div>
