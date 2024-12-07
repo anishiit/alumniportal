@@ -179,6 +179,7 @@ export default function ProfileDisplay({ user }) {
   const handleDonate = () => {
     // Logic to handle donation (e.g., open a payment gateway)
   };
+
   useEffect(() => {
       let user;
       if(typeof window !== undefined)
@@ -187,13 +188,11 @@ export default function ProfileDisplay({ user }) {
       if(userId === user?._id){
         setcurrent(true);
       }
-    // console.log(userId)
- 
-getUser();
-   
 
-    // console.log(u , user)
+      getUser()
+
   },[])
+
   const profile = {
     name: "example",
     email: "example@example.com",
@@ -230,8 +229,20 @@ getUser();
     ],
   }
 
- 
+  const handleVerify = (e) => {
+    e.preventDefault()
+    if(currentUser){
+      if(currentUser.role === "alumni"){
+        router.push('/verify-alumni')
+      }else if(currentUser.role === "student"){
+        router.push('/verify-student')
+      }else{
+        console.log("No service exist for this account type!")
+      }
+    }
 
+  }
+  
   return (
     <div>
     <Navbar2/>
@@ -322,7 +333,7 @@ getUser();
           }
           {(iscurrent === true && currentUser.isVerified === false) && (
               <Button
-              onClick={() => router.push('/verify-email')}
+              onClick={handleVerify}
               variant="default"
               size="sm"
               className="bg-blue-600 text-primary-foreground hover:bg-primary/90 rounded-md transition-colors duration-200"

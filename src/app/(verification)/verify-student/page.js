@@ -65,7 +65,7 @@ export default function VerificationPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                IIT ISM Dhanbad Email
+                Institute Email
               </label>
               <div className="relative flex items-center">
                 <input
