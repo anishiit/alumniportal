@@ -70,6 +70,13 @@ export default function ProfileForm() {
     endDate: '',
     description: ''
   })
+  const [newEdu, setNewEdu] = useState({
+    collegeName: '',
+    course: '',
+    branch: '',
+    startDate: '',
+    endDate: '',
+  })
 
   useEffect(() => {
     setHasMounted(true);
@@ -102,7 +109,8 @@ export default function ProfileForm() {
           github: userData.github || "",
           bio: userData.bio || "",
           skills: userData.skills || [],
-          experiences: userData.experiences || []
+          experiences: userData.experiences || [],
+          education: userData.education || [],
         })
       }
     }
@@ -121,6 +129,12 @@ export default function ProfileForm() {
     const { name, value } = e.target
     setNewExperience(prev => ({ ...prev, [name]: value }))
   }
+
+  const handleEduChange = (e) => {
+    const { name, value } = e.target
+    setNewEdu(prev => ({ ...prev, [name]: value }))
+  }
+
   const addExperience = () => {
     setInputs((prev) => ({...prev,experiences:[...prev.experiences,newExperience]}))
     setNewExperience({
@@ -130,6 +144,29 @@ export default function ProfileForm() {
       endDate: '',
       description: ''
     })
+  }
+
+  const addEdu = () => {
+    setInputs((prev) => ({...prev,education:[...prev.education,newEdu]}))
+    setNewEdu({
+      collegeName: '',
+      course: '',
+      branch:'',
+      startDate: '',
+      endDate: '',
+    })
+  }
+  
+  const removeExperience = (index) => {
+    const updatedExperiences = [...inputs.experiences]
+    updatedExperiences.splice(index, 1)
+    setInputs((prev) => ({...prev,experiences:updatedExperiences}))
+  }
+
+  const removeEdu = (index) => {
+    const updatedEdu = [...inputs.education]
+    updatedEdu.splice(index, 1)
+    setInputs((prev) => ({...prev,education:updatedEdu}))
   }
 
   async function handleSubmit(e) {
@@ -262,15 +299,18 @@ export default function ProfileForm() {
           </p>
         </div>
         <CardContent>
-          <Tabs defaultValue="personal" className="w-full">
+          <Tabs defaultValue="basic" className="w-full">
+
             <TabsList className=" w-full flex flex-row mb-6 justify-evenly">
-              <TabsTrigger className="flex-grow sm:flex-grow-0 text-xs sm:text-sm py-2 px-[2px] md:px-10 m-0.5 sm:m-1 rounded-sm data-[state=active]:bg-blue-600 data-[state=active]:text-primary-foreground my-1" value="personal">Personal</TabsTrigger>
+              <TabsTrigger className="flex-grow sm:flex-grow-0 text-xs sm:text-sm py-2 px-[2px] md:px-10 m-0.5 sm:m-1 rounded-sm data-[state=active]:bg-blue-600 data-[state=active]:text-primary-foreground my-1" value="basic">Basic</TabsTrigger>
               <TabsTrigger className="flex-grow sm:flex-grow-0 text-xs sm:text-sm py-2 px-[2px] md:px-10 m-0.5 sm:m-1 rounded-sm data-[state=active]:bg-blue-600 data-[state=active]:text-primary-foreground my-1" value="professional">Professional</TabsTrigger>
-              <TabsTrigger className="flex-grow sm:flex-grow-0 text-xs sm:text-sm py-2 px-[2px] md:px-10 m-0.5 sm:m-1 rounded-sm data-[state=active]:bg-blue-600 data-[state=active]:text-primary-foreground my-1" value="social">Social & Skills</TabsTrigger>
+              <TabsTrigger className="flex-grow sm:flex-grow-0 text-xs sm:text-sm py-2 px-[2px] md:px-10 m-0.5 sm:m-1 rounded-sm data-[state=active]:bg-blue-600 data-[state=active]:text-primary-foreground my-1" value="education">Education</TabsTrigger>
               <TabsTrigger className="flex-grow sm:flex-grow-0 text-xs sm:text-sm py-2 px-[2px] md:px-10 m-0.5 sm:m-1 rounded-sm data-[state=active]:bg-blue-600 data-[state=active]:text-primary-foreground my-1" value="experience">Experience</TabsTrigger>
             </TabsList>
+
             <form onSubmit={handleSubmit} className="space-y-6">
-              <TabsContent value="personal">
+              {/* Basic  */}
+              <TabsContent value="basic">
                 <div className="space-y-4">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700">Full Name</label>
@@ -395,6 +435,8 @@ export default function ProfileForm() {
                   </div>
                 </div>
               </TabsContent>
+
+              {/* Professional */}
               <TabsContent value="professional">
                 <div className="space-y-4">
                   <div>
@@ -484,10 +526,6 @@ export default function ProfileForm() {
                       Brief description for your profile. URLs are hyperlinked.
                     </p>
                   </div>
-                </div>
-              </TabsContent>
-              <TabsContent value="social">
-                <div className="space-y-4">
                   <div>
                     <label htmlFor="linkedin" className="block text-sm font-medium text-gray-700">LinkedIn</label>
                     <div className="mt-1 relative rounded-md shadow-sm">
@@ -538,6 +576,64 @@ export default function ProfileForm() {
                   </div>
                 </div>
               </TabsContent>
+
+              {/* Education  */}
+              <TabsContent value="education">
+              <div className="space-y-4">
+                  {inputs?.education?.map((edu, index) => (
+                    <Card key={index}>
+                    <CardHeader className="p-3 sm:p-4">
+                      <CardTitle className="text-sm sm:text-base">{edu?.branch}{`(${edu?.course || ""})`}</CardTitle>
+                      <CardDescription className="text-xs sm:text-sm">{edu.collegeName} • {edu.startDate} ~ {edu.endDate ? edu.endDate : "Present"  }</CardDescription>
+                    </CardHeader>
+                  </Card>
+                  ))}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Add Education</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="company">College Name</Label>
+                            <Input id="collegeName" name="collegeName" value={newEdu.collegeName} onChange={handleEduChange} />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="position">Degree</Label>
+                            <Input id="course" name="course" value={newEdu.course} onChange={handleEduChange} />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="position">Branch</Label>
+                            <Input id="branch" name="branch" value={newEdu.branch} onChange={handleEduChange} />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="startDate">Start Date</Label>
+                            <Input id="startDate" name="startDate" type="date" value={newEdu.startDate} onChange={handleEduChange} />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="endDate">End Date</Label>
+                            <Input id="endDate" name="endDate" type="date" value={newEdu.endDate} onChange={handleEduChange} />
+                          </div>
+                        </div>
+                        {/* <div className="space-y-2">
+                          <Label htmlFor="description">Description</Label>
+                          <Textarea id="description" name="description" value={newExperience.description} onChange={handleExperienceChange} />
+                        </div> */}
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button type="button" onClick={addEdu} className="w-full">
+                        <Plus className="mr-2 h-4 w-4" /> Add Education
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </div>
+              </TabsContent>
+
+              {/* Experience  */}
               <TabsContent value="experience">
                 <div className="space-y-4">
                   {inputs?.experiences?.map((exp, index) => (
@@ -601,6 +697,7 @@ export default function ProfileForm() {
                   </Card>
                 </div>
               </TabsContent>
+
               <Button type="submit" disabled={isLoading} className="w-full bg-blue-600">
                 {isLoading ? (
                   <>Updating... <ArrowRight className="ml-2 h-4 w-4 animate-spin " /></>
@@ -609,6 +706,7 @@ export default function ProfileForm() {
                 )}
               </Button>
             </form>
+
           </Tabs>
         </CardContent>
       </Card>

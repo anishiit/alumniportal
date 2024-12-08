@@ -514,15 +514,15 @@ export default function ProfileDisplay({ user }) {
               <div className="space-y-3 sm:space-y-4">
                 <Card >
                   <CardHeader className="p-3 sm:p-4">
-                    <CardTitle className="text-sm sm:text-base">{usr?.branch}</CardTitle>
+                    <CardTitle className="text-sm sm:text-base">{usr?.branch}{ usr?.course && `(${usr?.course || ""})`}</CardTitle>
                     <CardDescription className="text-xs sm:text-sm">{usr?.collegeName} • {usr?.batch}</CardDescription>
                   </CardHeader>
                 </Card>
                 {usr?.education?.map((edu, index) => (
                   <Card key={index}>
                     <CardHeader className="p-3 sm:p-4">
-                      <CardTitle className="text-sm sm:text-base">{edu.degree}</CardTitle>
-                      <CardDescription className="text-xs sm:text-sm">{edu.institution} • {edu.year}</CardDescription>
+                      <CardTitle className="text-sm sm:text-base">{edu?.branch}{`(${edu?.course || ""})`}</CardTitle>
+                      <CardDescription className="text-xs sm:text-sm">{edu.collegeName} • {edu.startDate} ~ {edu.endDate}</CardDescription>
                     </CardHeader>
                   </Card>
                 ))}
