@@ -28,6 +28,7 @@ import { collegeName } from '@/data/college'
 import { stateName } from '@/data/state'
 import { batch } from '@/data/batch'
 import { branch } from '@/data/branch'
+import Navbar2 from "@/components/header/Navbar2"
 
 export default function ProfileForm() {
 
@@ -255,6 +256,8 @@ export default function ProfileForm() {
   }
 
   return (
+    <div>
+      <Navbar2 />    
     <div className="container mx-auto py-6 px-4 sm:px-6 lg:px-8">
       <Card className="w-full max-w-4xl mx-auto ">
         <div className="relative bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-10 md:py-16 sm:px-6 lg:px-8 mb-10 rounded-t-lg">
@@ -633,7 +636,7 @@ export default function ProfileForm() {
                       </div>
                     </CardContent>
                     <CardFooter>
-                      <Button type="button" onClick={addEdu} className="w-full">
+                      <Button type="button" onClick={addEdu} className="w-full md:w-1/3 mx-auto">
                         <Plus className="mr-2 h-4 w-4" /> Add Education
                       </Button>
                     </CardFooter>
@@ -698,7 +701,7 @@ export default function ProfileForm() {
                       </div>
                     </CardContent>
                     <CardFooter>
-                      <Button type="button" onClick={addExperience} className="w-full">
+                      <Button type="button" onClick={addExperience} className="w-full md:w-1/3 mx-auto">
                         <Plus className="mr-2 h-4 w-4" /> Add Experience
                       </Button>
                     </CardFooter>
@@ -718,6 +721,7 @@ export default function ProfileForm() {
           </Tabs>
         </CardContent>
       </Card>
+    </div>
     </div>
   )
 }
