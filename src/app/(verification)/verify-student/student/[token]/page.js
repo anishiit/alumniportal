@@ -26,7 +26,7 @@ export default function VerificationPage() {
 
     const verifyUser = async () => {
       try {
-        const token = pathname.replace('/verify-email/student/', '');
+        const token = pathname.replace('/verify-student/student/', '');
         if(!token) {
           setVerificationStatus('error');
           setMessage('Verification failed. No verification token found.');
@@ -35,12 +35,12 @@ export default function VerificationPage() {
         // Replace this URL with your actual backend verification endpoint
        await axios.post( `${process.env.NEXT_PUBLIC_USER_BACKEND_URL}/user/verifystudent`, {token}  )
        .then((res) => {
-       
+        console.log(res.data);
         setMessage(res.data.msg);
         setVerificationStatus('success');
        })
         .catch((error) => {
-            
+            console.log(error)
             setMessage(error.response.data.msg);
             setVerificationStatus('error');
         })
