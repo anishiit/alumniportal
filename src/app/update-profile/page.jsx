@@ -581,9 +581,17 @@ export default function ProfileForm() {
               <TabsContent value="education">
               <div className="space-y-4">
                   {inputs?.education?.map((edu, index) => (
-                    <Card key={index}>
+                    <Card key={index} className="relative" >
                     <CardHeader className="p-3 sm:p-4">
                       <CardTitle className="text-sm sm:text-base">{edu?.branch}{`(${edu?.course || ""})`}</CardTitle>
+                      <Button
+                          variant="ghost"
+                          size="icon"
+                          className="absolute top-2 right-2"
+                          onClick={() => removeEdu(index)}
+                      >
+                          <X className="h-4 w-4" />
+                      </Button>
                       <CardDescription className="text-xs sm:text-sm">{edu.collegeName} • {edu.startDate} ~ {edu.endDate ? edu.endDate : "Present"  }</CardDescription>
                     </CardHeader>
                   </Card>
