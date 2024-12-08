@@ -231,16 +231,37 @@ export default function ProfileDisplay({ user }) {
 
   const handleVerify = (e) => {
     e.preventDefault()
-    if(currentUser){
-      if(currentUser.role === "alumni"){
-        router.push('/verify-alumni')
-      }else if(currentUser.role === "student"){
-        router.push('/verify-student')
+    if(currentUser ){
+      if(isBasicProfileCompleted(currentUser) === false){
+        toast({
+          variant: "red",
+          title: "Incomplete Profile",
+          description: "Please complete your basic profile before verifying your account.",
+          duration: 2000,
+        })
+        router.push('/update-profile')
       }else{
-        console.log("No service exist for this account type!")
+        if(currentUser.role === "alumni"){
+          router.push('/verify-alumni')
+        }else if(currentUser.role === "student"){
+          router.push('/verify-student')
+        }else{
+          toast({
+            variant: "red",
+            title: "Invalid Account Type!",
+            description: "Please contact out team to verify your account.",
+            duration: 2000,
+          })
+        }
       }
     }
+  }
 
+  const isBasicProfileCompleted = (user) => {
+    if(!user.location || !user.branch || !user.batch || !user.collegeName){
+      return false;
+    }
+    return true;
   }
   
   return (
@@ -427,7 +448,7 @@ export default function ProfileDisplay({ user }) {
                   <div className="grid gap-2 text-xs sm:text-sm">
                     {[
                       { icon: Mail, text: usr?.email },
-                      { icon: Phone, text: usr?.contactNumber },
+                      // { icon: Phone, text: usr?.contactNumber },
                       { icon: MapPin, text: usr?.location ||profile.location},
                       { icon: Linkedin, text: "LinkedIn Profile", link: usr.linkedin || "" },
                       { icon: Github, text: "GitHub Profile", link: usr.github || "" },

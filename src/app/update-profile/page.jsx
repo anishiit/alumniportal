@@ -306,6 +306,42 @@ export default function ProfileForm() {
                       />
                     </div>
                   </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
+                      <div className="mt-1 relative rounded-md shadow-sm">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <MapPin className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                        </div>
+                        <Input
+                          type="text"
+                          name="location"
+                          id="location"
+                          className="pl-10"
+                          placeholder="Your location"
+                          value={inputs.location}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="contactNumber" className="block text-sm font-medium text-gray-700">Phone</label>
+                      <div className="mt-1 relative rounded-md shadow-sm">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <Phone className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                        </div>
+                        <Input
+                          type="tel"
+                          name="contactNumber"
+                          id="contactNumber"
+                          className="pl-10"
+                          placeholder="Your phone number"
+                          value={inputs.contactNumber}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
                   <div>
                     <label htmlFor="collegeName" className="block text-sm font-medium text-gray-700">College Name</label>
                     <Select 
@@ -395,7 +431,7 @@ export default function ProfileForm() {
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
                       <div className="mt-1 relative rounded-md shadow-sm">
@@ -430,7 +466,7 @@ export default function ProfileForm() {
                         />
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div>
                     <label htmlFor="bio" className="block text-sm font-medium text-gray-700">Bio</label>
                     <div className="mt-1">
