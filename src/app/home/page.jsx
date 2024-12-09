@@ -123,7 +123,7 @@ A walk down memory lane awaits as we honour their incredible journey and achieve
                 name="Abhay Kant Mishra"
                 class="2026"
                 position="Founder & CTO, LinkLum"
-                image="https://res.cloudinary.com/dcqgytpzz/image/upload/v1730579180/WhatsApp_Image_2024-11-02_at_23.07.53_a484b196_trfrdp.jpg"
+                // image="https://res.cloudinary.com/dcqgytpzz/image/upload/v1730579180/WhatsApp_Image_2024-11-02_at_23.07.53_a484b196_trfrdp.jpg"
                 _id="670ea6e0602f7597190c86c6"
               />
             </div>
@@ -157,10 +157,10 @@ A walk down memory lane awaits as we honour their incredible journey and achieve
         <div className="container flex flex-col md:flex-row items-center justify-between gap-4 px-4 md:px-6">
           <p className="text-sm text-gray-500">&copy; 2024 IIT Dhanbad Alumni Association. All rights reserved.</p>
           <nav className="flex gap-4">
-            <Link href="#" className="text-sm text-gray-500 hover:underline">
+            <Link href="/privacy-policy" className="text-sm text-gray-500 hover:underline">
               Privacy Policy
             </Link>
-            <Link href="#" className="text-sm text-gray-500 hover:underline">
+            <Link href="/terms-and-conditions" className="text-sm text-gray-500 hover:underline">
               Terms of Service
             </Link>
             <Link href="/contact" className="text-sm text-gray-500 hover:underline">
@@ -234,7 +234,7 @@ function AlumniCard({ name, class: classYear, position, image, _id }) {
     <Card className="flex flex-col justify-center items-center text-center p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
       <Avatar className="h-24 w-24 mb-4">
         <AvatarImage src={image} alt={`${name}'s profile`} />
-        <AvatarFallback>{userData.name?.split(' ')?.map(n => n[0])?.join('')}</AvatarFallback>
+        <AvatarFallback>{name?.split(' ')?.map(n => n[0])?.join('')}</AvatarFallback>
       </Avatar>
       <h3 className="text-xl font-semibold mb-1">{name}</h3>
       <p className="text-sm text-gray-500 mb-1">Batch of {classYear}</p>
