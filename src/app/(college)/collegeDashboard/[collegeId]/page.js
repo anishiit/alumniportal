@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect ,useCallback} from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   Users, GraduationCap, Calendar, DollarSign, Star, Trash2, Plus, Search,
@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   DropdownMenu,
-  DropdownMenuContent,
+  DropdownMenuContent,  
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
@@ -105,6 +105,10 @@ export default function CollegeDashboard() {
     name: "",
     description: "",
   })
+  useEffect(() => {
+    getCollegeEvents(collegeId)
+    
+  }, [event])
   const [image, setImage] = useState(null)
 
   const getCollegeUsers = async (collegeName) => {
@@ -150,8 +154,10 @@ export default function CollegeDashboard() {
       console.error('Error:', error);
     }
   }
+  const [eventLoading, setEventLoading] = useState(false) ;
 
   const createCollegeEvent = async () => {
+    setEventLoading(true)
     let imageInfo = {}
     try {
       imageInfo = await uploadImage()
@@ -168,6 +174,7 @@ export default function CollegeDashboard() {
     }
 
     try {
+     
       await axios.post(createCollegeEventUrl, {
         collegeId, name:event.name, description: event.description, imageInfo: imageInfo
       })
@@ -177,12 +184,15 @@ export default function CollegeDashboard() {
           setEvent({ name: "", description: "" })
           setImage(null)
           // setUpcomingEvents([...upcomingEvents, { ...event, _id: upcomingEvents.length + 1, image: res.data.image }])
+
         })
         .catch((err) => {
           console.log(err)
           setEvent({ name: "", description: "" })
           setImage(null)
         })
+        setEventLoading(false)
+        setShowAddEventDialog(false)
     } catch (error) {
       console.error('Error:', error);
       setEvent({ name: "", description: "" })
@@ -341,9 +351,7 @@ export default function CollegeDashboard() {
             <span className="font-bold text-xl sm:text-2xl text-black">College Dashboard</span>
           </div>
           <nav className="hidden md:flex items-center space-x-4">
-            <Button  variant="ghost">Profile</Button>
-            <Button variant="ghost">Settings</Button>
-            <Button onClick={handleLogout} variant="ghost">Logout</Button>
+            <Button onClick={handleLogout} variant="ghost" className="text-white bg-blue-500 hover:bg-blue-800/80 hover:text-white mr-1 ">Logout</Button>
           </nav>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -352,8 +360,7 @@ export default function CollegeDashboard() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
+            
               <DropdownMenuItem>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -532,7 +539,7 @@ export default function CollegeDashboard() {
                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
                   </div>
-                  <Button>Add New Student</Button>
+                  {/* <Button>Add New Student</Button> */}
                 </div>
                 <ScrollArea className="h-[400px]">
                   <AnimatePresence>
@@ -606,9 +613,9 @@ export default function CollegeDashboard() {
                       onChange={(e) => setEventSearchTerm(e.target.value)}
                     />
                   </div>
-                  <Button onClick={() => setShowAddEventDialog(true)}>Add New Event</Button>
+                  <Button  onClick={() => setShowAddEventDialog(true)}>Add New Event</Button>
                 </div>
-                <ScrollArea className="h-[400px]">
+                <ScrollArea className="h-[800px]">
                   <AnimatePresence>
                     {isSearching ? (
                       <motion.div
@@ -835,7 +842,7 @@ export default function CollegeDashboard() {
           </div>
           <DialogFooter>
             <Button type="submit" onClick={() => createCollegeEvent()}>
-              Add Event
+              {eventLoading=== true ? ("Creating..."):('Add Event')}
             </Button>
           </DialogFooter>
         </DialogContent>
