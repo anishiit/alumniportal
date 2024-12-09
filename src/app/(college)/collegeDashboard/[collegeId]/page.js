@@ -41,6 +41,7 @@ import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
 
 import useCloudinaryImageUploader from '@/services/cloudinary';
+import Footer from "@/components/footer/Footer"
 
 export default function CollegeDashboard() {
 
@@ -343,6 +344,7 @@ export default function CollegeDashboard() {
   }, [eventSearchTerm])
 
   return (
+    <>
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
         <div className="container flex h-16 items-center justify-between">
@@ -882,15 +884,17 @@ export default function CollegeDashboard() {
         </DialogContent>
       </Dialog>
 
-      <footer className="w-full border-t bg-white py-6">
+      {/* <footer className="w-full border-t bg-white py-6">
         <div className="container flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-500">&copy; 2024 LinkLum. All rights reserved.</p>
           <nav className="flex gap-4">
-            <a href="#" className="text-sm text-gray-500 hover:underline">Terms of Service</a>
-            <a href="#" className="text-sm text-gray-500 hover:underline">Privacy Policy</a>
+            <Link href="/terms-and-conditions" className="text-sm text-gray-500 hover:underline">Terms of Service</Link>
+            <Link href="/privacy-policy" className="text-sm text-gray-500 hover:underline">Privacy Policy</Link>
           </nav>
         </div>
-      </footer>
+      </footer> */}
     </div>
+    <Footer />
+    </>
   )
 }
