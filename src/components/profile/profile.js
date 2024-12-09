@@ -179,6 +179,7 @@ export default function ProfileDisplay({ user }) {
   const handleDonate = () => {
     // Logic to handle donation (e.g., open a payment gateway)
   };
+
   useEffect(() => {
       let user;
       if(typeof window !== undefined)
@@ -187,13 +188,11 @@ export default function ProfileDisplay({ user }) {
       if(userId === user?._id){
         setcurrent(true);
       }
-    // console.log(userId)
- 
-getUser();
-   
 
-    // console.log(u , user)
+      getUser()
+
   },[])
+
   const profile = {
     name: "example",
     email: "example@example.com",
@@ -230,8 +229,41 @@ getUser();
     ],
   }
 
- 
+  const handleVerify = (e) => {
+    e.preventDefault()
+    if(currentUser ){
+      if(isBasicProfileCompleted(currentUser) === false){
+        toast({
+          variant: "red",
+          title: "Incomplete Profile",
+          description: "Please complete your basic profile before verifying your account.",
+          duration: 2000,
+        })
+        router.push('/update-profile')
+      }else{
+        if(currentUser.role === "alumni"){
+          router.push('/verify-alumni')
+        }else if(currentUser.role === "student"){
+          router.push('/verify-student')
+        }else{
+          toast({
+            variant: "red",
+            title: "Invalid Account Type!",
+            description: "Please contact out team to verify your account.",
+            duration: 2000,
+          })
+        }
+      }
+    }
+  }
 
+  const isBasicProfileCompleted = (user) => {
+    if(!user.location || !user.branch || !user.batch || !user.collegeName){
+      return false;
+    }
+    return true;
+  }
+  
   return (
     <div>
     <Navbar2/>
@@ -322,7 +354,7 @@ getUser();
           }
           {(iscurrent === true && currentUser.isVerified === false) && (
               <Button
-              onClick={() => router.push('/verify-email')}
+              onClick={handleVerify}
               variant="default"
               size="sm"
               className="bg-blue-600 text-primary-foreground hover:bg-primary/90 rounded-md transition-colors duration-200"
@@ -416,7 +448,7 @@ getUser();
                   <div className="grid gap-2 text-xs sm:text-sm">
                     {[
                       { icon: Mail, text: usr?.email },
-                      { icon: Phone, text: usr?.contactNumber },
+                      // { icon: Phone, text: usr?.contactNumber },
                       { icon: MapPin, text: usr?.location ||profile.location},
                       { icon: Linkedin, text: "LinkedIn Profile", link: usr.linkedin || "" },
                       { icon: Github, text: "GitHub Profile", link: usr.github || "" },
@@ -482,15 +514,15 @@ getUser();
               <div className="space-y-3 sm:space-y-4">
                 <Card >
                   <CardHeader className="p-3 sm:p-4">
-                    <CardTitle className="text-sm sm:text-base">{usr?.branch}</CardTitle>
+                    <CardTitle className="text-sm sm:text-base">{usr?.branch}{ usr?.course && `(${usr?.course || ""})`}</CardTitle>
                     <CardDescription className="text-xs sm:text-sm">{usr?.collegeName} • {usr?.batch}</CardDescription>
                   </CardHeader>
                 </Card>
                 {usr?.education?.map((edu, index) => (
                   <Card key={index}>
                     <CardHeader className="p-3 sm:p-4">
-                      <CardTitle className="text-sm sm:text-base">{edu.degree}</CardTitle>
-                      <CardDescription className="text-xs sm:text-sm">{edu.institution} • {edu.year}</CardDescription>
+                      <CardTitle className="text-sm sm:text-base">{edu?.branch}{`(${edu?.course || ""})`}</CardTitle>
+                      <CardDescription className="text-xs sm:text-sm">{edu.collegeName} • {edu.startDate} ~ {edu.endDate}</CardDescription>
                     </CardHeader>
                   </Card>
                 ))}

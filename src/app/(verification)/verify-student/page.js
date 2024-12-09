@@ -65,7 +65,7 @@ export default function VerificationPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                IIT ISM Dhanbad Email
+                Institute Email
               </label>
               <div className="relative flex items-center">
                 <input
@@ -77,9 +77,9 @@ export default function VerificationPage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                 />
-                <span className="bg-gray-100 text-gray-600 px-3 py-2 border border-l-0 border-gray-300 rounded-r-md">
+                {/* <span className="bg-gray-100 text-gray-600 px-3 py-2 border border-l-0 border-gray-300 rounded-r-md">
                   @iitism.ac.in
-                </span>
+                </span> */}
               </div>
             </div>
             <button

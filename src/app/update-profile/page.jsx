@@ -28,6 +28,7 @@ import { collegeName } from '@/data/college'
 import { stateName } from '@/data/state'
 import { batch } from '@/data/batch'
 import { branch } from '@/data/branch'
+import Navbar2 from "@/components/header/Navbar2"
 
 export default function ProfileForm() {
 
@@ -70,6 +71,13 @@ export default function ProfileForm() {
     endDate: '',
     description: ''
   })
+  const [newEdu, setNewEdu] = useState({
+    collegeName: '',
+    course: '',
+    branch: '',
+    startDate: '',
+    endDate: '',
+  })
 
   useEffect(() => {
     setHasMounted(true);
@@ -102,7 +110,8 @@ export default function ProfileForm() {
           github: userData.github || "",
           bio: userData.bio || "",
           skills: userData.skills || [],
-          experiences: userData.experiences || []
+          experiences: userData.experiences || [],
+          education: userData.education || [],
         })
       }
     }
@@ -121,6 +130,12 @@ export default function ProfileForm() {
     const { name, value } = e.target
     setNewExperience(prev => ({ ...prev, [name]: value }))
   }
+
+  const handleEduChange = (e) => {
+    const { name, value } = e.target
+    setNewEdu(prev => ({ ...prev, [name]: value }))
+  }
+
   const addExperience = () => {
     setInputs((prev) => ({...prev,experiences:[...prev.experiences,newExperience]}))
     setNewExperience({
@@ -130,6 +145,29 @@ export default function ProfileForm() {
       endDate: '',
       description: ''
     })
+  }
+
+  const addEdu = () => {
+    setInputs((prev) => ({...prev,education:[...prev.education,newEdu]}))
+    setNewEdu({
+      collegeName: '',
+      course: '',
+      branch:'',
+      startDate: '',
+      endDate: '',
+    })
+  }
+  
+  const removeExperience = (index) => {
+    const updatedExperiences = [...inputs.experiences]
+    updatedExperiences.splice(index, 1)
+    setInputs((prev) => ({...prev,experiences:updatedExperiences}))
+  }
+
+  const removeEdu = (index) => {
+    const updatedEdu = [...inputs.education]
+    updatedEdu.splice(index, 1)
+    setInputs((prev) => ({...prev,education:updatedEdu}))
   }
 
   async function handleSubmit(e) {
@@ -218,6 +256,8 @@ export default function ProfileForm() {
   }
 
   return (
+    <div>
+      <Navbar2 />    
     <div className="container mx-auto py-6 px-4 sm:px-6 lg:px-8">
       <Card className="w-full max-w-4xl mx-auto ">
         <div className="relative bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-10 md:py-16 sm:px-6 lg:px-8 mb-10 rounded-t-lg">
@@ -262,15 +302,18 @@ export default function ProfileForm() {
           </p>
         </div>
         <CardContent>
-          <Tabs defaultValue="personal" className="w-full">
+          <Tabs defaultValue="basic" className="w-full">
+
             <TabsList className=" w-full flex flex-row mb-6 justify-evenly">
-              <TabsTrigger className="flex-grow sm:flex-grow-0 text-xs sm:text-sm py-2 px-[2px] md:px-10 m-0.5 sm:m-1 rounded-sm data-[state=active]:bg-blue-600 data-[state=active]:text-primary-foreground my-1" value="personal">Personal</TabsTrigger>
+              <TabsTrigger className="flex-grow sm:flex-grow-0 text-xs sm:text-sm py-2 px-[2px] md:px-10 m-0.5 sm:m-1 rounded-sm data-[state=active]:bg-blue-600 data-[state=active]:text-primary-foreground my-1" value="basic">Basic</TabsTrigger>
               <TabsTrigger className="flex-grow sm:flex-grow-0 text-xs sm:text-sm py-2 px-[2px] md:px-10 m-0.5 sm:m-1 rounded-sm data-[state=active]:bg-blue-600 data-[state=active]:text-primary-foreground my-1" value="professional">Professional</TabsTrigger>
-              <TabsTrigger className="flex-grow sm:flex-grow-0 text-xs sm:text-sm py-2 px-[2px] md:px-10 m-0.5 sm:m-1 rounded-sm data-[state=active]:bg-blue-600 data-[state=active]:text-primary-foreground my-1" value="social">Social & Skills</TabsTrigger>
+              <TabsTrigger className="flex-grow sm:flex-grow-0 text-xs sm:text-sm py-2 px-[2px] md:px-10 m-0.5 sm:m-1 rounded-sm data-[state=active]:bg-blue-600 data-[state=active]:text-primary-foreground my-1" value="education">Education</TabsTrigger>
               <TabsTrigger className="flex-grow sm:flex-grow-0 text-xs sm:text-sm py-2 px-[2px] md:px-10 m-0.5 sm:m-1 rounded-sm data-[state=active]:bg-blue-600 data-[state=active]:text-primary-foreground my-1" value="experience">Experience</TabsTrigger>
             </TabsList>
+
             <form onSubmit={handleSubmit} className="space-y-6">
-              <TabsContent value="personal">
+              {/* Basic  */}
+              <TabsContent value="basic">
                 <div className="space-y-4">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700">Full Name</label>
@@ -304,6 +347,42 @@ export default function ProfileForm() {
                         value={inputs.email}
                         onChange={handleChange}
                       />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
+                      <div className="mt-1 relative rounded-md shadow-sm">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <MapPin className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                        </div>
+                        <Input
+                          type="text"
+                          name="location"
+                          id="location"
+                          className="pl-10"
+                          placeholder="Your location"
+                          value={inputs.location}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="contactNumber" className="block text-sm font-medium text-gray-700">Phone</label>
+                      <div className="mt-1 relative rounded-md shadow-sm">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <Phone className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                        </div>
+                        <Input
+                          type="tel"
+                          name="contactNumber"
+                          id="contactNumber"
+                          className="pl-10"
+                          placeholder="Your phone number"
+                          value={inputs.contactNumber}
+                          onChange={handleChange}
+                        />
+                      </div>
                     </div>
                   </div>
                   <div>
@@ -359,6 +438,8 @@ export default function ProfileForm() {
                   </div>
                 </div>
               </TabsContent>
+
+              {/* Professional */}
               <TabsContent value="professional">
                 <div className="space-y-4">
                   <div>
@@ -395,7 +476,7 @@ export default function ProfileForm() {
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
                       <div className="mt-1 relative rounded-md shadow-sm">
@@ -430,7 +511,7 @@ export default function ProfileForm() {
                         />
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div>
                     <label htmlFor="bio" className="block text-sm font-medium text-gray-700">Bio</label>
                     <div className="mt-1">
@@ -448,10 +529,6 @@ export default function ProfileForm() {
                       Brief description for your profile. URLs are hyperlinked.
                     </p>
                   </div>
-                </div>
-              </TabsContent>
-              <TabsContent value="social">
-                <div className="space-y-4">
                   <div>
                     <label htmlFor="linkedin" className="block text-sm font-medium text-gray-700">LinkedIn</label>
                     <div className="mt-1 relative rounded-md shadow-sm">
@@ -502,6 +579,72 @@ export default function ProfileForm() {
                   </div>
                 </div>
               </TabsContent>
+
+              {/* Education  */}
+              <TabsContent value="education">
+              <div className="space-y-4">
+                  {inputs?.education?.map((edu, index) => (
+                    <Card key={index} className="relative" >
+                    <CardHeader className="p-3 sm:p-4">
+                      <CardTitle className="text-sm sm:text-base">{edu?.branch}{`(${edu?.course || ""})`}</CardTitle>
+                      <Button
+                          variant="ghost"
+                          size="icon"
+                          className="absolute top-2 right-2"
+                          onClick={() => removeEdu(index)}
+                      >
+                          <X className="h-4 w-4" />
+                      </Button>
+                      <CardDescription className="text-xs sm:text-sm">{edu.collegeName} • {edu.startDate} ~ {edu.endDate ? edu.endDate : "Present"  }</CardDescription>
+                    </CardHeader>
+                  </Card>
+                  ))}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Add Education</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="company">College Name</Label>
+                            <Input id="collegeName" name="collegeName" value={newEdu.collegeName} onChange={handleEduChange} />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="position">Degree</Label>
+                            <Input id="course" name="course" value={newEdu.course} onChange={handleEduChange} />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="position">Branch</Label>
+                            <Input id="branch" name="branch" value={newEdu.branch} onChange={handleEduChange} />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="startDate">Start Date</Label>
+                            <Input id="startDate" name="startDate" type="date" value={newEdu.startDate} onChange={handleEduChange} />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="endDate">End Date</Label>
+                            <Input id="endDate" name="endDate" type="date" value={newEdu.endDate} onChange={handleEduChange} />
+                          </div>
+                        </div>
+                        {/* <div className="space-y-2">
+                          <Label htmlFor="description">Description</Label>
+                          <Textarea id="description" name="description" value={newExperience.description} onChange={handleExperienceChange} />
+                        </div> */}
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button type="button" onClick={addEdu} className="w-full md:w-1/3 mx-auto">
+                        <Plus className="mr-2 h-4 w-4" /> Add Education
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </div>
+              </TabsContent>
+
+              {/* Experience  */}
               <TabsContent value="experience">
                 <div className="space-y-4">
                   {inputs?.experiences?.map((exp, index) => (
@@ -558,13 +701,14 @@ export default function ProfileForm() {
                       </div>
                     </CardContent>
                     <CardFooter>
-                      <Button type="button" onClick={addExperience} className="w-full">
+                      <Button type="button" onClick={addExperience} className="w-full md:w-1/3 mx-auto">
                         <Plus className="mr-2 h-4 w-4" /> Add Experience
                       </Button>
                     </CardFooter>
                   </Card>
                 </div>
               </TabsContent>
+
               <Button type="submit" disabled={isLoading} className="w-full bg-blue-600">
                 {isLoading ? (
                   <>Updating... <ArrowRight className="ml-2 h-4 w-4 animate-spin " /></>
@@ -573,9 +717,11 @@ export default function ProfileForm() {
                 )}
               </Button>
             </form>
+
           </Tabs>
         </CardContent>
       </Card>
+    </div>
     </div>
   )
 }

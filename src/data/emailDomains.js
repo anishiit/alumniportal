@@ -4,7 +4,7 @@ export const emailDomains = [
     'iitm.ac.in',
     'iitkgp.ac.in',
     'iitk.ac.in',
-    'iitg.ac.in',
+    'iitg.ac.in','iiitdm.ac.in',
     'iitbbs.ac.in',
     'iitism.ac.in',
     'iitgn.ac.in',

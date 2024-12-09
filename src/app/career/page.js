@@ -62,7 +62,7 @@ export default function SearchJob() {
   async function getPostData() {
     try {
       setLoading(true)
-      const res = await axios.get(getJobPostUrl, {
+      const res = await axios.post(getJobPostUrl, {
         params: { page, limit: 10 },
       })
       const newJobs = res.data.jobs.map(job => ({ ...job }))
@@ -299,7 +299,7 @@ export default function SearchJob() {
           ))}
         </AnimatePresence>
         {loading && <JobSearchLoading />}
-        {!hasMore && <p className="text-center text-gray-500 mt-4">No more jobs to show</p>}
+        {!hasMore && <p className="text-center text-gray-500 mt-4">Login for More</p>}
       </div>
     </div>
   )
