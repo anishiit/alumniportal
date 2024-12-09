@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge"
 import Navbar2 from "@/components/header/Navbar2"
 
 import { useToast } from "@/hooks/use-toast"
+import Footer from "@/components/footer/Footer"
 
 const description1=["Stay connected with your Alumni and fellow classmates. Explore the latest updates and opportunities.","Stay connected with your alma mater and fellow alumni. Explore the latest updates and opportunities."]
 
@@ -55,6 +56,7 @@ export default function AlumniHome() {
   }
 
   return (
+    <>
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar2 />
       <main className="container mx-auto flex-1">
@@ -153,7 +155,7 @@ A walk down memory lane awaits as we honour their incredible journey and achieve
         </section>
 
       </main>
-      <footer className="container mx-auto border-t bg-white py-6">
+      {/* <footer className="container mx-auto border-t bg-white py-6">
         <div className="container flex flex-col md:flex-row items-center justify-between gap-4 px-4 md:px-6">
           <p className="text-sm text-gray-500">&copy; 2024 IIT Dhanbad Alumni Association. All rights reserved.</p>
           <nav className="flex gap-4">
@@ -168,8 +170,10 @@ A walk down memory lane awaits as we honour their incredible journey and achieve
             </Link>
           </nav>
         </div>
-      </footer>
+      </footer> */}
     </div>
+    <Footer />
+    </>
   )
 }
 

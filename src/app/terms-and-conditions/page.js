@@ -6,6 +6,7 @@ import NavForSlash from '@/components/header/NavForSlash'
 import Navbar2 from "@/components/header/Navbar2"
 import Link from "next/link"
 import Footer from "@/components/footer/Footer"
+import jwt from "jsonwebtoken"
 
 export default function TermsAndConditions() {
     

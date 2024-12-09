@@ -5,6 +5,7 @@ import NavForSlash from '@/components/header/NavForSlash'
 import Navbar2 from "@/components/header/Navbar2"
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import jwt from "jsonwebtoken"
 import Footer from "@/components/footer/Footer"
 
 export default function PrivacyPolicy() {
