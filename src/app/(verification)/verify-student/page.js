@@ -5,11 +5,13 @@ import { CheckCircle, XCircle, Loader2, Mail } from 'lucide-react'
 import jwt from 'jsonwebtoken';
 import VerificationBenefits  from '@/components/verification-benefits'
 import axios from 'axios';
+import { getEmailDomain } from '@/data/emailDomains';
 export default function VerificationPage() {
-  const [emailPrefix, setEmailPrefix] = useState('')
+  const [email, setEmail] = useState('')
   const [verificationStatus, setVerificationStatus] = useState('idle')
   const [message, setMessage] = useState('')
   const [user, setUser] = useState()
+  const [emailSuffix , setEmailSuffix] = useState("");
   useEffect(() => {
       if (typeof window !== 'undefined') {
           let user = localStorage.getItem('amsjbckumr')
@@ -20,17 +22,27 @@ export default function VerificationPage() {
 
           user = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET)
           setUser(user)
+          // setCollegeName(user.collegeName)
+          setEmailSuffix(getEmailDomain(user.collegeName))
           console.log(user)
           
       }
   } , [])
   const handleSubmit = async (e) => {
+    setVerificationStatus('idle')
     e.preventDefault()
-    const fullEmail = `${emailPrefix}@iitism.ac.in`
+    // const fullEmail = `${emailPrefix}@iitism.ac.in`
 
-    if (!emailPrefix) {
+    if (!email) {
       setVerificationStatus('error')
-      setMessage('Please enter your email prefix.')
+      setMessage('Please enter your email.')
+      return
+    }
+
+    const suffix = email.split('@')[1]
+    if (suffix !== emailSuffix) {
+      setVerificationStatus('error')
+      setMessage('Please enter a valid institute email address.')
       return
     }
 
@@ -38,7 +50,7 @@ export default function VerificationPage() {
     try {
       // Replace this URL with your actual backend verification endpoint
        await axios.post(`${process.env.NEXT_PUBLIC_USER_BACKEND_URL}/user/sendstudentverificationmail`, {
-        email: fullEmail, collegeName: user.collegeName, userId: user._id
+        email: email, collegeName: user.collegeName, userId: user._id
       })
       .then((res) => {
        
@@ -65,15 +77,15 @@ export default function VerificationPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Institute Email
+                Institute Email{` (eg: example@${emailSuffix}) `}
               </label>
               <div className="relative flex items-center">
                 <input
                   type="text"
                   id="email"
-                  value={emailPrefix}
-                  onChange={(e) => setEmailPrefix(e.target.value.toLowerCase())}
-                  placeholder="yourname"
+                  value={email}
+                  onChange={(e) =>{setVerificationStatus('idle'); setEmail(e.target.value.toLowerCase())}}
+                  placeholder={`example@${emailSuffix}`}
                   className="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                 />

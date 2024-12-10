@@ -245,6 +245,8 @@ export default function ProfileDisplay({ user }) {
           router.push('/verify-alumni')
         }else if(currentUser.role === "student"){
           router.push('/verify-student')
+        }else if(currentUser.role === "admin"){
+          router.push('/verify-student')
         }else{
           toast({
             variant: "red",
