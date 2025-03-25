@@ -52,7 +52,11 @@ This project outlines the user flow schema for a **College Alumni and Student Re
 ## Technology
 
 The schema is created using **Eraser.io**, a visual collaboration and diagramming tool that helps map out processes and workflows efficiently.
-## Systum Design
+
+
+## 📊 System Design  
+
+```mermaid
 graph TD;
     Start -->|College Registers| VerifyPayment[Verify Payment & Details];
     Start -->|User Visits App| ChooseReg[Choose Registration Type];
