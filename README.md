@@ -81,7 +81,7 @@ graph TD;
 
         subgraph "User Microservice"
             UserService[User Service] -->|CRUD Operations| MongoDB_Users[(MongoDB Users)]
-            UserService -->|Authentication| AuthService[Auth Service (JWT & OAuth)]
+            UserService -->|Authentication| AuthService[Auth Service - JWT & OAuth]
         end
 
         subgraph "College Microservice"
@@ -98,11 +98,11 @@ graph TD;
     subgraph "External Integrations"
         Payment[Stripe Payment Gateway] -->|Secure Transactions| API_Gateway
         ImageHosting[Cloudinary] -->|Image Storage| API_Gateway
-        Deployment[Vercel & Docker] -->|Hosting & Deployment| Frontend
+        Deployment[Vercel & Docker] -->|Hosting & Deployment| A
     end
 
-    Logging[Monitoring & Analytics] -->|Performance Tracking| API_Gateway 
-    
+    Logging[Monitoring & Analytics] -->|Performance Tracking| API_Gateway
+
 ```
 
 # College Alumni & Student Registration Portal - User Flow Schema
