@@ -6,8 +6,9 @@ Welcome to the **LinkLum**, a web platform designed to connect alumni with their
 I am **Anish Kumar Singh**, a **Full-Stack Developer** and **Team Leader** of LinkLum, developed during the **Smart India Hackathon**, where our team secured **🏆 1st Place**. As the **Team Leader**, I was responsible for:  
 - Architecting the **scalable system design** and development strategy  
 - Leading a **cross-functional team** of developers, designers, and strategists  
-- Implementing **high-performance features** using **Next.js, Node.js & PostgreSQL**  
+- Implementing **high-performance features** googleLightHouse.jpg 
 - Ensuring **100/100 Google Lighthouse scores** for **Performance, SEO, Accessibility & Best Practices**  
+![LinkLum Performance](./public/image/googleLightHouse.jpg)
 - Successfully handling **100,000+ concurrent users** through K6 load testing  
 
 ## 🚀 Key Features
