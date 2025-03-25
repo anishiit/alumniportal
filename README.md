@@ -65,8 +65,7 @@ I am **Anish Kumar Singh**, a **Full-Stack Developer** and **Team Leader** of Li
 
 ### 🏗️ Deployment & Hosting  
 - 🐳 **[Docker](https://www.docker.com/)** – Containerization for easy deployment and scaling.  
-- ☁️ **[Vercel](https://vercel.com/)** – Fast and scalable hosting for frontend applications.
-  
+- ☁️ **[Vercel](https://vercel.com/)** – Fast and scalable hosting for frontend applications.  
 ## High-Level System Architecture
 +-------------------------------+
 |        Frontend (Next.js)      |
