@@ -67,51 +67,39 @@ I am **Anish Kumar Singh**, a **Full-Stack Developer** and **Team Leader** of Li
 - 🐳 **[Docker](https://www.docker.com/)** – Containerization for easy deployment and scaling.  
 - ☁️ **[Vercel](https://vercel.com/)** – Fast and scalable hosting for frontend applications.  
 ## High-Level System Architecture
-+-------------------------------+
-|        Frontend (Next.js)      |
-|  - User Dashboard             |
-|  - Profile Management         |
-|  - Job & Event Listings       |
-|  - Messaging                  |
-+-------------------------------+
-                |
-                v
-+-------------------------------+
-|     API Gateway (Express.js)  |
-|  - Routes Requests            |
-|  - Auth Middleware (JWT)      |
-+-------------------------------+
-                |
-                v
-+---------------------------------------------------+
-|                Microservices Layer                |
-|---------------------------------------------------|
-|  🟢 User Layer                                   |
-|  - User, Alumni, Job, Mentorship Services        |
-|---------------------------------------------------|
-|  🔵 College Layer                                |
-|  - College, Event, Donation Services             |
-|---------------------------------------------------|
-|  🟠 Chat Layer                                   |
-|  - Chat, Notifications, Search & Analytics      |
-+---------------------------------------------------+
-                |
-                v
-+---------------------------------------------+
-|        Database Layer (MongoDB + Redis)     |
-|  - User Profiles & Jobs                     |
-|  - Events & Donations                       |
-|  - Redis for Caching                        |
-+---------------------------------------------+
-                |
-                v
-+-----------------------------+
-|    External Integrations    |
-| - Cloudinary (Images)       |
-| - Stripe (Payments)         |
-| - Vercel (Hosting)          |
-| - K6 (Load Testing)         |
-+-----------------------------+
+graph TD;
+    subgraph "Frontend (Client-Side)"
+        A[Next.js Frontend] -->|Requests| API_Gateway
+    end
+
+    subgraph "Backend (Microservices Layer)"
+        API_Gateway[API Gateway] -->|Routes Request| UserService
+        API_Gateway --> CollegeService
+        API_Gateway --> ChatService
+
+        subgraph "User Microservice"
+            UserService[User Service] -->|CRUD Operations| MongoDB_Users[(MongoDB Users)]
+            UserService -->|Authentication| AuthService[Auth Service (JWT & OAuth)]
+        end
+
+        subgraph "College Microservice"
+            CollegeService[College Service] -->|Manage College Data| MongoDB_College[(MongoDB Colleges)]
+            CollegeService -->|Admin & Events| EventService[Event Management]
+        end
+
+        subgraph "Chat Microservice"
+            ChatService[Chat Service] -->|Real-time Messaging| Redis_Cache[(Redis Cache)]
+            ChatService -->|Socket Communication| SocketIO[Socket.io]
+        end
+    end
+
+    subgraph "External Integrations"
+        Payment[Stripe Payment Gateway] -->|Secure Transactions| API_Gateway
+        ImageHosting[Cloudinary] -->|Image Storage| API_Gateway
+        Deployment[Vercel & Docker] -->|Hosting & Deployment| Frontend
+    end
+
+    Logging[Monitoring & Analytics] -->|Performance Tracking| API_Gateway
 
 
 # College Alumni & Student Registration Portal - User Flow Schema
