@@ -65,70 +65,53 @@ I am **Anish Kumar Singh**, a **Full-Stack Developer** and **Team Leader** of Li
 
 ### 🏗️ Deployment & Hosting  
 - 🐳 **[Docker](https://www.docker.com/)** – Containerization for easy deployment and scaling.  
-- ☁️ **[Vercel](https://vercel.com/)** – Fast and scalable hosting for frontend applications.  
-
-       +-------------+       +---------------------------+
-       |  User (Alumni/ |---->|  Visit LinkLum Platform  |
-       |  Student/Admin) |    |  (Web App)               |
-       +-------------+       +---------------------------+
+- ☁️ **[Vercel](https://vercel.com/)** – Fast and scalable hosting for frontend applications.
+  
+## High-Level System Architecture
++-------------------------------+
+|        Frontend (Next.js)      |
+|  - User Dashboard             |
+|  - Profile Management         |
+|  - Job & Event Listings       |
+|  - Messaging                  |
++-------------------------------+
                 |
                 v
-   +---------------------------+
-   |  Authentication & Security |
-   |  (JWT, OAuth, Role-Based)  |
-   +---------------------------+
++-------------------------------+
+|     API Gateway (Express.js)  |
+|  - Routes Requests            |
+|  - Auth Middleware (JWT)      |
++-------------------------------+
                 |
                 v
-+-----------------------------+
-|  College Verification       |
-|  - Search College Directory |
-|  - Register Institution     |
-+-----------------------------+
++---------------------------------------------------+
+|                Microservices Layer                |
+|---------------------------------------------------|
+|  🟢 User Layer                                   |
+|  - User, Alumni, Job, Mentorship Services        |
+|---------------------------------------------------|
+|  🔵 College Layer                                |
+|  - College, Event, Donation Services             |
+|---------------------------------------------------|
+|  🟠 Chat Layer                                   |
+|  - Chat, Notifications, Search & Analytics      |
++---------------------------------------------------+
                 |
                 v
-   +----------------------------------+
-   |  Profile Management             |
-   |  - Alumni Profile               |
-   |  - Student Profile              |
-   |  - Admin Dashboard              |
-   +----------------------------------+
-                |
-                v
-  +----------------------------+
-  |   Features & Interactions  |
-  |----------------------------|
-  |  🎓 Alumni Networking      |
-  |  📂 Portfolio Management   |
-  |  💼 Job Portal            |
-  |  💬 Messaging System      |
-  |  🎤 Mentorship            |
-  |  📅 Event Management      |
-  |  💰 Donation Portal       |
-  +----------------------------+
-                |
-                v
-   +-------------------------------+
-   |  Backend API & Database Layer |
-   |  (Node.js, Express, MongoDB)  |
-   +-------------------------------+
-                |
-                v
-   +-------------------------------+
-   |  Caching & Optimization       |
-   |  (Redis, Vercel, Cloudinary)  |
-   +-------------------------------+
-                |
-                v
-   +----------------------------+
-   |  Performance Monitoring &  |
-   |  Testing (K6, Lighthouse)  |
-   +----------------------------+
++---------------------------------------------+
+|        Database Layer (MongoDB + Redis)     |
+|  - User Profiles & Jobs                     |
+|  - Events & Donations                       |
+|  - Redis for Caching                        |
++---------------------------------------------+
                 |
                 v
 +-----------------------------+
-|  Deployment & Hosting       |
-|  - Frontend: Vercel        |
-|  - Backend: Dockerized App |
+|    External Integrations    |
+| - Cloudinary (Images)       |
+| - Stripe (Payments)         |
+| - Vercel (Hosting)          |
+| - K6 (Load Testing)         |
 +-----------------------------+
 
 
