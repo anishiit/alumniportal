@@ -67,6 +67,8 @@ I am **Anish Kumar Singh**, a **Full-Stack Developer** and **Team Leader** of Li
 - 🐳 **[Docker](https://www.docker.com/)** – Containerization for easy deployment and scaling.  
 - ☁️ **[Vercel](https://vercel.com/)** – Fast and scalable hosting for frontend applications.  
 ## High-Level System Architecture
+
+```mermaid
 graph TD;
     subgraph "Frontend (Client-Side)"
         A[Next.js Frontend] -->|Requests| API_Gateway
@@ -99,8 +101,9 @@ graph TD;
         Deployment[Vercel & Docker] -->|Hosting & Deployment| Frontend
     end
 
-    Logging[Monitoring & Analytics] -->|Performance Tracking| API_Gateway
-
+    Logging[Monitoring & Analytics] -->|Performance Tracking| API_Gateway 
+    
+```
 
 # College Alumni & Student Registration Portal - User Flow Schema
 
