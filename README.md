@@ -52,8 +52,33 @@ This project outlines the user flow schema for a **College Alumni and Student Re
 ## Technology
 
 The schema is created using **Eraser.io**, a visual collaboration and diagramming tool that helps map out processes and workflows efficiently.
-
-
+## Systum Design
+graph TD;
+    Start -->|College Registers| VerifyPayment[Verify Payment & Details];
+    Start -->|User Visits App| ChooseReg[Choose Registration Type];
+    VerifyPayment --> GrantAdmin[Grant Admin Access];
+    GrantAdmin --> ManageAccounts[Manage Accounts];
+    GrantAdmin --> ManageEvents[Manage Events];
+    GrantAdmin --> FeatureAlumni[Feature Alumni];
+    GrantAdmin --> EndAdminSession[End Admin Session];
+    ChooseReg --> SearchCollege[Search College in Directory];
+    SearchCollege -->|College Registered?| RegCheck{Yes or No};
+    RegCheck -->|Yes| AlumniReg[Alumni Registration];
+    RegCheck -->|No| StudentReg[Student Registration];
+    AlumniReg --> ProfileCreation[Profile Creation];
+    StudentReg --> ProfileRestrict[Profile Creation & Restrictions];
+    ProfileCreation --> AccessDonation[Access Donation Portal];
+    ProfileCreation --> PostJobs[Post Job Opportunities];
+    ProfileCreation --> ApplyJobs[Apply for Jobs];
+    ProfileCreation --> JobPortal[Access Job Portal];
+    ProfileCreation --> Messaging;
+    ProfileCreation --> BrowseJobs[Browse Jobs];
+    PostJobs --> EndUserSession[End User Session];
+    ApplyJobs --> EndUserSession;
+    JobPortal --> EndUserSession;
+    Messaging --> EndUserSession;
+    BrowseJobs --> EndUserSession;
+    AccessDonation --> EndUserSession;
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
