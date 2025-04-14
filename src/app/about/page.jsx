@@ -117,6 +117,14 @@ export default function AboutPage() {
                 github: "",
               },
               {
+                name: "Abdul Mannan",
+                role: "Co-Founder & CTO",
+                image: "/placeholder.svg?height=400&width=400",
+                bio: "Abdul Mannan is a co-founder and CTO at LinkLum. With a passion for technology and a commitment to innovation, he leads the development of LinkLum's cutting-edge platform. His expertise in software development and problem-solving skills drive the platform's advanced features and user-friendly design.",
+                linkedin: "",
+                github: "",
+              },
+              {
                 name: "Abhay Kant Mishra",
                 role: "Co-Founder & CTO",
                 image: "/placeholder.svg?height=400&width=400",
@@ -124,6 +132,7 @@ export default function AboutPage() {
                 linkedin: "",
                 github: "",
               }
+           
             ].map((founder) => (
               <Card key={founder.name} className="overflow-hidden">
                 <div className="md:flex">
