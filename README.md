@@ -51,7 +51,7 @@ Welcome to the **LinkLum**, a web platform designed to connect alumni with their
 - ⚡ **[Redis](https://redis.io/)** – In-memory caching to improve performance.  
 
 ### 💳 Payment Integration  
-- 💰 **[Stripe](https://stripe.com/)** – Secure and seamless online payment processing.  
+- 💰 **[Razorpay](https://razorpay.com/)** – Secure and seamless online payment processing.  
 
 ### 🔄 Real-Time Communication  
 - 📡 **[Socket.io](https://socket.io/)** – Enables real-time, bidirectional event-based communication.  
